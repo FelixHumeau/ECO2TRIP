@@ -1,24 +1,30 @@
-import './App.css';
-import logo from './asset/Logo.png';
+import React, { Suspense, lazy } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/NavBar.js";
+
+// Lazy loading des pages
+const HomePage = lazy(() => import("./pages/HomePage"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
+const QuestionnairePage = lazy(() => import("./pages/QuestionnairePage"));
+const ProposedTripsPage = lazy(() => import("./pages/ProposedTripsPage"));
+const SummaryPage = lazy(() => import("./pages/SummaryPage"));
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Sucez mon vier.fr .
-        </p>
-        <a
-          className="App-link"
-          href="https://ece.campusonline.me/fr-fr/Pages/home.aspx"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          ECE 
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar />
+      <Suspense fallback={<div>Chargement...</div>}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/questionnaire" element={<QuestionnairePage />} />
+          <Route path="/trips" element={<ProposedTripsPage />} />
+          <Route path="/summary" element={<SummaryPage />} />
+        </Routes>
+      </Suspense>
+    </Router>
   );
 }
 

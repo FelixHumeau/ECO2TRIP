@@ -1,13 +1,165 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Arial', sans-serif;
+  background-color: #f0f8f0; /* Fond vert clair, comme suggéré */
+  color: #333; /* Couleur de texte sombre */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Assure que le container prend toute la hauteur de l'écran */
+}
+
+/* Styles pour le Navbar */
+.navbar {
+  background-color: #4CAF50; /* Vert plus foncé pour le navbar */
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre pour donner une impression de hauteur */
+}
+
+.navbar-left {
+display: flex;
+align-items: center;
+}
+.navbar-left img {
+  width: 40px; /* Ajuster la taille du logo */
+  margin-right: 10px;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-right button,
+.navbar-right a {
+  margin-left: 10px;
+  background-color: #5CB85C; /* Couleur des boutons du navbar */
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.navbar-right button:hover,
+.navbar-right a:hover {
+  background-color: #47A447; /* Couleur du bouton au survol */
+}
+
+/* Styles pour le Content */
+.content {
+  flex: 1; /* Le content prend l'espace disponible */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.search-form-container {
+  margin-top: 50px;
+  background-color: white; /* Fond blanc pour la section de recherche */
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre subtile pour la section de recherche */
+  width: 80%; /* Largeur de la section de recherche */
+  max-width: 600px; /* Largeur maximale de la section de recherche */
+}
+.search-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.search-input {
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f9f9f9;
+  flex: 1; /* Chaque champ de saisie prendra une partie de l'espace disponible */
+  min-width: 180px; /* Largeur minimale pour éviter que les champs ne soient trop petits */
+}
+.search-input > input {
+border: none;
+background: none;
+flex: 1;
+}
+.search-input img {
+  width: 20px;
+}
+.search-input-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.search-button {
+  background-color: #f0c14b; /* Jaune pour le bouton de recherche */
+  border: none;
+  color: white;
+  padding: 15px 30px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  width: fit-content;
+  margin: 20px auto 0; /* Marge en haut et centré */
+  display: block;
+  transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #daa520; /* Jaune plus sombre au survol */
+}
+
+.login-button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.login-button > img {
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+}
+
+
+/* Styles généraux pour les boutons */
+button {
+  background-color: #f0c14b; /* Jaune pour les boutons */
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+button:hover {
+background-color: #daa520; /* Jaune plus sombre au survol */
+}
+
+/* Styles pour les pages simples */
+.content h1 {
+  text-align: center;
+  margin-top: 50px;
 }
