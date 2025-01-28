@@ -7,7 +7,7 @@ const QuestionnairePage = () => {
   return (
     <div>
       <h1>Questionnaire de voyage</h1>
-      <button onClick={() => navigate("/trips")}>
+      <button onClick={() => navigate("/")}>
         Voir les voyages proposés
       </button>
     </div>
