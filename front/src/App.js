@@ -9,6 +9,7 @@ const AboutPage = lazy(() => import("./pages/AboutPage"));
 const QuestionnairePage = lazy(() => import("./pages/QuestionnairePage"));
 const ProposedTripsPage = lazy(() => import("./pages/ProposedTripsPage"));
 const SummaryPage = lazy(() => import("./pages/SummaryPage"));
+const CarbonRoutePage = lazy(() => import("./pages/CarbonRoutePage"));
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/questionnaire" element={<QuestionnairePage />} />
           <Route path="/trips" element={<ProposedTripsPage />} />
           <Route path="/summary" element={<SummaryPage />} />
+          <Route path="/carbon-calculator" element={<CarbonRoutePage />} />
         </Routes>
       </Suspense>
     </Router>

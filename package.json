@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/FelixHumeau/ECO2TRIP#readme",
   "dependencies": {
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "ioredis": "^5.4.2",
