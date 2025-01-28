@@ -5,12 +5,7 @@ const HomePage = () => {
 
   return (
     <div>
-        <div className="search-form-container">
-            <SearchForm />
-        </div>
-        <div>
-            bonjour ca va ?
-        </div>
+        <SearchForm />
     </div>
   );
 };
