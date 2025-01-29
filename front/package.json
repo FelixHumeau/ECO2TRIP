@@ -7,7 +7,11 @@
     "date-fns": "^4.1.0",
     "leaflet": "^1.9.4",
     "react": "^19.0.0",
+<<<<<<< HEAD
     "react-datepicker": "^8.0.0",
+=======
+    "react-datepicker": "^7.6.0",
+>>>>>>> 70d7f9f (HomePage + Navbar)
     "react-dom": "^19.0.0",
     "react-icons": "^5.4.0",
     "react-leaflet": "^5.0.0",

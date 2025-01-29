@@ -22,11 +22,13 @@
   "dependencies": {
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
+    "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "ioredis": "^5.4.2",
     "leaflet": "^1.9.4",
     "pg": "^8.13.1",
+    "react-datepicker": "^7.6.0",
     "react-leaflet": "^5.0.0"
   },
   "devDependencies": {
