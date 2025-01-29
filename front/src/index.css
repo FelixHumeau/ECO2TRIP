@@ -191,3 +191,30 @@ background-color: #daa520; /* Jaune plus sombre au survol */
   align-items: center;
   margin-left: 5px;
 }
+
+.summary-buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.summary-button {
+  background-color: #6EA46C;
+  color: black;
+  font-weight: bold;
+  padding: 14px 22px;
+  font-size: 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  min-width: 200px; /* Evite que les boutons soient trop petits */
+  text-align: center;
+}
+
+.summary-button:hover {
+  background-color: #5A8F58;
+}

@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { forwardRef } from "react";
 
-function Button({ label, onClick }) {
-  return <button onClick={onClick}>{label}</button>;
-}
+const Button = forwardRef(({ text, onClick, customClass, style }, ref) => {
+  return (
+    <button ref={ref} className={customClass || "default-button"} onClick={onClick} style={style}>
+      {text}
+    </button>
+  );
+});
 
 export default Button;

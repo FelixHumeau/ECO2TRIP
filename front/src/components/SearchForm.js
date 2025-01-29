@@ -1,9 +1,11 @@
 import React from 'react';
 import map from '../assets/Carte.png';
 import calender from '../assets/Calendrier.png';
-import people from '../assets/personne.png'
+import people from '../assets/personne.png';
+import { useNavigate } from "react-router-dom";
 
 function SearchForm() {
+  const navigate = useNavigate();
   return (
       <div className="search-form">
           <div className="inputs-container">
@@ -26,7 +28,9 @@ function SearchForm() {
                   </div>
               </div>
           </div>
-          <button className="search-button">Rechercher</button>
+          <button className="search-button" onClick={() => navigate("/about")}>
+            Rechercher
+          </button>
       </div>
   );
 }

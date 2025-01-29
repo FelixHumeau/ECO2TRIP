@@ -12,10 +12,6 @@ function Navbar() {
         <Link to="/favorites"><button>Favoris</button></Link>
         <Link to="/contact"><button>Contacter</button></Link>
         <Link to="/about"><button>A propos</button></Link>
-        <button className="login-button">
-          <img src={'./assets/login-icon.png'} alt={'login-icon'} />
-          Username
-        </button>
       </div>
     </div>
   );
