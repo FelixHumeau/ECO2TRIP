@@ -5,9 +5,6 @@ const { orsApiKey, impactCo2ApiKey } = require('../config/env');
 const router = express.Router();
 
 async function geocodeLocation(location) {
-    const { orsApiKey, impactCo2ApiKey } = require('../config/env');
-    console.log('ORS API Key:', orsApiKey);
-    console.log('ImpactCO2 API Key:', impactCo2ApiKey);
 
     const url = `https://api.openrouteservice.org/geocode/search`;
     try {
