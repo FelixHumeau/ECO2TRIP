@@ -4,24 +4,6 @@ const { orsApiKey, impactCo2ApiKey } = require('../config/env');
 
 const router = express.Router();
 
-/*async function geocodeLocation(location) {
-    const url = `https://api.openrouteservice.org/geocode/search`;
-    try {
-        const response = await axios.get(url, {
-            params: {
-                api_key: orsApiKey,
-                text: location,
-            },
-        });
-
-        const coordinates = response.data.features[0].geometry.coordinates; // [lon, lat]
-        return coordinates;
-    } catch (error) {
-        console.error('Erreur Geocoding OpenRouteService:', error.message);
-        throw new Error(`Impossible de trouver les coordonnées pour ${location}`);
-    }
-}*/
-
 async function geocodeLocation(location) {
     const { orsApiKey, impactCo2ApiKey } = require('../config/env');
     console.log('ORS API Key:', orsApiKey);
