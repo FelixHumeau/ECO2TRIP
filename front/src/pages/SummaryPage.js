@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useRef } from "react";
 import Carousel from "../components/Carousel";
 import CityCard from "../components/CityCard";
-import ButtonGroup from "../components/ButtonGroup"; // ✅ Import du nouveau composant
+import BasicCard from "../components/BasicCard";
+import ScrollableButtons from "../components/ScrollableButtons"; // Import du nouveau composant
 
 const SummaryPage = () => {
   const images = [
@@ -21,6 +22,21 @@ const SummaryPage = () => {
 
   const buttonLabels = ["Transport", "Hébergement", "Activité", "Restauration", "Avis"];
 
+  // Références des cartes
+  const transportRef = useRef(null);
+  const hebergementRef = useRef(null);
+  const activiteRef = useRef(null);
+  const restaurationRef = useRef(null);
+  const avisRef = useRef(null);
+
+  const cardRefs = {
+    Transport: transportRef,
+    Hébergement: hebergementRef,
+    Activité: activiteRef,
+    Restauration: restaurationRef,
+    Avis: avisRef,
+  };
+
   return (
     <div style={{ textAlign: "center" }}>
       <Carousel images={images} height="700px" width="90%" />
@@ -32,8 +48,23 @@ const SummaryPage = () => {
         coordinates={cityData.coordinates}
       />
 
-      {/* Utilisation du composant ButtonGroup */}
-      <ButtonGroup labels={buttonLabels} />
+      <ScrollableButtons labels={buttonLabels} cardRefs={cardRefs} />
+
+      <div style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "20px",
+        marginTop: "30px"
+        /*marginBottom: "1000px"*/
+      }}>
+        <BasicCard ref={transportRef} title="Transport" />
+        <BasicCard ref={hebergementRef} title="Hébergement" />
+        <BasicCard ref={activiteRef} title="Activité">
+          <BasicCard ref={restaurationRef} title="Restauration" backgroundColor="#D4E9C2" />
+        </BasicCard>
+        <BasicCard ref={avisRef} title="Avis" />
+      </div>
     </div>
   );
 };

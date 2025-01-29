@@ -1,17 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import Button from "./Button";
 
-const ButtonGroup = ({ labels }) => {
+const ButtonGroup = ({ labels, onButtonClick }) => {
   const buttonRefs = useRef([]);
   const [maxWidth, setMaxWidth] = useState(0);
 
   useEffect(() => {
     if (buttonRefs.current.length > 0) {
-      // Trouver la largeur du bouton le plus large
       const largestWidth = Math.max(...buttonRefs.current.map(btn => btn?.offsetWidth || 0));
       setMaxWidth(largestWidth);
     }
-  }, [labels]); // Se recalculera si `labels` change
+  }, [labels]);
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
@@ -22,7 +21,11 @@ const ButtonGroup = ({ labels }) => {
             text={label}
             customClass="summary-button"
             ref={el => (buttonRefs.current[index] = el)}
-            style={{ width: `${maxWidth}px` }} // Applique la largeur max trouvée
+            style={{ width: `${maxWidth}px` }}
+            onClick={() => {
+              console.log(`Bouton cliqué : ${label}`);
+              onButtonClick(label);
+            }}
           />
         ))}
       </div>
