@@ -11,49 +11,126 @@ body {
   min-height: 100vh; /* Assure que le container prend toute la hauteur de l'écran */
 }
 
-/* Styles pour le Navbar */
+/* NavBar globale */
 .navbar {
-  background-color: #4CAF50; /* Vert plus foncé pour le navbar */
+  position: fixed;
+  top: 0;
+  width: 99%;
+  display: flex;
+  justify-content: center; /* Centre le contenu principal */
+  align-items: center;
   padding: 15px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre pour donner une impression de hauteur */
+  background-color: transparent; /* Transparent par défaut */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Animation fluide */
+  z-index: 10;
 }
 
-.navbar-left {
-display: flex;
-align-items: center;
-}
-.navbar-left img {
-  width: 40px; /* Ajuster la taille du logo */
-  margin-right: 10px;
+.navbar-scrolled {
+  background-color: white; /* Couleur de fond après défilement */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre subtile */
 }
 
+/* Centrage du texte ECO2TRIP */
+.navbar-center {
+  flex: 1; /* Prend tout l'espace disponible */
+  display: flex; /* Conteneur pour aligner le contenu */
+  justify-content: center; /* Centre horizontalement */
+  align-items: center; /* Centre verticalement */
+}
+
+/* Lien cliquable pour tout le logo */
+.navbar-logo-link {
+  text-decoration: none; /* Supprime le soulignement */
+  display: flex; /* Conteneur flex pour le texte + logo */
+  align-items: center; /* Centre verticalement */
+  color: inherit; /* Garde la couleur du texte par défaut */
+}
+
+.text-green {
+  color: #4CAF50; /* Couleur verte */
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
+.text-black {
+  color: #333; /* Couleur noire */
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
+.navbar-logo-text {
+  font-size: 2rem; /* Taille du texte */
+  font-weight: bold;
+  display: flex; /* Alignement en ligne */
+  align-items: center; /* Centre les éléments verticalement */
+  gap: -5px; /* Espace entre les lettres et le logo */
+}
+
+.navbar-logo {
+  width: 50px; /* Taille du logo */
+  height: auto; /* Hauteur automatique */
+  vertical-align: middle; /* Aligne le logo au texte */
+  margin-left: 5px; /* Espace à gauche du logo */
+  margin-right: 5px; /* Espace à droite du logo */
+}
+
+/* Positionnement du point d'interrogation */
 .navbar-right {
+  position: absolute;
+  right: 90px; /* Positionne à droite */
+  top: 50%; /* Aligne verticalement au centre */
+  transform: translateY(-50%); /* Correction pour un alignement parfait */
+}
+
+/* Style du bouton rond pour le point d'interrogation */
+.question-icon {
+  width: 40px; /* Largeur du cercle */
+  height: 40px; /* Hauteur du cercle */
+  border-radius: 50%; /* Forme circulaire */
+  background-color: white; /* Fond blanc */
+  color: #4CAF50; /* Couleur du point d'interrogation */
+  font-size: 1.5rem; /* Taille du texte */
+  text-decoration: none; /* Supprime le soulignement */
+  display: flex; /* Conteneur flex */
+  align-items: center; /* Centre verticalement */
+  justify-content: center; /* Centre horizontalement */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Ombre subtile */
+  transition: transform 0.3s ease, background-color 0.3s ease; /* Animation de transition */
+  cursor: pointer; /* Pointeur interactif */
+}
+
+.question-icon:hover {
+  transform: scale(1.1); /* Effet d'agrandissement au survol */
+  background-color: #f0f0f0; /* Couleur de fond au survol */
+}
+
+
+/* Section pour HomePage */
+.hero-section {
+  height: 100vh;
+  background: url('./assets/Background1.jpg') no-repeat center center/cover;
   display: flex;
+  justify-content: center;
   align-items: center;
-}
-
-.navbar-right button,
-.navbar-right a {
-  margin-left: 10px;
-  background-color: #5CB85C; /* Couleur des boutons du navbar */
-  border: none;
-  color: white;
-  padding: 10px 15px;
   text-align: center;
-  text-decoration: none;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
+  transition: opacity 0.5s ease-out;
 }
 
-.navbar-right button:hover,
-.navbar-right a:hover {
-  background-color: #47A447; /* Couleur du bouton au survol */
+.content-section {
+  background: white;
+  padding: 2rem;
+  text-align: center;
 }
+
+.content-section h2 {
+  color: #333;
+}
+
+.content-section p {
+  color: #666;
+}
+
+
 
 /* Styles pour le Content */
 .content {
@@ -64,27 +141,19 @@ align-items: center;
   align-items: center;
 }
 
-.search-form-container {
-  margin-top: 50px;
-  background-color: white; /* Fond blanc pour la section de recherche */
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre subtile pour la section de recherche */
-  width: 80%; /* Largeur de la section de recherche */
-  max-width: 600px; /* Largeur maximale de la section de recherche */
-}
 .search-form {
   display: flex;
   flex-direction: column;
   align-items: center; /* Centre les éléments horizontalement */
-  padding: 30px;
+  padding: 50px;  /* Espacement interne */
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   background-color: white; /* Fond blanc pour le conteneur */
   margin: 100px auto; /* Centre le formulaire verticalement et horizontalement */
-  width: 80%;
+  width: 100%;
   max-width: 900px;
 }
+
 .search-input {
   border: none;
   background: none;
@@ -126,21 +195,8 @@ flex: 1;
   background-color: #daa520; /* Jaune plus sombre au survol */
 }
 
-.login-button {
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-.login-button > img {
-  width: 30px;
-  height: 30px;
-  margin-right: 5px;
-}
 
 
-/* Styles généraux pour les boutons */
 button {
   background-color: #f0c14b; /* Jaune pour les boutons */
   border: none;
@@ -154,8 +210,9 @@ button {
   border-radius: 4px;
   transition: background-color 0.3s ease;
 }
+
 button:hover {
-background-color: #daa520; /* Jaune plus sombre au survol */
+  background-color: #daa520; /* Jaune plus sombre */
 }
 
 /* Styles pour les pages simples */
@@ -163,34 +220,42 @@ background-color: #daa520; /* Jaune plus sombre au survol */
   text-align: center;
   margin-top: 50px;
 }
+
 .inputs-container {
   display: flex;
-   justify-content: space-between; /* Place les éléments côte à côte avec un espace entre eux */
-   width: 100%; /* Les conteneurs d'input occupent 100% de la largeur du formulaire */
-   margin-bottom: 20px; /* Ajoute un peu d'espace sous les champs de saisie */
+  justify-content: space-between; /* Espace uniforme entre les champs */
+  align-items: center; /* Centre verticalement les éléments */
+  width: 100%; /* Assure que le conteneur occupe toute la largeur */
+  margin-bottom: 20px; /* Espacement sous les champs */
+  gap: 10px; /* Espacement horizontal entre les champs */
 }
+
+/* Conteneur individuel pour chaque input */
 .input-container {
   display: flex;
-  align-items: center;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: #f9f9f9;
-  padding: 5px 10px;
-  width: 30%;
-  margin: 0 5px;
+  align-items: center; /* Centre verticalement l'input et l'icône */
+  border: 1px solid #ddd; /* Bordure légère */
+  border-radius: 4px; /* Coins arrondis */
+  background-color: #f9f9f9; /* Fond clair */
+  padding: 5px 10px; /* Espacement interne */
+  width: calc(33.33% - 10px); /* Chaque champ occupe environ 1/3 de la largeur */
+  position: relative; /* Permet le positionnement absolu des icônes */
+  box-sizing: border-box; /* Inclut les bordures et paddings dans la largeur */
 }
+
 .icon {
-  width: 400%;
-  height: 250%;
+  width: 200px; /* Taille des icônes */
+  height: auto; /* Conserve les proportions */
+  position: relative; /* Position relative pour les icônes */
 }
+
 .icon-container {
-  width: 25px;
-  height: 25px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 5px;
+  position: absolute; /* Position absolue dans le conteneur */
+  right: -80px; /* Décalage par rapport au bord droit */
+  top: 50%; /* Centre verticalement */
+  transform: translateY(-50%); /* Ajustement pour un alignement parfait */
 }
+
 
 .summary-buttons-container {
   display: flex;
@@ -217,4 +282,145 @@ background-color: #daa520; /* Jaune plus sombre au survol */
 
 .summary-button:hover {
   background-color: #5A8F58;
+}
+
+
+@media (max-width: 768px) {
+  .inputs-container {
+    flex-direction: column; /* Les champs se superposent */
+  }
+
+  .navbar-center {
+    flex-direction: column; /* Le logo et le texte passent sur plusieurs lignes */
+  }
+
+  .search-button {
+    width: 100%; /* Le bouton prend toute la largeur */
+  }
+}
+
+
+/* Styles pour le nombre de voyageur */
+.travelers-counter { /* Conteneur principal */
+  position: relative;  /* Position relative pour les éléments enfants */
+  display: inline-block;  /* Affiche les éléments en ligne */
+  font-family: Georgia, serif;   /* Police de caractères */
+}
+
+.travelers-summary { /* Zone de résumé */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px; /* Espacement interne */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+  width: 90%; /* Largeur de la zone de résumé */
+}
+
+.travelers-summary span {
+  font-size: 14px;
+  color: #333;
+}
+
+.travelers-summary .dropdown-toggle {
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: #666;
+  cursor: pointer;
+}
+
+.travelers-dropdown {
+  position: absolute;
+  top: 90%;
+  left: 0;
+  width: 93%; 
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);  
+  padding: 10px;  
+  z-index: 10;  
+}
+
+.counter-row { /* Ligne de compteur */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.counter-row:last-child {
+  border-bottom: none;
+}
+
+.counter-row span {
+  font-size: 14px;
+  color: #333;
+}
+
+.counter-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.counter-controls button { /* Boutons + et - */
+  width: 30px; /* Largeur du bouton */
+  height: 30px; /* Hauteur du bouton */
+  display: flex; /* Permet l'utilisation de flexbox à l'intérieur */
+  align-items: center; /* Centre verticalement le contenu */
+  justify-content: center; /* Centre horizontalement le contenu */
+  border: 1px solid #ddd; /* Bordure légère */
+  background-color: #f9f9f9; /* Fond clair */
+  color: #333; /* Couleur du texte */
+  font-size: 18px; /* Taille du texte */
+  border-radius: 5px; /* Coins arrondis */
+  cursor: pointer; /* Curseur interactif */
+  text-align: center; /* Centre le texte */
+  box-sizing: border-box; /* Inclut les bordures dans les dimensions */
+}
+
+.counter-controls button:hover {
+  background-color: #000000;
+}
+
+.counter-controls span {
+  font-size: 16px;
+  color: #333;
+  min-width: 30px;
+  text-align: center;
+}
+
+
+/* Styles pour le DatePicker */
+.react-datepicker {
+  font-family: Arial, sans-serif;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  z-index: 1000;
+  
+}
+
+.react-datepicker__header {
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #ddd;
+}
+
+
+.react-datepicker__day--in-selecting-range, 
+.react-datepicker__day--in-range {
+  background-color: #c8e6c9; /* Couleur de la plage sélectionnée */
+  color: #333;
+}
+
+.react-datepicker__close-icon {
+  border-radius: 50%;
+  color: white;
+  z-index: 1000;
 }
