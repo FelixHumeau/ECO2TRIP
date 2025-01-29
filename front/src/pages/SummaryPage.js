@@ -1,6 +1,7 @@
 import React from "react";
 import Carousel from "../components/Carousel";
 import CityCard from "../components/CityCard";
+import ButtonGroup from "../components/ButtonGroup"; // ✅ Import du nouveau composant
 
 const SummaryPage = () => {
   const images = [
@@ -13,10 +14,12 @@ const SummaryPage = () => {
   const cityData = {
     cityName: "Île de Port Cros",
     rating: 4.6,
-    tags: ["Mer", "Aquatique", "Parc naturel"," Plongée", "Randonée"],
+    tags: ["Mer", "Aquatique", "Parc naturel", "Plongée", "Randonnée"],
     carbonFootprint: 280,
-    coordinates: [43.002,6.399],
+    coordinates: [43.002, 6.399],
   };
+
+  const buttonLabels = ["Transport", "Hébergement", "Activité", "Restauration", "Avis"];
 
   return (
     <div style={{ textAlign: "center" }}>
@@ -28,6 +31,9 @@ const SummaryPage = () => {
         carbonFootprint={cityData.carbonFootprint}
         coordinates={cityData.coordinates}
       />
+
+      {/* Utilisation du composant ButtonGroup */}
+      <ButtonGroup labels={buttonLabels} />
     </div>
   );
 };

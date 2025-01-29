@@ -39,7 +39,7 @@ const CityCard = ({ cityName, rating, tags, carbonFootprint, coordinates }) => {
         gap: "15px",
         position: "relative",
         marginTop: "30px",
-        marginBottom: "30px",
+        marginBottom: "20px",
         marginLeft: "auto",
         marginRight: "auto",
       }}
