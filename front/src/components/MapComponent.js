@@ -12,7 +12,7 @@ const customIcon = new L.Icon({
   shadowSize: [41, 41],
 });
 
-const MapComponent = ({ coordinates, locationName, zoom }) => {
+const MapComponent = ({ coordinates, locationName, address = "", zoom = 13}) => {
   return (
     <div style={{ display: "flex", flexDirection: "column", flex: 1, width: "100%" }}>
       <MapContainer
@@ -20,9 +20,9 @@ const MapComponent = ({ coordinates, locationName, zoom }) => {
         zoom={zoom}
         style={{
           width: "100%",
-          flex: 1, // Permet à la carte de grandir avec le popup
-          minHeight: "300px", // Hauteur minimale pour éviter qu'elle soit trop petite
-          maxHeight: "100%", // S'étend selon le contenu
+          flex: 1,
+          minHeight: "300px",
+          maxHeight: "100%",
           borderRadius: "8px",
         }}
       >
@@ -31,6 +31,19 @@ const MapComponent = ({ coordinates, locationName, zoom }) => {
           <Popup>{locationName}</Popup>
         </Marker>
       </MapContainer>
+
+      {/* Affichage de l'adresse sous la carte si elle existe */}
+      {address && (
+        <p style={{
+          textAlign: "center",
+          marginTop: "10px",
+          fontSize: "20px",
+          fontWeight: "bold",
+          color: "#333"
+        }}>
+          📍 {address}
+        </p>
+      )}
     </div>
   );
 };

@@ -3,6 +3,9 @@ import Carousel from "../components/Carousel";
 import CityCard from "../components/CityCard";
 import BasicCard from "../components/BasicCard";
 import ScrollableButtons from "../components/ScrollableButtons"; // Import du nouveau composant
+import activityImage from "../assets/activity_image.png";
+import ActivityCard from "../components/ActivityCard";
+import HousingCard from "../components/HousingCard";
 
 const SummaryPage = () => {
   const images = [
@@ -65,11 +68,31 @@ const SummaryPage = () => {
         /*marginBottom: "1000px"*/
       }}>
         <BasicCard ref={transportRef} title="Transport" />
-        <BasicCard ref={hebergementRef} title="Hébergement" />
+        <BasicCard ref={hebergementRef} title="Hébergement" >
+          <HousingCard
+            image="https://images.greengo.voyage/_/w_1440__q_75/plain/s3://greengobackend-production-media/pictures/hosting_establishment/ordered_images/coypel_4.jpeg"
+            title="Hôtel Coypel By Magna Arbor"
+            titleLink="https://www.greengo.voyage/hote/hotel-coypel-by-magna-arbor?checkIn=2025-03-17&checkOut=2025-03-18&numberOfAdults=2&numberOfChildren=0&numberOfBabies=0&numberOfPets=0"
+            pricePerNight={159}
+            rating={2}
+          />
+        </BasicCard>
         <BasicCard ref={activiteRef} title="Activité">
+          <ActivityCard
+            image={activityImage}
+            title="Plongée sous-marine"
+            price={80}
+            description="Découvrez les fonds marins de Port-Cros."
+            coordinates={[43.002, 6.399]}
+            address="Port-Cros, 83400 Hyères, France"
+          />
           <BasicCard ref={restaurationRef} title="Restauration" backgroundColor="#D4E9C2" />
         </BasicCard>
         <BasicCard ref={avisRef} title="Avis" />
+
+
+
+
       </div>
     </div>
   );
