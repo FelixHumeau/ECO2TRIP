@@ -6,6 +6,7 @@ import ScrollableButtons from "../components/ScrollableButtons"; // Import du no
 import activityImage from "../assets/activity_image.png";
 import ActivityCard from "../components/ActivityCard";
 import HousingCard from "../components/HousingCard";
+import TransportBox from "../components/TransportBox";
 
 const SummaryPage = () => {
   const images = [
@@ -26,6 +27,18 @@ const SummaryPage = () => {
     },
     coordinates: [43.002, 6.399],
     days: 5,
+  };
+
+  const travelData = {
+    from: "Paris", to: "Lyon",
+    results: [
+      { transport: "Train (TGV)", distance: "419.49 km", carbonImpact: "0.965 kg CO₂" },
+      { transport: "Avion", distance: "395.15 km", carbonImpact: "102.027 kg CO₂" },
+      { transport: "Vélo", distance: "540.85 km", carbonImpact: "0.000 kg CO₂" },
+      { transport: "Voiture électrique", distance: "466.10 km", carbonImpact: "9.229 kg CO₂" },
+      { transport: "Voiture thermique", distance: "466.10 km", carbonImpact: "89.491 kg CO₂" },
+      { transport: "Bus thermique", distance: "493.89 km", carbonImpact: "51.513 kg CO₂" }
+    ]
   };
 
   const buttonLabels = ["Transport", "Hébergement", "Activité", "Restauration", "Avis"];
@@ -67,7 +80,27 @@ const SummaryPage = () => {
         marginTop: "30px"
         /*marginBottom: "1000px"*/
       }}>
-        <BasicCard ref={transportRef} title="Transport" />
+        <BasicCard ref={transportRef} title="Transport">
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr", // Deux colonnes égales
+            gap: "15px", // Espacement entre les lignes et colonnes
+            justifyContent: "center", // Centre le grid horizontalement
+            alignItems: "center", // Centre les éléments verticalement
+            maxWidth: "100%",
+            margin: "0 auto", // Centre le grid dans la BasicCard
+          }}>
+            {travelData.results.map((data, index) => (
+              <TransportBox
+                key={index}
+                transport={data.transport}
+                distance={data.distance}
+                carbonImpact={data.carbonImpact}
+              />
+            ))}
+          </div>
+        </BasicCard>
+
         <BasicCard ref={hebergementRef} title="Hébergement" >
           <HousingCard
             image="https://images.greengo.voyage/_/w_1440__q_75/plain/s3://greengobackend-production-media/pictures/hosting_establishment/ordered_images/coypel_4.jpeg"
@@ -89,9 +122,6 @@ const SummaryPage = () => {
           <BasicCard ref={restaurationRef} title="Restauration" backgroundColor="#D4E9C2" />
         </BasicCard>
         <BasicCard ref={avisRef} title="Avis" />
-
-
-
 
       </div>
     </div>
