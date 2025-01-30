@@ -13,8 +13,8 @@ router.get('/test', async (req, res) => {
             return res.json({ message: 'Aucun hôtel trouvé dans Redis.' });
         }
 
-        // Prendre les 10 premiers hôtels
-        const first10Keys = keys.slice(0, 10);
+        // Prendre les 3 premiers hôtels
+        const first10Keys = keys.slice(0, 4);
         const hotels = [];
 
         for (const key of first10Keys) {

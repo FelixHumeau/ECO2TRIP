@@ -2,11 +2,11 @@ import React, { useRef } from "react";
 import Carousel from "../components/Carousel";
 import CityCard from "../components/CityCard";
 import BasicCard from "../components/BasicCard";
-import ScrollableButtons from "../components/ScrollableButtons"; // Import du nouveau composant
+import ScrollableButtons from "../components/ScrollableButtons";
 import activityImage from "../assets/activity_image.png";
 import ActivityCard from "../components/ActivityCard";
 import HousingCard from "../components/HousingCard";
-import TransportBox from "../components/TransportBox";
+import TransportCard from "../components/TransportCard";
 
 const SummaryPage = () => {
   const images = [
@@ -23,10 +23,10 @@ const SummaryPage = () => {
     carbonFootprint: {
       activities: 75,
       housing: 130,
-      transport: 160,
+      transport: 160
     },
     coordinates: [43.002, 6.399],
-    days: 5,
+    days: 5
   };
 
   const travelData = {
@@ -40,6 +40,91 @@ const SummaryPage = () => {
       { transport: "Bus thermique", distance: "493.89 km", carbonImpact: "51.513 kg CO₂" }
     ]
   };
+
+  const housingData = [
+    {
+      price: "592 €",
+      name: "Hôtel du Jeu de Paume",
+      eco_score: "3",
+      link: "https://www.greengo.voyage/hote/hotel-du-jeu-de-paume",
+      image_url: "https://images.greengo.voyage/_/w_1440__q_75/plain/s3://greengobackend-production-media/pictures/hosting_establishment/ordered_images/000000_jeu_de_paume_xqd2291bdf.jpg"
+    },
+    {
+      name: "Appartement vue sur canal",
+      image_url: "https://images.greengo.voyage/_/w_1440__q_75/plain/s3://greengobackend-production-media/pictures/accommmodation/ordered_images/vue_klrt30k.jpg",
+      eco_score: "1",
+      link: "https://www.greengo.voyage/hote/appartement-vue-sur-canal",
+      price: "344 €"
+    },
+    {
+      name: "Hôtel Villa Saxe Eiffel",
+      image_url: "https://images.greengo.voyage/_/w_1440__q_75/plain/s3://greengobackend-production-media/pictures/hosting_establishment/ordered_images/hotel-villa-saxe-eiffel-bar-205675-1280-1200-portrait.jpg",
+      eco_score: "2",
+      link: "https://www.greengo.voyage/hote/hotel-villa-saxe-eiffel",
+      price: "295 €"
+    },
+    {
+      name: "Hôtel Baldi by Magna Arbor",
+      image_url: "https://images.greengo.voyage/_/w_1440__q_75/plain/s3://greengobackend-production-media/pictures/hosting_establishment/ordered_images/baldi_dts2v6g.jpeg",
+      eco_score: "2",
+      link: "https://www.greengo.voyage/hote/hotel-baldi-by-magna-arbor?checkIn=2025-03-17&checkOut=2025-03-18&numberOfAdults=2&numberOfChildren=0&numberOfBabies=0&numberOfPets=0",
+      price: "171 €"
+    }
+  ];
+
+  const activityData = [
+    {
+      nom: "Court de tennis",
+      description: "2 courts de tennis, réservation en ligne",
+      adresse: "38 rue du Stade",
+      tags: [
+        "Site Sportif, Récréatif Et De Loisirs",
+        "Lieu",
+        "Complèxe Ou Terrain De Tennis",
+        "Point Dintérêt"
+      ],
+      coordonnees: {
+        "latitude": 45.459624,
+        "longitude": -0.718708
+      }
+    },
+    {
+      nom: "Atelier d’initiation au neuro dessin",
+      description: "",
+      adresse: "8 Rue de l'Irlande Alré Bio",
+      tags: [
+        "Produit",
+        "Stage, Atelier",
+        "Point Dintérêt",
+        "Pratique"
+      ],
+      coordonnees: {
+        "latitude": 47.66503,
+        "longitude": -3.0078
+      }
+    },
+    {
+      nom: "Cocktail Aventure",
+      description: "",
+      adresse: "RD 918 - Parking Noblia",
+      tags: [
+        "Tourisme Sportif",
+        "Lieu",
+        "Point Dintérêt",
+        "Site Sportif, Récréatif Et De Loisirs",
+        "Baptême Sportif",
+        "Accompagnement",
+        "Produit",
+        "Pratique Libre",
+        "Aventure",
+        "Pratique"
+      ],
+      coordonnees: {
+        "latitude": 43.269245,
+        "longitude": -1.34587
+      }
+    }
+  ];
 
   const buttonLabels = ["Transport", "Hébergement", "Activité", "Restauration", "Avis"];
 
@@ -78,51 +163,11 @@ const SummaryPage = () => {
         alignItems: "center",
         gap: "20px",
         marginTop: "30px"
-        /*marginBottom: "1000px"*/
       }}>
-        <BasicCard ref={transportRef} title="Transport">
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr", // Deux colonnes égales
-            gap: "15px", // Espacement entre les lignes et colonnes
-            justifyContent: "center", // Centre le grid horizontalement
-            alignItems: "center", // Centre les éléments verticalement
-            maxWidth: "100%",
-            margin: "0 auto", // Centre le grid dans la BasicCard
-          }}>
-            {travelData.results.map((data, index) => (
-              <TransportBox
-                key={index}
-                transport={data.transport}
-                distance={data.distance}
-                carbonImpact={data.carbonImpact}
-              />
-            ))}
-          </div>
-        </BasicCard>
-
-        <BasicCard ref={hebergementRef} title="Hébergement" >
-          <HousingCard
-            image="https://images.greengo.voyage/_/w_1440__q_75/plain/s3://greengobackend-production-media/pictures/hosting_establishment/ordered_images/coypel_4.jpeg"
-            title="Hôtel Coypel By Magna Arbor"
-            titleLink="https://www.greengo.voyage/hote/hotel-coypel-by-magna-arbor?checkIn=2025-03-17&checkOut=2025-03-18&numberOfAdults=2&numberOfChildren=0&numberOfBabies=0&numberOfPets=0"
-            pricePerNight={159}
-            rating={2}
-          />
-        </BasicCard>
-        <BasicCard ref={activiteRef} title="Activité">
-          <ActivityCard
-            image={activityImage}
-            title="Plongée sous-marine"
-            price={80}
-            description="Découvrez les fonds marins de Port-Cros."
-            coordinates={[43.002, 6.399]}
-            address="Port-Cros, 83400 Hyères, France"
-          />
-          <BasicCard ref={restaurationRef} title="Restauration" backgroundColor="#D4E9C2" />
-        </BasicCard>
+        <TransportCard ref={transportRef} travelData={travelData} />
+        <HousingCard housings={housingData} />
+        <ActivityCard activities={activityData} activityImage={activityImage} />
         <BasicCard ref={avisRef} title="Avis" />
-
       </div>
     </div>
   );

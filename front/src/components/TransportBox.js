@@ -31,6 +31,7 @@ const TransportBox = ({ transport, distance, carbonImpact }) => {
         padding: "7px",
         boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
         width: "90%",
+        minWidth: "550px",
         gap: "15px",
       }}
     >
