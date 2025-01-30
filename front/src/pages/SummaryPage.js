@@ -165,8 +165,8 @@ const SummaryPage = () => {
         marginTop: "30px"
       }}>
         <TransportCard ref={transportRef} travelData={travelData} />
-        <HousingCard housings={housingData} />
-        <ActivityCard activities={activityData} activityImage={activityImage} />
+        <HousingCard ref={hebergementRef} housings={housingData} />
+        <ActivityCard ref={activiteRef} activities={activityData} activityImage={activityImage} />
         <BasicCard ref={avisRef} title="Avis" />
       </div>
     </div>

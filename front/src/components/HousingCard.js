@@ -1,10 +1,10 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import BasicCard from "./BasicCard";
 import HousingBox from "./HousingBox";
 
-const HousingCard = ({ housings }) => {
+const HousingCard = forwardRef(({ housings }, ref) => {
   return (
-    <BasicCard title="Hébergement">
+    <BasicCard ref={ref} title="Hébergement">
       <div
         style={{
           display: "grid",
@@ -29,6 +29,6 @@ const HousingCard = ({ housings }) => {
       </div>
     </BasicCard>
   );
-};
+});
 
 export default HousingCard;
