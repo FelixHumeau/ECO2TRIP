@@ -1,23 +1,33 @@
 import React from "react";
-import ImageCard from "./ImageCard";
+import BasicCard from "./BasicCard";
+import HousingBox from "./HousingBox";
 
-const HousingCard = ({ image, title, titleLink, pricePerNight, rating }) => {
-  // Fonction pour afficher les étoiles
-  const renderStars = (rating) => {
-    return [...Array(5)].map((_, i) => (
-      <span key={i} style={{ color: i < rating ? "#FFD700" : "#CCC", fontSize: "20px" }}>★</span>
-    ));
-  };
-
+const HousingCard = ({ housings }) => {
   return (
-    <ImageCard
-      image={image}
-      title={title}
-      titleLink = {titleLink}
-      description={`Prix/nuit : ${pricePerNight}€`}
-      backgroundColor="#D4E9C2"
-      extraContent={<div>{renderStars(rating)}</div>}
-    />
+    <BasicCard title="Hébergement">
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+          gap: "20px",
+          width: "100%",
+          alignItems: "stretch",
+        }}
+      >
+        {housings.map((house, index) => (
+          <div key={index} style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+            <HousingBox
+              key={index}
+              image={house.image_url}
+              title={house.name}
+              titleLink={house.link}
+              pricePerNight={house.price}
+              rating={parseInt(house.eco_score)}
+            />
+          </div>
+        ))}
+      </div>
+    </BasicCard>
   );
 };
 

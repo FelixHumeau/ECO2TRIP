@@ -1,49 +1,33 @@
-import React, { useState } from "react";
-import ImageCard from "./ImageCard";
-import PopupModal from "./PopupModal";
-import MapComponent from "./MapComponent";
+import React from "react";
+import BasicCard from "./BasicCard";
+import ActivityBox from "./ActivityBox";
 
-const ActivityCard = ({ image, title, titleLink, price, description, coordinates, address }) => {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-
+const ActivityCard = ({ activities, activityImage }) => {
   return (
-    <>
-      <ImageCard
-        image={image}
-        title={title}
-        titleLink = {titleLink}
-        description={
-            <>
-              Prix : {price}€ <br />
-              {description}
-            </>
-          }
-        backgroundColor="#D4E9C2"
-        extraContent={(
-          <>
-          <button
-              onClick={() => setIsPopupOpen(true)}
-              style={{
-                backgroundColor: "#007BFF",
-                color: "#fff",
-                border: "none",
-                borderRadius: "5px",
-                padding: "5px 10px",
-                fontSize: "12px",
-                cursor: "pointer",
-              }}
-            >
-              Localisation
-            </button>
-          </>
-        )}
-      />
-
-      {/* Popup de localisation */}
-      <PopupModal isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} title={title}>
-        <MapComponent coordinates={coordinates} locationName={title} address={address}/>
-      </PopupModal>
-    </>
+    <BasicCard title="Activité">
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+          gap: "20px",
+          width: "100%",
+          alignItems: "stretch",
+        }}
+      >
+        {activities.map((activity, index) => (
+          <div key={index} style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+            <ActivityBox
+              key={index}
+              image={activityImage}
+              title={activity.nom}
+              description={activity.description || "Aucune description disponible"}
+              coordinates={[activity.coordonnees.latitude, activity.coordonnees.longitude]}
+              address={activity.adresse}
+            />
+          </div>
+        ))}
+      </div>
+    </BasicCard>
   );
 };
 
