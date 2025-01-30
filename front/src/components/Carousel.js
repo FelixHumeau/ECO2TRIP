@@ -31,7 +31,7 @@ const Carousel = ({ images, height = "700px", width = "90%" }) => {
       >
         <img
           src={images[currentIndex]}
-          alt={`Image ${currentIndex + 1}`}
+          alt={`${currentIndex + 1}`}
           style={{
             width: "100%",
             height: "100%",

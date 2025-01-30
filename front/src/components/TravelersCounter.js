@@ -20,8 +20,8 @@ const TravelersCounter = () => {
       >
         <span>
           <i className="icon-person"></i> {/* Icône de personne */}
-          {adults} adulte{adults > 1 ? "s" : ""} · {children} enfant
-          {children > 1 ? "s" : ""} · {rooms} chambre{rooms > 1 ? "s" : ""}
+          {adults} Adulte{adults > 1 ? "s" : ""} · {children} Enfant
+          {children > 1 ? "s" : ""} · {rooms} Chambre{rooms > 1 ? "s" : ""}
         </span>
         <button className="dropdown-toggle">▼</button>
       </div>

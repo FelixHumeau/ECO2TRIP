@@ -1,8 +1,8 @@
 body {
   margin: 0;
-  font-family: 'Arial', sans-serif;
+  font-family: 'Georgia', sans-serif; /* Police de caractères par défaut */
   background-color: #f0f8f0; /* Fond vert clair, comme suggéré */
-  color: #333; /* Couleur de texte sombre */
+  color: #373636; /* Couleur de texte sombre */
 }
 
 .container {
@@ -114,6 +114,7 @@ body {
   align-items: center;
   text-align: center;
   transition: opacity 0.5s ease-out;
+  flex-direction: column;
 }
 
 .content-section {
@@ -145,11 +146,11 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center; /* Centre les éléments horizontalement */
-  padding: 50px;  /* Espacement interne */
+  padding: 10px;  /* Espacement interne */
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  background-color: white; /* Fond blanc pour le conteneur */
-  margin: 100px auto; /* Centre le formulaire verticalement et horizontalement */
+  background-color: rgb(255, 255, 255); /* Fond blanc pour le conteneur */
+  margin: 10px auto; /* Centre le formulaire verticalement et horizontalement */
   width: 100%;
   max-width: 900px;
 }
@@ -157,9 +158,10 @@ body {
 .search-input {
   border: none;
   background: none;
-  flex: 1;
-  padding: 10px 0;
+  flex: 1; 
+  padding: 10px 30px 10px 8px;
   font-size: 16px;
+  
 }
 .search-input > input {
 border: none;
@@ -176,17 +178,17 @@ flex: 1;
 }
 
 .search-button {
-  background-color: #f0c14b; /* Jaune pour le bouton de recherche */
+  background-color: #06be0f; /* Jaune pour le bouton de recherche */
   border: none;
   color: white;
-  padding: 15px 30px;
+  padding: 23px 410px;
   text-align: center;
   text-decoration: none;
   font-size: 16px;
   cursor: pointer;
   border-radius: 4px;
   width: fit-content;
-  margin: 20px auto 0; /* Marge en haut et centré */
+  margin: -13px auto 0; /* Marge en haut et centré */
   display: block;
   transition: background-color 0.3s ease;
 }
@@ -195,28 +197,8 @@ flex: 1;
   background-color: #daa520; /* Jaune plus sombre au survol */
 }
 
-
-
-button {
-  background-color: #f0c14b; /* Jaune pour les boutons */
-  border: none;
-  color: white;
-  padding: 10px 15px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #daa520; /* Jaune plus sombre */
-}
-
 /* Styles pour les pages simples */
-.content h1 {
+.content h1 { 
   text-align: center;
   margin-top: 50px;
 }
@@ -244,9 +226,10 @@ button:hover {
 }
 
 .icon {
-  width: 200px; /* Taille des icônes */
+  width: 30px; /* Taille des icônes */
   height: auto; /* Conserve les proportions */
   position: relative; /* Position relative pour les icônes */
+  right: 90px; /* Décalage par rapport au bord gauche */
 }
 
 .icon-container {
@@ -301,26 +284,27 @@ button:hover {
 
 
 /* Styles pour le nombre de voyageur */
+
 .travelers-counter { /* Conteneur principal */
   position: relative;  /* Position relative pour les éléments enfants */
   display: inline-block;  /* Affiche les éléments en ligne */
-  font-family: Georgia, serif;   /* Police de caractères */
+  font-family: Georgia, sans-serif;   /* Police de caractères */
+  font-size: 40px;  /* Taille de la police */
 }
 
 .travelers-summary { /* Zone de résumé */
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 10px 15px; /* Espacement interne */
-  border: 1px solid #ddd;
+  justify-content: space-around;
+  padding: 11px; /* Espacement interne */
   border-radius: 5px;
-  background-color: #fff;
-  cursor: pointer;
-  width: 90%; /* Largeur de la zone de résumé */
+  background-color: #f9f9f9;
+  cursor: pointer; /* Curseur interactif */
+  width: 100%; /* Largeur de la zone de résumé */
 }
 
 .travelers-summary span {
-  font-size: 14px;
+  font-size: 15px;
   color: #333;
 }
 
@@ -334,9 +318,9 @@ button:hover {
 
 .travelers-dropdown {
   position: absolute;
-  top: 90%;
+  top: 105%;
   left: 0;
-  width: 93%; 
+  width: 96%; 
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 5px; 
@@ -358,7 +342,7 @@ button:hover {
 }
 
 .counter-row span {
-  font-size: 14px;
+  font-size: 15px;
   color: #333;
 }
 
@@ -404,23 +388,156 @@ button:hover {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   background-color: white;
   z-index: 1000;
-  
-}
-
-.react-datepicker__header {
-  background-color: #f9f9f9;
-  border-bottom: 1px solid #ddd;
+  left : 20px;
 }
 
 
-.react-datepicker__day--in-selecting-range, 
+
 .react-datepicker__day--in-range {
   background-color: #c8e6c9; /* Couleur de la plage sélectionnée */
   color: #333;
 }
 
 .react-datepicker__close-icon {
-  border-radius: 50%;
-  color: white;
+  border-radius: 5%;
+  color: rgb(0, 0, 0);
   z-index: 1000;
+  cursor: pointer; /* Change le curseur au survol */
 }
+
+/* Ajustement pour Select */
+.css-yk16xz-control {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.css-1okebmr-indicatorSeparator {
+  display: none; /* Supprime la barre entre le champ et l'icône */
+}
+
+.css-1pahdxg-control {
+  box-shadow: none; /* Supprime le contour au clic */
+  border-color: #f0c14b; /* Ajoute une couleur de bordure */
+}
+
+
+/* Styles pour les Tag */
+.tag {
+  background-color: rgba(255, 255, 255, 0.683);
+  color: #000000;
+  font-weight: 500;
+  padding: 13px 16px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  display: inline-block;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+}
+
+.tag:hover {
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 10px;
+}
+
+/* Styles généraux pour le footer */
+.footer {
+  background-color: #f9f9f9;
+  color: #333;
+  padding: 40px 20px;
+  font-family: Arial, sans-serif;
+  border-top: 1px solid #ddd;
+}
+
+.footer-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-section {
+  flex: 1;
+  margin: 10px;
+}
+
+.footer-section h4 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #000;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+  color: #000;
+}
+
+/* Styles pour les icônes de réseaux sociaux */
+.social-icons a {
+  text-decoration: none;
+  color: #333;
+  margin: 0 10px;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icons a:hover {
+  transform: scale(1.2);
+  color: #000;
+}
+
+/* Section du logo */
+.logo-section {
+  text-align: center;
+}
+
+.footer-logo {
+  max-width: 150px;
+  height: auto;
+  margin: 0 auto;
+}
+
+/* Barre en bas */
+.footer-bottom {
+  margin-top: 40px;
+  font-size: 12px;
+  text-align: center;
+  color: #666;
+}
+
+.footer-bottom a {
+  text-decoration: none;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.footer-bottom a:hover {
+  color: #000;
+}
+
