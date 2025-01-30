@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import SearchForm from "../components/SearchForm";
+import TagList from "../components/TagList";
 
 const HomePage = () => {
   const [scrollOpacity, setScrollOpacity] = useState(1);
+
+  const categories = ["Ski", "Montagne", "Plage", "Ville", "Campagne", "Culture", "Sport", "Bien-être", "Gastronomie", "Shopping"];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,6 +26,9 @@ const HomePage = () => {
         className="hero-section"
         style={{ opacity: scrollOpacity }}
       >
+        <div className="p-6">
+          <TagList tags={categories} />
+        </div>
         <SearchForm />
       </section>
 

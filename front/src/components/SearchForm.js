@@ -1,61 +1,58 @@
-import React, { forwardRef, useState } from "react";
+import React, { useState } from "react";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css"; // Style par défaut du datepicker
+import "react-datepicker/dist/react-datepicker.css";
 
+import { forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
 import calender from "../assets/Calendrier.png";
-import map from "../assets/Carte.png";
-import TravelersCounter from "./TravelersCounter"; // Import du composant TravelersCounter
+import DepartureCitySelect from "./DepartureCitySelect"; // Import du composant
+import TravelersCounter from "./TravelersCounter";
 
 function SearchForm() {
   const navigate = useNavigate();
+  const [dateRange, setDateRange] = useState([null, null]); // Gérer les dates
 
-  const [dateRange, setDateRange] = useState([null, null]); // Tableau contenant [startDate, endDate]
-  const [startDate, endDate] = dateRange; // Déstructure la plage en startDate et endDate
-
-  // Composant personnalisé pour rendre le champ "lecture seule"
   const CustomDateInput = forwardRef(({ value, onClick }, ref) => (
-    <div onClick={onClick} ref={ref} className="search-input">
+    <div
+      onClick={onClick}
+      ref={ref}
+      className="search-input"
+      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', width: '150%', color: 'hsl(0, 0.60%, 33.50%)'}} // Ajoutez ces styles pour centrer le texte
+    >
       {value || "Dates de voyage"} {/* Texte par défaut ou les dates sélectionnées */}
-      <div className="icon-container">
-        <img src={calender} alt="calendar" className="icon" />
-      </div>
     </div>
   ));
 
   return (
     <div className="search-form">
       <div className="inputs-container">
-        {/* Champ pour la destination */}
+        {/* Champ pour la ville de départ */}
         <div className="input-container">
-          <input
-            type="text"
-            placeholder="Où allez-vous?"
+          <DepartureCitySelect />
+        </div>
+
+        {/* Champ pour les dates */}
+        <div className="input-container">
+          <DatePicker
+            selected={dateRange[0]}
+            onChange={(update) => setDateRange(update)}
+            startDate={dateRange[0]}
+            endDate={dateRange[1]}
+            selectsRange
+            placeholderText="Dates de voyage"
             className="search-input"
+            dateFormat="dd/MM/yyyy"
+            isClearable
+            customInput={<CustomDateInput />}
           />
           <div className="icon-container">
-            <img src={map} alt={"map"} className="icon" />
+            <img src={calender} alt="calendar" className="icon" />
           </div>
         </div>
 
-        {/* Champ pour la plage de dates */}
+        {/* Compteur pour les voyageurs */}
         <div className="input-container">
-          <DatePicker
-            selected={startDate}
-            onChange={(update) => setDateRange(update)}
-            startDate={startDate}
-            endDate={endDate}
-            selectsRange
-            placeholderText="Dates de voyage"
-            customInput={<CustomDateInput />} // Utilisation de l'input personnalisé
-            dateFormat="dd/MM/yyyy"
-            isClearable
-          />
-        </div>
-
-        {/* Remplacement du champ pour les voyageurs */}
-        <div className="input-container">
-          <TravelersCounter /> {/* Intégration du composant TravelersCounter */}
+          <TravelersCounter />
         </div>
       </div>
 

@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import Footer from "./components/Footer"; // Import du Footer
 import Navbar from "./components/NavBar.js";
 
 // Lazy loading des pages
@@ -26,6 +27,7 @@ function App() {
           <Route path="/carbon-calculator" element={<CarbonRoutePage />} />
         </Routes>
       </Suspense>
+      <Footer />
     </Router>
   );
 }
