@@ -186,5 +186,66 @@ router.post('/', async (req, res) => {
     }
 });
 
+// Route /all : Calcul pour plusieurs modes de transport
+router.post('/all', async (req, res) => {
+    console.log('Requête reçue pour /all :', req.body);
+
+    const { from, to, occupencyRate } = req.body;
+
+    if (!from || !to || !occupencyRate) {
+        return res.status(400).json({ error: 'Les champs from, to et occupencyRate sont obligatoires.' });
+    }
+
+    try {
+        // Convertir les noms des lieux en coordonnées GPS
+        const fromCoordinates = await geocodeLocation(from);
+        const toCoordinates = await geocodeLocation(to);
+
+        // Définition des transports à évaluer
+        const transports = [
+            { id: 2, name: 'Train (TGV)' },
+            { id: 1, name: 'Avion' },
+            { id: 7, name: 'Vélo' },
+            { id: 5, name: 'Voiture électrique' },
+            { id: 4, name: 'Voiture thermique' },
+            { id: 9, name: 'Bus thermique' },
+        ];
+
+        let results = [];
+
+        for (const transport of transports) {
+            try {
+                // Calcul de la distance selon le transport
+                const distance = await calculateDistance(fromCoordinates, toCoordinates, transport.id);
+
+                // Calcul de l'empreinte carbone
+                const carbonData = await getCarbonImpact(distance, transport.id, occupencyRate);
+
+                // Stocker les résultats
+                results.push({
+                    transport: transport.name,
+                    distance: distance.toFixed(2) + ' km',
+                    carbonImpact: carbonData.value.toFixed(3) + ' kg CO₂',
+                });
+            } catch (error) {
+                console.error(`Erreur pour ${transport.name}:`, error.message);
+                results.push({
+                    transport: transport.name,
+                    error: 'Calcul impossible',
+                });
+            }
+        }
+
+        res.json({
+            from,
+            to,
+            results,
+        });
+
+    } catch (error) {
+        console.error('Erreur interne /all :', error.message);
+        res.status(500).json({ error: error.message });
+    }
+});
 
 module.exports = router;
