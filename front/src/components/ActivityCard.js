@@ -1,10 +1,10 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import BasicCard from "./BasicCard";
 import ActivityBox from "./ActivityBox";
 
-const ActivityCard = ({ activities, activityImage }) => {
+const ActivityCard = forwardRef(({ activities, activityImage }, ref) => {
   return (
-    <BasicCard title="Activité">
+    <BasicCard ref={ref} title="Activité">
       <div
         style={{
           display: "grid",
@@ -29,6 +29,6 @@ const ActivityCard = ({ activities, activityImage }) => {
       </div>
     </BasicCard>
   );
-};
+});
 
 export default ActivityCard;
