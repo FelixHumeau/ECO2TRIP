@@ -16,8 +16,13 @@ const SummaryPage = () => {
     cityName: "Île de Port Cros",
     rating: 4.6,
     tags: ["Mer", "Aquatique", "Parc naturel", "Plongée", "Randonnée"],
-    carbonFootprint: 280,
+    carbonFootprint: {
+      activities: 75,
+      housing: 130,
+      transport: 160,
+    },
     coordinates: [43.002, 6.399],
+    days: 5,
   };
 
   const buttonLabels = ["Transport", "Hébergement", "Activité", "Restauration", "Avis"];
@@ -46,6 +51,7 @@ const SummaryPage = () => {
         tags={cityData.tags}
         carbonFootprint={cityData.carbonFootprint}
         coordinates={cityData.coordinates}
+        days={cityData.days}
       />
 
       <ScrollableButtons labels={buttonLabels} cardRefs={cardRefs} />
