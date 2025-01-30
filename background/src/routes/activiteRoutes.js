@@ -20,9 +20,7 @@ router.get('/test', async (req, res) => {
         const activites = [];
         for (const key of first10Keys) {
             const data = await redisClient.hGetAll(key);
-            if (data.nom) {
-                activites.push({ nom: data.nom, description: data.description, commune: data.commune });
-            }
+            activites.push({ nom: data.nom, description: data.description, commune: data.commune });
         }
 
         res.json(activites);

@@ -10,12 +10,17 @@ const redisClient = redis.createClient({
 
 // Gérer les erreurs Redis
 redisClient.on('error', (err) => {
-    console.error('❌ Erreur Redis:', err);
+    console.error('Erreur Redis:', err);
+    console.error('Fermeture du serveur...');
+    process.exit(1); // Arrêter le serveur
 });
 
 // Connexion
 redisClient.connect().then(() => {
-    console.log('✅ Connecté à Redis');
+    console.log('Connecté à Redis');
+}).catch((err) => {
+    console.error(' Échec de la connexion à Redis:', err);
+    process.exit(1); // Arrêter le serveur si la connexion échoue
 });
 
 module.exports = redisClient;
