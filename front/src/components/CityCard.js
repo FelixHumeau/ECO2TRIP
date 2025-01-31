@@ -16,7 +16,7 @@ const CityCard = ({ cityName, rating, tags, carbonFootprint, coordinates, days }
           key={i}
           style={{
             color: i <= rating ? "#2C7332" : "#CCC",
-            fontSize: "20px",
+            fontSize: "25px",
           }}
         >
           ★
