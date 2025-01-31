@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import logo from "../assets/logo1.png"; // Assure-toi que le chemin est correct
+import logo from "../assets/logo1.png"; // Logo actuel
+import headerImage from "../assets/Logo_Texte1.png"; // Nouvelle image
 
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -15,15 +16,13 @@ function Navbar() {
 
   return (
     <div className={`navbar ${isScrolled ? "navbar-scrolled" : ""}`}>
-      {/* Logo complet cliquable */}
+      {/* Contenu principal de la navbar */}
       <div className="navbar-center">
         <Link to="/" className="navbar-logo-link">
+          {/* Ajout de l'image avant le logo */}
+          <img src={headerImage} alt="Header Icon" className="header-image" />
           <span className="navbar-logo-text">
-            <span className="text-green">E</span>
-            <span className="text-black">C</span>
             <img src={logo} alt="Logo" className="navbar-logo" />
-            <span className="text-black">2</span>
-            <span className="text-green">TRIP</span>
           </span>
         </Link>
       </div>
