@@ -32,7 +32,7 @@ const ProposedTripsPage = () => {
   };
 
   const cityData_3 = {
-    city: "Biaritz",
+    city: "Biarritz",
     description: "Station balnéaire prisée de la côte basque, Biarritz est réputée pour ses plages magnifiques, son ambiance élégante et son histoire liée au surf. Autrefois un repaire de la noblesse européenne, la ville mêle aujourd’hui raffinement et culture surf. Le Rocher de la Vierge, emblème de la ville, offre une vue imprenable sur l’Atlantique. Le Casino Barrière, les halles animées et le musée de la mer sont autant d’attractions à découvrir. Avec ses vagues de renommée mondiale, c’est une destination incontournable pour les amateurs de surf et de sports nautiques.",
     tags: ["Mer", "Aquatique", "Surf"],
     imageSrc: "https://www.tourisme64.com/wp-content/uploads/2024/02/biarritz-grande-plage-et-phare-001-copyedelweiss_loren-bedeli.jpg",
