@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import DynamicText from "../components/DynamicText";
 import SearchForm from "../components/SearchForm";
 import TagList from "../components/TagList";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const [scrollOpacity, setScrollOpacity] = useState(1);
@@ -13,6 +14,7 @@ const HomePage = () => {
     "vooyagez léger, explorez responsable !",
     "mooins d’empreinte, plus d’émotions.",
   ];
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,14 +36,19 @@ const HomePage = () => {
         style={{ opacity: scrollOpacity }}
       >
         <div className="app-container">
-          <DynamicText prefix="Avec nous," endings={endings} interval={4000} />
+          {/*<DynamicText prefix="Avec nous," endings={endings} interval={4000} />*/}
         </div>
         
 
         <div className="p-6">
           <TagList tags={categories} />
         </div>
-        <SearchForm />
+        <div className="search-form">
+          <SearchForm />
+          <button className="search-button" onClick={() => navigate("/questionnaire")}>
+          C'est parti !
+          </button>
+        </div>
       </section>
 
       {/* Contenu principal */}

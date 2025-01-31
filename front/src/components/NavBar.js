@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo1.png"; // Logo actuel
-import headerImage from "../assets/Logo_Texte1.png"; // Nouvelle image
+import headerImage from "../assets/Logo_Texte1.png";
+import { FaEnvelope } from "react-icons/fa";
 
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -16,6 +17,11 @@ function Navbar() {
 
   return (
     <div className={`navbar ${isScrolled ? "navbar-scrolled" : ""}`}>
+      <div className="navbar-left">
+        <Link to="/contact" className="question-icon">
+          <FaEnvelope color="green" size={20} />
+        </Link>
+      </div>
       {/* Contenu principal de la navbar */}
       <div className="navbar-center">
         <Link to="/" className="navbar-logo-link">

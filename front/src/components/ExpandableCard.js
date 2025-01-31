@@ -71,6 +71,7 @@ const ExpandableMapCard = forwardRef(
                       borderRadius: "15px",
                       fontSize: "16px",
                       fontWeight: "500",
+                      fontFamily: "Georgia, sans-serif"
                     }}
                   >
                     {tag}
@@ -123,8 +124,8 @@ const ExpandableMapCard = forwardRef(
             }}
           />
 
-          <Button 
-            text="Choisir ce voyage"
+          <button 
+            className="continue-button"
             onClick={() => navigate("/summary")}
             style={{
               padding: "10px 15px",
@@ -132,7 +133,7 @@ const ExpandableMapCard = forwardRef(
               fontSize: "16px",
               backgroundColor: "#56B46C"
             }}
-          />
+          > En route !</button>
         </div>
 
         {/* Carte visible quand isMapVisible est activé */}

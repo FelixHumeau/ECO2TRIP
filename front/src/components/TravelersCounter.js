@@ -1,56 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSearch } from "../context/SearchContext"; // Import du contexte
 
-const TravelersCounter = () => {
-  const [isOpen, setIsOpen] = useState(false); // État pour afficher/masquer le menu déroulant
-  const [adults, setAdults] = useState(2);
-  const [children, setChildren] = useState(0);
-  const [rooms, setRooms] = useState(1);
+const TravelersCounter = ({ onChange }) => {
+  const { searchData } = useSearch(); // Récupération des valeurs du contexte
+  const [isOpen, setIsOpen] = useState(false);
+  const [travelers, setTravelers] = useState({ adults: 2, children: 0, rooms: 1 });
 
-  const handleIncrement = (setter, value) => setter(value + 1);
-  const handleDecrement = (setter, value) => {
-    if (value > 0) setter(value - 1);
+  useEffect(() => {
+    if (searchData.travelers) {
+      setTravelers(searchData.travelers);
+    }
+  }, [searchData.travelers]);
+
+  const updateTravelers = (newTravelers) => {
+    setTravelers(newTravelers);
+    onChange(newTravelers);
   };
 
   return (
     <div className="travelers-counter">
-      {/* Résumé visible */}
-      <div
-        className="travelers-summary"
-        onClick={() => setIsOpen(!isOpen)} // Toggle du menu déroulant
-      >
+      <div className="travelers-summary" onClick={() => setIsOpen(!isOpen)}>
         <span>
-          <i className="icon-person"></i> {/* Icône de personne */}
-          {adults} Adulte{adults > 1 ? "s" : ""} · {children} Enfant
-          {children > 1 ? "s" : ""} · {rooms} Chambre{rooms > 1 ? "s" : ""}
+          <i className="icon-person"></i>
+          {travelers.adults} Adulte{travelers.adults > 1 ? "s" : ""} · {travelers.children} Enfant
+          {travelers.children > 1 ? "s" : ""} · {travelers.rooms} Chambre{travelers.rooms > 1 ? "s" : ""}
         </span>
         <button className="dropdown-toggle">▼</button>
       </div>
 
-      {/* Menu déroulant */}
       {isOpen && (
         <div className="travelers-dropdown">
           <div className="counter-row">
             <span>Adultes</span>
             <div className="counter-controls">
-              <button onClick={() => handleDecrement(setAdults, adults)}>-</button>
-              <span>{adults}</span>
-              <button onClick={() => handleIncrement(setAdults, adults)}>+</button>
+              <button onClick={() => updateTravelers({ ...travelers, adults: travelers.adults - 1 })} disabled={travelers.adults <= 1}>-</button>
+              <span>{travelers.adults}</span>
+              <button onClick={() => updateTravelers({ ...travelers, adults: travelers.adults + 1 })}>+</button>
             </div>
           </div>
           <div className="counter-row">
             <span>Enfants</span>
             <div className="counter-controls">
-              <button onClick={() => handleDecrement(setChildren, children)}>-</button>
-              <span>{children}</span>
-              <button onClick={() => handleIncrement(setChildren, children)}>+</button>
+              <button onClick={() => updateTravelers({ ...travelers, children: travelers.children - 1 })} disabled={travelers.children <= 0}>-</button>
+              <span>{travelers.children}</span>
+              <button onClick={() => updateTravelers({ ...travelers, children: travelers.children + 1 })}>+</button>
             </div>
           </div>
           <div className="counter-row">
             <span>Chambres</span>
             <div className="counter-controls">
-              <button onClick={() => handleDecrement(setRooms, rooms)}>-</button>
-              <span>{rooms}</span>
-              <button onClick={() => handleIncrement(setRooms, rooms)}>+</button>
+              <button onClick={() => updateTravelers({ ...travelers, rooms: travelers.rooms - 1 })} disabled={travelers.rooms <= 1}>-</button>
+              <span>{travelers.rooms}</span>
+              <button onClick={() => updateTravelers({ ...travelers, rooms: travelers.rooms + 1 })}>+</button>
             </div>
           </div>
         </div>

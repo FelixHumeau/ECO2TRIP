@@ -24,10 +24,11 @@ const ContactPage = () => {
       alignItems: 'center',
       height: '100vh',
       backgroundColor: '#f1f8e9',
+      paddingTop: "90px"
     }}>
       <div style={{
         backgroundColor: '#dcedc8',
-        padding: '60px',
+        padding: '30px 60px 60px 60px',
         paddingRight: '80px',
         borderRadius: '20px',
         boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
