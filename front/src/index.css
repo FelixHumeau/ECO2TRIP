@@ -1,8 +1,8 @@
 body {
   margin: 0;
-  font-family: 'Arial', sans-serif;
+  font-family: 'Georgia', sans-serif; /* Police de caractères par défaut */
   background-color: #f0f8f0; /* Fond vert clair, comme suggéré */
-  color: #333; /* Couleur de texte sombre */
+  color: #373636; /* Couleur de texte sombre */
 }
 
 .container {
@@ -11,49 +11,117 @@ body {
   min-height: 100vh; /* Assure que le container prend toute la hauteur de l'écran */
 }
 
-/* Styles pour le Navbar */
+/* NavBar globale */
 .navbar {
-  background-color: #4CAF50; /* Vert plus foncé pour le navbar */
+  position: fixed;
+  top: 0;
+  width: 99%;
+  display: flex;
+  justify-content: center; /* Centre le contenu principal */
+  align-items: center;
   padding: 15px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre pour donner une impression de hauteur */
+  background-color: transparent; /* Transparent par défaut */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Animation fluide */
+  z-index: 10;
 }
 
-.navbar-left {
-display: flex;
-align-items: center;
-}
-.navbar-left img {
-  width: 40px; /* Ajuster la taille du logo */
-  margin-right: 10px;
+.navbar-scrolled {
+  background-color: white; /* Couleur de fond après défilement */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre subtile */
 }
 
+/* Centrage du texte ECO2TRIP */
+.navbar-center {
+  flex: 1; /* Prend tout l'espace disponible */
+  display: flex; /* Conteneur pour aligner le contenu */
+  justify-content: center; /* Centre horizontalement */
+  align-items: center; /* Centre verticalement */
+}
+
+/* Lien cliquable pour tout le logo */
+.navbar-logo-link {
+  text-decoration: none; /* Supprime le soulignement */
+  display: flex; /* Conteneur flex pour le texte + logo */
+  align-items: center; /* Centre verticalement */
+  color: inherit; /* Garde la couleur du texte par défaut */
+}
+
+
+
+.navbar-logo {
+  width: 100px; /* Taille du logo */
+  height: auto; /* Hauteur automatique */
+  vertical-align: middle; /* Aligne le logo au texte */
+  margin-left: 0px; /* Espace à gauche du logo */
+  margin-right: 5px; /* Espace à droite du logo */
+}
+
+/* Positionnement du point d'interrogation */
 .navbar-right {
+  position: absolute;
+  right: 90px; /* Positionne à droite */
+  top: 50%; /* Aligne verticalement au centre */
+  transform: translateY(-50%); /* Correction pour un alignement parfait */
+}
+
+/* Style pour l'image avant le logo */
+.header-image {
+  width: 175px; /* Ajuste la taille de l'image */
+  height: auto; /* Conserve les proportions */
+  margin-right: 0px; /* Espace entre l'image et le logo */
+  vertical-align: middle; /* Aligne verticalement avec le texte ou le logo */
+}
+
+/* Style du bouton rond pour le point d'interrogation */
+.question-icon {
+  width: 40px; /* Largeur du cercle */
+  height: 40px; /* Hauteur du cercle */
+  border-radius: 50%; /* Forme circulaire */
+  background-color: white; /* Fond blanc */
+  color: #4CAF50; /* Couleur du point d'interrogation */
+  font-size: 1.5rem; /* Taille du texte */
+  text-decoration: none; /* Supprime le soulignement */
+  display: flex; /* Conteneur flex */
+  align-items: center; /* Centre verticalement */
+  justify-content: center; /* Centre horizontalement */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Ombre subtile */
+  transition: transform 0.3s ease, background-color 0.3s ease; /* Animation de transition */
+  cursor: pointer; /* Pointeur interactif */
+}
+
+.question-icon:hover {
+  transform: scale(1.1); /* Effet d'agrandissement au survol */
+  background-color: #f0f0f0; /* Couleur de fond au survol */
+}
+
+
+/* Section pour HomePage */
+.hero-section {
+  height: 100vh;
+  background: url('./assets/Background2.jpeg') no-repeat center center/cover;
   display: flex;
+  justify-content: center;
   align-items: center;
-}
-
-.navbar-right button,
-.navbar-right a {
-  margin-left: 10px;
-  background-color: #5CB85C; /* Couleur des boutons du navbar */
-  border: none;
-  color: white;
-  padding: 10px 15px;
   text-align: center;
-  text-decoration: none;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
+  transition: opacity 0.5s ease-out;
+  flex-direction: column;
 }
 
-.navbar-right button:hover,
-.navbar-right a:hover {
-  background-color: #47A447; /* Couleur du bouton au survol */
+.content-section {
+  background: white;
+  padding: 2rem;
+  text-align: center;
 }
+
+.content-section h2 {
+  color: #333;
+}
+
+.content-section p {
+  color: #666;
+}
+
+
 
 /* Styles pour le Content */
 .content {
@@ -64,33 +132,26 @@ align-items: center;
   align-items: center;
 }
 
-.search-form-container {
-  margin-top: 50px;
-  background-color: white; /* Fond blanc pour la section de recherche */
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre subtile pour la section de recherche */
-  width: 80%; /* Largeur de la section de recherche */
-  max-width: 600px; /* Largeur maximale de la section de recherche */
-}
 .search-form {
   display: flex;
   flex-direction: column;
   align-items: center; /* Centre les éléments horizontalement */
-  padding: 30px;
+  padding: 10px;  /* Espacement interne */
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  background-color: white; /* Fond blanc pour le conteneur */
-  margin: 100px auto; /* Centre le formulaire verticalement et horizontalement */
-  width: 80%;
+  background-color: rgb(255, 255, 255); /* Fond blanc pour le conteneur */
+  margin: 10px auto; /* Centre le formulaire verticalement et horizontalement */
+  width: 100%;
   max-width: 900px;
 }
+
 .search-input {
   border: none;
   background: none;
-  flex: 1;
-  padding: 10px 0;
-  font-size: 16px;
+  flex: 1; 
+  padding: 10px 40px 10px 8px;
+  font-size: 15px;
+  
 }
 .search-input > input {
 border: none;
@@ -107,90 +168,70 @@ flex: 1;
 }
 
 .search-button {
-  background-color: #f0c14b; /* Jaune pour le bouton de recherche */
+  background-color: #06be0f; /* Jaune pour le bouton de recherche */
   border: none;
-  color: white;
-  padding: 15px 30px;
+  color: rgb(255, 255, 255);
+  padding: 10px 372px;
   text-align: center;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 30px;
   cursor: pointer;
   border-radius: 4px;
   width: fit-content;
-  margin: 20px auto 0; /* Marge en haut et centré */
+  margin: -13px auto 0; /* Marge en haut et centré */
   display: block;
   transition: background-color 0.3s ease;
+  /* Type de la police */
+  font-family: Georgia, sans-serif;
 }
 
 .search-button:hover {
-  background-color: #daa520; /* Jaune plus sombre au survol */
-}
-
-.login-button {
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-.login-button > img {
-  width: 30px;
-  height: 30px;
-  margin-right: 5px;
-}
-
-
-/* Styles généraux pour les boutons */
-button {
-  background-color: #f0c14b; /* Jaune pour les boutons */
-  border: none;
-  color: white;
-  padding: 10px 15px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
-}
-button:hover {
-background-color: #daa520; /* Jaune plus sombre au survol */
+  background-color: #025806; /* Jaune plus sombre au survol */
 }
 
 /* Styles pour les pages simples */
-.content h1 {
+.content h1 { 
   text-align: center;
   margin-top: 50px;
 }
+
 .inputs-container {
   display: flex;
-   justify-content: space-between; /* Place les éléments côte à côte avec un espace entre eux */
-   width: 100%; /* Les conteneurs d'input occupent 100% de la largeur du formulaire */
-   margin-bottom: 20px; /* Ajoute un peu d'espace sous les champs de saisie */
+  justify-content: space-between; /* Espace uniforme entre les champs */
+  align-items: center; /* Centre verticalement les éléments */
+  width: 100%; /* Assure que le conteneur occupe toute la largeur */
+  margin-bottom: 20px; /* Espacement sous les champs */
+  gap: 10px; /* Espacement horizontal entre les champs */
 }
+
+/* Conteneur individuel pour chaque input */
 .input-container {
   display: flex;
-  align-items: center;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: #f9f9f9;
-  padding: 5px 10px;
-  width: 30%;
-  margin: 0 5px;
-}
-.icon {
-  width: 400%;
-  height: 250%;
-}
-.icon-container {
-  width: 25px;
-  height: 25px;
-  display: flex;
+  align-items: center; /* Centre verticalement l'input et l'icône */
+  border: 1px solid #ddd; /* Bordure légère */
+  border-radius: 4px; /* Coins arrondis */
+  background-color: #f9f9f9; /* Fond clair */
+  padding: 5px 10px; /* Espacement interne */
+  width: calc(33.33% - 10px); /* Chaque champ occupe environ 1/3 de la largeur */
+  position: relative; /* Permet le positionnement absolu des icônes */
+  box-sizing: border-box; /* Inclut les bordures et paddings dans la largeur */
   justify-content: center;
-  align-items: center;
-  margin-left: 5px;
 }
+
+.icon {
+  width: 30px; /* Taille des icônes */
+  height: auto; /* Conserve les proportions */
+  position: relative; /* Position relative pour les icônes */
+  right: 90px; /* Décalage par rapport au bord gauche */
+}
+
+.icon-container {
+  position: absolute; /* Position absolue dans le conteneur */
+  right: -80px; /* Décalage par rapport au bord droit */
+  top: 50%; /* Centre verticalement */
+  transform: translateY(-50%); /* Ajustement pour un alignement parfait */
+}
+
 
 .summary-buttons-container {
   display: flex;
@@ -218,3 +259,293 @@ background-color: #daa520; /* Jaune plus sombre au survol */
 .summary-button:hover {
   background-color: #5A8F58;
 }
+
+
+@media (max-width: 768px) {
+  .inputs-container {
+    flex-direction: column; /* Les champs se superposent */
+  }
+
+  .navbar-center {
+    flex-direction: column; /* Le logo et le texte passent sur plusieurs lignes */
+  }
+
+  .search-button {
+    width: 100%; /* Le bouton prend toute la largeur */
+  }
+}
+
+
+/* Styles pour le nombre de voyageur */
+
+.travelers-counter { /* Conteneur principal */
+  position: relative;  /* Position relative pour les éléments enfants */
+  display: inline-block;  /* Affiche les éléments en ligne */
+  font-family: Georgia, sans-serif;   /* Police de caractères */
+  font-size: 40px;  /* Taille de la police */
+  color: #000000;  /* Couleur du texte */
+}
+
+.travelers-summary { /* Zone de résumé */
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 8px; /* Espacement interne */
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  cursor: pointer; /* Curseur interactif */
+  width: 100%; /* Largeur de la zone de résumé */
+}
+
+.travelers-summary span {
+  font-size: 15px;
+  color: #333;
+}
+
+.travelers-summary .dropdown-toggle {
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: #666;
+  cursor: pointer;
+}
+
+.travelers-dropdown {
+  position: absolute;
+  top: 105%;
+  left: 0;
+  width: 96%; 
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);  
+  padding: 10px;  
+  z-index: 10;  
+}
+
+.counter-row { /* Ligne de compteur */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.counter-row:last-child {
+  border-bottom: none;
+}
+
+.counter-row span {
+  font-size: 15px;
+  color: #333;
+}
+
+.counter-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.counter-controls button { /* Boutons + et - */
+  width: 30px; /* Largeur du bouton */
+  height: 30px; /* Hauteur du bouton */
+  display: flex; /* Permet l'utilisation de flexbox à l'intérieur */
+  align-items: center; /* Centre verticalement le contenu */
+  justify-content: center; /* Centre horizontalement le contenu */
+  border: 1px solid #ddd; /* Bordure légère */
+  background-color: #f9f9f9; /* Fond clair */
+  color: #333; /* Couleur du texte */
+  font-size: 18px; /* Taille du texte */
+  border-radius: 5px; /* Coins arrondis */
+  cursor: pointer; /* Curseur interactif */
+  text-align: center; /* Centre le texte */
+  box-sizing: border-box; /* Inclut les bordures dans les dimensions */
+}
+
+.counter-controls button:hover {
+  background-color: #000000;
+}
+
+.counter-controls span {
+  font-size: 16px;
+  color: #333;
+  min-width: 30px;
+  text-align: center;
+}
+
+
+/* Styles pour le DatePicker */
+.react-datepicker {
+  font-family: Arial, sans-serif;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  z-index: 1000;
+  left : 20px;
+}
+
+
+
+.react-datepicker__day--in-range {
+  background-color: #c8e6c9; /* Couleur de la plage sélectionnée */
+  color: #333;
+}
+
+.react-datepicker__close-icon {
+  border-radius: 5%;
+  color: rgb(0, 0, 0);
+  z-index: 1000;
+  cursor: pointer; /* Change le curseur au survol */
+}
+
+/* Ajustement pour Select */
+.css-yk16xz-control {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.css-1okebmr-indicatorSeparator {
+  display: none; /* Supprime la barre entre le champ et l'icône */
+}
+
+.css-1pahdxg-control {
+  box-shadow: none; /* Supprime le contour au clic */
+  border-color: #f0c14b; /* Ajoute une couleur de bordure */
+}
+
+
+/* Styles pour les Tag */
+.tag {
+  background-color: rgba(255, 255, 255, 0.683);
+  color: #000000;
+  font-weight: 500;
+  padding: 13px 16px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  display: inline-block;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+}
+
+.tag:hover {
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 10px;
+}
+
+/* Styles généraux pour le footer */
+.footer {
+  background-color: #f9f9f9;
+  color: #333;
+  padding: 40px 20px;
+  font-family: Arial, sans-serif;
+  border-top: 1px solid #ddd;
+}
+
+.footer-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-section {
+  flex: 1;
+  margin: 10px;
+}
+
+.footer-section h4 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #000;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+  color: #000;
+}
+
+/* Styles pour les icônes de réseaux sociaux */
+.social-icons a {
+  text-decoration: none;
+  color: #333;
+  margin: 0 10px;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icons a:hover {
+  transform: scale(1.2);
+  color: #000;
+}
+
+/* Section du logo */
+.logo-section {
+  text-align: center;
+}
+
+.footer-logo {
+  max-width: 150px;
+  height: auto;
+  margin: 0 auto;
+}
+
+/* Barre en bas */
+.footer-bottom {
+  margin-top: 40px;
+  font-size: 12px;
+  text-align: center;
+  color: #666;
+}
+
+.footer-bottom a {
+  text-decoration: none;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.footer-bottom a:hover {
+  color: #000;
+}
+
+.dynamic-text {
+  font-size: 40px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+  color: #000;
+}
+
+.dynamic-ending {
+  color: #4dcf51;
+  transition: opacity 0.5s ease-in-out;
+}
+
+
