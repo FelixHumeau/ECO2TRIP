@@ -27,8 +27,9 @@ const ContactPage = () => {
     }}>
       <div style={{
         backgroundColor: '#dcedc8',
-        padding: '40px',
-        borderRadius: '10px',
+        padding: '60px',
+        paddingRight: '80px',
+        borderRadius: '20px',
         boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
         width: '70%', // Formulaire beaucoup plus large
         maxWidth: '1000px', // Limite maximale pour éviter un débordement sur très grands écrans
