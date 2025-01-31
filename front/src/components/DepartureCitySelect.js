@@ -38,6 +38,32 @@ function DepartureCitySelect() {
             borderRadius: "8px", // Coins arrondis
             padding: "0px", // Espacement interne
             boxShadow: "none", // Supprime l'ombre par défaut
+            fontSize: "15px", // Taille de la police
+            fontFamily:"'Georgia', sans-serif",
+          }),
+          singleValue: (provided) => ({
+            ...provided,
+            color: "hsl(0, 0.00%, 0.00%)", // Couleur de la police pour la valeur sélectionnée
+            fontSize: "15px", // Taille de la police
+            fontFamily:"'Georgia', sans-serif",
+          }),
+          input: (provided) => ({
+            ...provided,
+            color: "hsl(0, 0.00%, 0.00%)", // Couleur de la police pour le champ de saisie
+            fontSize: "15px", // Taille de la police
+            fontFamily:"'Georgia', sans-serif",
+          }),
+          placeholder: (provided) => ({
+            ...provided,
+            color: "hsl(0, 0.00%, 0.00%)", // Couleur de la police pour le placeholder
+            fontSize: "15px", // Taille de la police
+            fontFamily:"'Georgia', sans-serif",
+          }),
+          menu: (provided) => ({
+            ...provided,
+            color: "hsl(0, 0.00%, 0.00%)", // Couleur des options du menu déroulant
+            fontSize: "15px", // Taille de la police
+            fontFamily:"'Georgia', sans-serif",
           }),
         }}
       />

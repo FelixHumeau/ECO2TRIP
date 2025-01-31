@@ -17,7 +17,7 @@ function SearchForm() {
       onClick={onClick}
       ref={ref}
       className="search-input"
-      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', width: '150%', color: 'hsl(0, 0.60%, 33.50%)'}} // Ajoutez ces styles pour centrer le texte
+      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', width: '80%', color: 'hsl(0, 0.00%, 0.00%)'}} // Ajoutez ces styles pour centrer le texte
     >
       {value || "Dates de voyage"} {/* Texte par défaut ou les dates sélectionnées */}
     </div>
@@ -57,7 +57,7 @@ function SearchForm() {
       </div>
 
       {/* Bouton de recherche */}
-      <button className="search-button" onClick={() => navigate("/about")}>
+      <button className="search-button" onClick={() => navigate("/questionnaire")}>
         Rechercher
       </button>
     </div>

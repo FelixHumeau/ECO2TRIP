@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
+import DynamicText from "../components/DynamicText";
 import SearchForm from "../components/SearchForm";
 import TagList from "../components/TagList";
 
 const HomePage = () => {
   const [scrollOpacity, setScrollOpacity] = useState(1);
-
   const categories = ["Ski", "Montagne", "Plage", "Ville", "Campagne", "Culture", "Sport", "Bien-être", "Gastronomie", "Shopping"];
+  const endings = [
+    "exxplorez la France sans polluer",
+    "deécouvrez des merveilles cachées dans des endroits insolites",
+    "paartez à l'aventure sans prendre la voiture",
+    "vooyagez léger, explorez responsable !",
+    "mooins d’empreinte, plus d’émotions.",
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,9 +30,14 @@ const HomePage = () => {
     <div className="homepage">
       {/* Section avec l'image de fond et le formulaire au centre */}
       <section
-        className="hero-section"
+        className="hero-section" 
         style={{ opacity: scrollOpacity }}
       >
+        <div className="app-container">
+          <DynamicText prefix="Avec nous," endings={endings} interval={4000} />
+        </div>
+        
+
         <div className="p-6">
           <TagList tags={categories} />
         </div>
