@@ -9,28 +9,29 @@ import HousingCard from "../components/HousingCard";
 import TransportCard from "../components/TransportCard";
 
 const SummaryPage = () => {
-  const images = [
-    "https://www.ot-lelavandou.fr/app/uploads/2023/07/port-cros-hyeres-a-tourisme-provence-mediterranee-julien-mauceri.webp",
-    "https://www.espritparcnational.com/sites/default/files/2020-10/PNPC_006193Ori.jpg",
-    "https://res.cloudinary.com/manawa/image/private/f_auto,c_limit,w_3840,q_auto/85247e2c250c6c1b9c94a3f96497131c",
-    "https://www.rivieraloisirs.com/public/uploads/2020/06/iStock-536012111.jpg",
-  ];
+
 
   const cityData = {
     cityName: "Île de Port Cros",
     rating: 4.6,
     tags: ["Mer", "Aquatique", "Parc naturel", "Plongée", "Randonnée"],
+    coordinates: [43.002, 6.399],
+    images: [
+      "https://www.ot-lelavandou.fr/app/uploads/2023/07/port-cros-hyeres-a-tourisme-provence-mediterranee-julien-mauceri.webp",
+      "https://www.espritparcnational.com/sites/default/files/2020-10/PNPC_006193Ori.jpg",
+      "https://res.cloudinary.com/manawa/image/private/f_auto,c_limit,w_3840,q_auto/85247e2c250c6c1b9c94a3f96497131c",
+      "https://www.rivieraloisirs.com/public/uploads/2020/06/iStock-536012111.jpg",
+    ]
+  };
+
+  const travelData = {
+    from: "Paris", to: "Lyon",
     carbonFootprint: {
       activities: 75,
       housing: 130,
       transport: 160
     },
-    coordinates: [43.002, 6.399],
-    days: 5
-  };
-
-  const travelData = {
-    from: "Paris", to: "Lyon",
+    days: 5,
     results: [
       { transport: "Train (TGV)", distance: "419.49 km", carbonImpact: "0.965 kg CO₂" },
       { transport: "Avion", distance: "395.15 km", carbonImpact: "102.027 kg CO₂" },
@@ -145,14 +146,14 @@ const SummaryPage = () => {
 
   return (
     <div style={{ textAlign: "center" }}>
-      <Carousel images={images} height="700px" width="90%" />
+      <Carousel images={cityData.images} height="700px" width="90%" />
       <CityCard
         cityName={cityData.cityName}
         rating={cityData.rating}
         tags={cityData.tags}
-        carbonFootprint={cityData.carbonFootprint}
+        carbonFootprint={travelData.carbonFootprint}
         coordinates={cityData.coordinates}
-        days={cityData.days}
+        days={travelData.days}
       />
 
       <ScrollableButtons labels={buttonLabels} cardRefs={cardRefs} />
