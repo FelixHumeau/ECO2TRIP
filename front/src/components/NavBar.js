@@ -1,17 +1,36 @@
-import React from 'react';
-import { Link } from 'react-router-dom'; // Importez Link
-import logo from '../assets/Logo.png';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import logo from "../assets/logo1.png"; // Logo actuel
+import headerImage from "../assets/Logo_Texte1.png"; // Nouvelle image
 
 function Navbar() {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50); // Active la classe navbar-scrolled après 50px
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <div className='navbar'>
-      <div className='navbar-left'>
-        <img src={logo} alt='logo' style={{width: '50px'}} />
+    <div className={`navbar ${isScrolled ? "navbar-scrolled" : ""}`}>
+      {/* Contenu principal de la navbar */}
+      <div className="navbar-center">
+        <Link to="/" className="navbar-logo-link">
+          {/* Ajout de l'image avant le logo */}
+          <img src={headerImage} alt="Header Icon" className="header-image" />
+          <span className="navbar-logo-text">
+            <img src={logo} alt="Logo" className="navbar-logo" />
+          </span>
+        </Link>
       </div>
-      <div className='navbar-right'>
-        <Link to="/favorites"><button>Favoris</button></Link>
-        <Link to="/contact"><button>Contacter</button></Link>
-        <Link to="/about"><button>A propos</button></Link>
+      {/* Point d'interrogation à droite */}
+      <div className="navbar-right">
+        <Link to="/about" className="question-icon">
+          ?
+        </Link>
       </div>
     </div>
   );
