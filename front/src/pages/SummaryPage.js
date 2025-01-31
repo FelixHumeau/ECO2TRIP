@@ -145,7 +145,7 @@ const SummaryPage = () => {
   };
 
   return (
-    <div style={{ textAlign: "center" }}>
+    <div style={{ textAlign: "center", paddingTop: "90px", background: 'linear-gradient(135deg, #A8E6CF, #FFD3B6)' }}>
       <Carousel images={cityData.images} height="700px" width="90%" />
       <CityCard
         cityName={cityData.cityName}

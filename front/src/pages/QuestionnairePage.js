@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
+import SearchForm from "../components/SearchForm";
 
 const QuestionnairePage = () => {
   const navigate = useNavigate();
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [departureDate, setDepartureDate] = useState("");
 
   const handleFilterClick = (filter) => {
     if (selectedFilters.includes(filter)) {
@@ -20,59 +21,13 @@ const QuestionnairePage = () => {
   };
 
   return (
-    <div style={{ fontFamily: "Arial, sans-serif", backgroundColor: "#f1f8e9", height: "100vh", padding: "40px" }}>
+    <div style={{ fontFamily: "Georgia, sans-serif", background: 'linear-gradient(0deg, rgb(181 239 201), rgb(95 172 205))', height: "100vh", padding: "90px 40px 40px 40px" }}>
       <div style={{ textAlign: "center" }}>
         <h2 style={{ fontSize: "2rem", marginBottom: "30px" }}>Décrivez votre voyage de rêve</h2>
 
         {/* Champs principaux */}
-        <div style={{ display: "flex", justifyContent: "center", gap: "20px", marginBottom: "30px" }}>
-          <input
-            type="text"
-            placeholder="Ville de départ"
-            style={{
-              padding: "12px",
-              border: "1px solid #ccc",
-              borderRadius: "5px",
-              width: "200px",
-              fontSize: "1rem",
-            }}
-          />
-          <input
-            type="date"
-            value={departureDate}
-            onChange={(e) => setDepartureDate(e.target.value)}
-            style={{
-              padding: "12px",
-              border: "1px solid #ccc",
-              borderRadius: "5px",
-              width: "200px",
-              fontSize: "1rem",
-            }}
-          />
-          <input
-            type="number"
-            placeholder="Nombre de personnes"
-            style={{
-              padding: "12px",
-              border: "1px solid #ccc",
-              borderRadius: "5px",
-              width: "200px",
-              fontSize: "1rem",
-            }}
-          />
-          <button
-            style={{
-              padding: "12px 20px",
-              backgroundColor: "#8bc34a",
-              color: "white",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-              fontSize: "1rem",
-            }}
-          >
-            🔍
-          </button>
+        <div style={{ display: "flex", justifyContent: "center", gap: "20px", margin: "0px 200px 30px" }}>
+          < SearchForm />
         </div>
 
         {/* Centres d’intérêts */}
@@ -148,7 +103,7 @@ const QuestionnairePage = () => {
 
         {/* Ambiance */}
         <div style={{ backgroundColor: "#dcedc8", padding: "20px", borderRadius: "10px", marginBottom: "30px" }}>
-  <h3 style={{ textAlign: "left", marginBottom: "10px", fontSize: "1.2rem" }}>Ambiance :</h3>
+  <h3 style={{ textAlign: "left", marginBottom: "10px", fontSize: "1.2rem", fontFamily: "Georgia, sans-serif" }}>Ambiance :</h3>
   <div
     style={{
       display: "flex",
@@ -165,6 +120,7 @@ const QuestionnairePage = () => {
           fontSize: "1.1rem",
           whiteSpace: "nowrap", // Empêche le texte de passer à la ligne
           flexShrink: 0, // Empêche le rétrécissement des options
+          fontFamily: "Georgia, sans-serif"
         }}
       >
         <input
@@ -182,17 +138,9 @@ const QuestionnairePage = () => {
         {/* Bouton continuer */}
         <button
           onClick={() => navigate("/trips")}
-          style={{
-            padding: "15px 30px",
-            backgroundColor: "#4CAF50",
-            color: "white",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-            fontSize: "1.2rem",
-          }}
+          className="continue-button"
         >
-          Continuer
+          Découvrons votre voyage idéal !
         </button>
       </div>
     </div>
