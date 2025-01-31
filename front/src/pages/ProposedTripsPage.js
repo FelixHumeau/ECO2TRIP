@@ -2,6 +2,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import ExpandableMapCard from "../components/ExpandableCard";
 import BarTrips from "../components/BarTrips";
+import CloudBackground from "../components/Cloud";
+
+
 
 const ProposedTripsPage = () => {
   const navigate = useNavigate();
@@ -42,9 +45,11 @@ const ProposedTripsPage = () => {
     },
   ];
 
+
   return (
-    <div style={{ marginTop: "100px" }}> {/* Ajoutez une marge en haut ici */}
-      <h1 style={{ marginLeft: "20px" }}>Destinations</h1>
+    <div style={{background: 'linear-gradient(0deg, rgb(181 239 201), rgb(95 172 205))'}}>
+      <h1 style={{ marginLeft: "20px", paddingTop: "90px", paddingLeft: "10px", zIndex: "1", fontFamily: "Georgia, sans-serif" }}>Destinations</h1>  
+        < CloudBackground /> 
 
       <div>
         <BarTrips
