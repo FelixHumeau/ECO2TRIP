@@ -28,7 +28,7 @@ const AboutPage = () => {
   return (
     <div
       style={{
-        padding: "40px",
+        padding: "100px 40px 40px 40px",
         fontFamily: "Arial, sans-serif",
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: "cover",
@@ -40,7 +40,7 @@ const AboutPage = () => {
       <div
         style={{
           backgroundColor: "rgba(0, 0, 0, 0.6)",
-          padding: "40px",
+          padding: "20px 40px",
           borderRadius: "20px",
           boxShadow: "0 8px 16px rgba(0, 0, 0, 0.5)",
         }}
@@ -103,6 +103,7 @@ const AboutPage = () => {
               borderRadius: "15px",
               cursor: "pointer",
               boxShadow: "0 6px 12px rgba(0, 0, 0, 0.3)",
+              marginBottom: "25px"
             }}
           >
             Aller à la page Questionnaire

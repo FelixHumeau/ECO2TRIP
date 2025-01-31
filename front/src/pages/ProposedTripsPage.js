@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import ExpandableMapCard from "../components/ExpandableCard";
+import CloudBackground from "../components/Cloud";
 
 
 const ProposedTripsPage = () => {
@@ -29,16 +30,12 @@ const ProposedTripsPage = () => {
     days: 5, // Nombre de jours du séjour
   };
 
-  /*      <button onClick={() => navigate("/summary")}>
-        Aller à la page récapitulative
-      </button>
-      */
-
   const navigate = useNavigate();
 
   return (
-    <div>
-      <h1 style={{ marginLeft: "20px" }}>Destinations</h1>   
+    <div style={{background: 'linear-gradient(0deg, rgb(181 239 201), rgb(95 172 205))'}}>
+      <h1 style={{ marginLeft: "20px", paddingTop: "90px", paddingLeft: "10px", zIndex: "1", fontFamily: "Georgia, sans-serif" }}>Destinations</h1>  
+      < CloudBackground /> 
       <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}> {/* Ajoute un gap entre les cartes */}   
       <ExpandableMapCard
         city={cityData.city}
