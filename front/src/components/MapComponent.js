@@ -12,12 +12,12 @@ const customIcon = new L.Icon({
   shadowSize: [41, 41],
 });
 
-const MapComponent = ({ coordinates, locationName }) => {
+const MapComponent = ({ coordinates, locationName, zoom }) => {
   return (
     <div style={{ display: "flex", flexDirection: "column", flex: 1, width: "100%" }}>
       <MapContainer
         center={coordinates}
-        zoom={13}
+        zoom={zoom}
         style={{
           width: "100%",
           flex: 1, // Permet à la carte de grandir avec le popup
