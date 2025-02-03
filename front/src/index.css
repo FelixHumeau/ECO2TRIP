@@ -64,6 +64,12 @@ body {
   transform: translateY(-50%); /* Correction pour un alignement parfait */
 }
 
+.navbar-left {
+  position: absolute;
+  left: 70px; /* Positionne à droite */
+  top: 50%; /* Aligne verticalement au centre */
+  transform: translateY(-50%); /* Correction pour un alignement parfait */
+}
 /* Style pour l'image avant le logo */
 .header-image {
   width: 175px; /* Ajuste la taille de l'image */
@@ -178,7 +184,7 @@ flex: 1;
   cursor: pointer;
   border-radius: 4px;
   width: fit-content;
-  margin: -13px auto 0; /* Marge en haut et centré */
+  margin: 10px auto 0; /* Marge en haut et centré */
   display: block;
   transition: background-color 0.3s ease;
   /* Type de la police */
@@ -200,7 +206,6 @@ flex: 1;
   justify-content: space-between; /* Espace uniforme entre les champs */
   align-items: center; /* Centre verticalement les éléments */
   width: 100%; /* Assure que le conteneur occupe toute la largeur */
-  margin-bottom: 20px; /* Espacement sous les champs */
   gap: 10px; /* Espacement horizontal entre les champs */
 }
 
@@ -216,6 +221,7 @@ flex: 1;
   position: relative; /* Permet le positionnement absolu des icônes */
   box-sizing: border-box; /* Inclut les bordures et paddings dans la largeur */
   justify-content: center;
+  font-family: "Georgia", sans-serif
 }
 
 .icon {
@@ -290,7 +296,7 @@ flex: 1;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 8px; /* Espacement interne */
+  padding: 10px 8px; /* Espacement interne */
   border-radius: 5px;
   background-color: #f9f9f9;
   cursor: pointer; /* Curseur interactif */
@@ -548,4 +554,58 @@ flex: 1;
   transition: opacity 0.5s ease-in-out;
 }
 
+.loader-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
+.center-image {
+  width: 100px; /* Ajuste selon la taille souhaitée */
+  height: 100px;
+  position: absolute;
+}
+
+.orbit-image {
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  top: 60%;
+  left: 48%;
+  transform-origin: center -100px; /* Détermine le rayon de rotation */
+}
+
+.continue-button {
+  padding: 15px 30px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background-color 0.3s ease;
+  /* Type de la police */
+  font-family: Georgia, sans-serif;
+}
+
+.continue-button:hover {
+  background-color: #025806;
+}
+
+.clouds-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0; /* Met les nuages derrière le contenu */
+  overflow: hidden;
+  pointer-events: none;
+}
+
+
+.cloud {
+  filter: blur(2px); /* Flou léger */
+}
