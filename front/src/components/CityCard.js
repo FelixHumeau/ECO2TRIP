@@ -135,7 +135,11 @@ const CityCard = ({ cityName, rating, tags, carbonFootprint, coordinates, days }
         {/* Bloc 4 : Empreinte carbone avec jauge */}
         <div style={{ textAlign: "center", flex: 1 }}>
           <h2 style={{ marginBottom: "10px", minHeight: "40px" }}>Empreinte carbone</h2>
-          <CarbonGauge carbonFootprint={carbonFootprint} days={days} maxWidthGauge={400} />
+          {/*<CarbonGauge carbonFootprint={carbonFootprint} days={days} maxWidthGauge={400} />*/}
+          <CarbonGauge
+            carbonFootprint={carbonFootprint}
+            maxWidthGauge={500} // Ajustez selon vos besoins
+          />
         </div>
 
       </div>
