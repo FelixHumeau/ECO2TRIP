@@ -9,10 +9,26 @@ const QuestionnairePage = () => {
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [departureDate, setDepartureDate] = useState("");
+  const [departureCity, setDepartureCity] = useState("");
+  const [travelers, setTravelers] = useState({ adults: 2, children: 0, rooms: 1 });
 
+  // Récupérer les données passées depuis la HomePage
   useEffect(() => {
-    if (location.state?.selectedTag) {
-      setSelectedFilters([location.state.selectedTag]);
+    if (location.state) {
+      const { selectedTag, departureCity, startDate, travelers } = location.state;
+
+      // Si un tag est passé, l'ajouter aux filtres sélectionnés
+      if (selectedTag) {
+        setSelectedFilters([selectedTag]);
+      }
+
+      // Si les données du formulaire sont passées, les utiliser
+      if (departureCity) setDepartureCity(departureCity);
+      if (startDate) {
+        const formattedDate = new Date(startDate).toISOString().split("T")[0];
+        setDepartureDate(formattedDate);
+      }
+      if (travelers) setTravelers(travelers);
     }
   }, [location.state]);
 
@@ -38,6 +54,8 @@ const QuestionnairePage = () => {
           <input
             type="text"
             placeholder="Ville de départ"
+            value={departureCity}
+            onChange={(e) => setDepartureCity(e.target.value)}
             style={{
               padding: "12px",
               border: "1px solid #ccc",
@@ -61,6 +79,8 @@ const QuestionnairePage = () => {
           <input
             type="number"
             placeholder="Nombre de personnes"
+            value={travelers.adults + travelers.children}
+            onChange={(e) => setTravelers({ ...travelers, adults: parseInt(e.target.value) || 0 })}
             style={{
               padding: "12px",
               border: "1px solid #ccc",
