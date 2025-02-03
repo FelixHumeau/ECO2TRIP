@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const [scrollOpacity, setScrollOpacity] = useState(1);
-  const categories = ["Ski", "Montagne", "Plage", "Ville", "Campagne", "Culture", "Sport", "Bien-être", "Gastronomie", "Shopping"];
+  const categories = ["domaine de ski alpin", "Montagne", "Plage", "cave de dégustation", "château", "site culturel", "festival", "restaurant", "lac", "forêt"];
   const endings = [
     "exxplorez la France sans polluer",
     "deécouvrez des merveilles cachées dans des endroits insolites",
@@ -28,6 +28,10 @@ const HomePage = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleTagClick = (tag) => {
+    navigate("/questionnaire", { state: { selectedTag: tag } });
+  };
+
   return (
     <div className="homepage">
       {/* Section avec l'image de fond et le formulaire au centre */}
@@ -41,7 +45,7 @@ const HomePage = () => {
         
 
         <div className="p-6">
-          <TagList tags={categories} />
+          <TagList tags={categories} onTagClick={handleTagClick} />
         </div>
         <div className="search-form">
           <SearchForm />

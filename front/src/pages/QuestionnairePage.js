@@ -1,13 +1,20 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import TagListBar from "../components/TagListBar";
 import InterestTags from "../components/InterestTags";
 
 const QuestionnairePage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [departureDate, setDepartureDate] = useState("");
+
+  useEffect(() => {
+    if (location.state?.selectedTag) {
+      setSelectedFilters([location.state.selectedTag]);
+    }
+  }, [location.state]);
 
   const handleFilterClick = (filter) => {
     if (selectedFilters.includes(filter)) {
