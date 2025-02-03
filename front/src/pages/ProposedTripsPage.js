@@ -58,8 +58,10 @@ const ProposedTripsPage = () => {
           rightItemImages={[
             "https://cdn-icons-png.flaticon.com/512/747/747310.png",  // Icône calendrier
           ]}
+
         />
       </div>
+
 
       <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
         {cityData.map((city, index) => (
@@ -82,4 +84,3 @@ const ProposedTripsPage = () => {
 };
 
 export default ProposedTripsPage;
-

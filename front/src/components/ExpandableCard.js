@@ -156,9 +156,15 @@ const ExpandableMapCard = forwardRef(
                 style={{ width: "70px", height: "70px", marginBottom: "10px" }} 
               />
               <div>
+<<<<<<< HEAD
                 <BoxInfo texts={["Train 1", "XXX Score", "XXX €"]} />
                 <BoxInfo texts={["Train 2", "XXX Score", "XXX €"]} />
                 <BoxInfo texts={["Voiture", "XXX Score", "XXX €"]} />
+=======
+                <BoxInfo texts={["Train 1", "Score", "XXX €"]} />
+                <BoxInfo texts={["Train 2", "Score", "XXX €"]} />
+                <BoxInfo texts={["Voiture", "Score", "XXX €"]} />
+>>>>>>> e265419 (finished front trips)
               </div>
             </div>
 
@@ -170,6 +176,7 @@ const ExpandableMapCard = forwardRef(
                 style={{ width: "70px", height: "70px", marginBottom: "10px" }} 
               />
               <div>
+<<<<<<< HEAD
                 <BoxInfo texts={["Surf", "XXX Score", "XXX €"]} />
                 <BoxInfo texts={["Randonnée", "XXX Score", "XXX €"]} />
                 <BoxInfo texts={["Beach Volley", "XXX Score", "XXX €"]} />
@@ -177,6 +184,12 @@ const ExpandableMapCard = forwardRef(
             </div>
             
             {/* Carte */}
+=======
+                <BoxInfo texts={["Surf", "Score", "XXX €"]} />
+                <BoxInfo texts={["Randonnée", "Score", "XXX €"]} />
+                <BoxInfo texts={["Beach Volley", "Score", "XXX €"]} />
+              </div>            </div>
+>>>>>>> e265419 (finished front trips)
             <div style={{ flex: 1, paddingLeft: "10px" }}>
               <MapComponent
                 coordinates={[latitude, longitude]} // Passer les coordonnées dynamiques ici
