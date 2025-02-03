@@ -24,6 +24,7 @@ const MapComponent = ({ coordinates, locationName, zoom }) => {
           minHeight: "300px", // Hauteur minimale pour éviter qu'elle soit trop petite
           maxHeight: "100%", // S'étend selon le contenu
           borderRadius: "8px",
+          zIndex: 0,
         }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />

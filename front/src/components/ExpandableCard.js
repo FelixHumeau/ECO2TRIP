@@ -151,9 +151,9 @@ const ExpandableMapCard = forwardRef(
                 style={{ width: "70px", height: "70px", marginBottom: "10px" }} 
               />
               <div>
-                <BoxInfo texts={["Train 1", "XXX C02", "XXX €"]} />
-                <BoxInfo texts={["Train 2", "XXX C02", "XXX €"]} />
-                <BoxInfo texts={["Voiture", "XXX C02", "XXX €"]} />
+                <BoxInfo texts={["Train 1", "Score", "XXX €"]} />
+                <BoxInfo texts={["Train 2", "Score", "XXX €"]} />
+                <BoxInfo texts={["Voiture", "Score", "XXX €"]} />
               </div>
             </div>
 
@@ -165,9 +165,9 @@ const ExpandableMapCard = forwardRef(
                 style={{ width: "70px", height: "70px", marginBottom: "10px" }} 
               />
               <div>
-                <BoxInfo texts={["Surf", "XXX C02", "XXX €"]} />
-                <BoxInfo texts={["Randonnée", "XXX C02", "XXX €"]} />
-                <BoxInfo texts={["Beach Volley", "XXX C02", "XXX €"]} />
+                <BoxInfo texts={["Surf", "Score", "XXX €"]} />
+                <BoxInfo texts={["Randonnée", "Score", "XXX €"]} />
+                <BoxInfo texts={["Beach Volley", "Score", "XXX €"]} />
               </div>            </div>
             <div style={{ flex: 1, paddingLeft: "10px" }}>
               <MapComponent
