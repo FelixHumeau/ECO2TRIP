@@ -4,10 +4,14 @@ import ExpandableMapCard from "../components/ExpandableCard";
 import BarTrips from "../components/BarTrips";
 import CloudBackground from "../components/Cloud";
 import { SearchContext } from "../context/SearchContext";
+import { useLocation } from "react-router-dom";
+
 
 const ProposedTripsPage = () => {
-  const navigate = useNavigate();
+  const location = useLocation();
+
   const { searchData } = useContext(SearchContext);
+  const { ambiance, selectedFilters } = location.state || {};
 
   const cityData = [
     {
@@ -54,17 +58,17 @@ const ProposedTripsPage = () => {
       <CloudBackground /> 
 
       <div>
-        <BarTrips
-          items={[searchData.selectedFilters]}
-          rightItems={[
-            searchData.startDate ? searchData.startDate.toLocaleDateString() : "01/01/2026",
-            `${totalTravelers} voyageurs`,
-            searchData.ambiance,
-          ]}
-          rightItemImages={[
-            "https://cdn-icons-png.flaticon.com/512/747/747310.png",  // Icône calendrier
-          ]}
-        />
+      <BarTrips
+        items={selectedFilters} // Utiliser les tags sélectionnés
+        rightItems={[
+          searchData.startDate ? searchData.startDate.toLocaleDateString() : "01/01/2026",
+          `${totalTravelers} voyageurs`,
+          ambiance, // Utiliser l'ambiance sélectionnée
+        ]}
+        rightItemImages={[
+          "https://cdn-icons-png.flaticon.com/512/747/747310.png",  // Icône calendrier
+        ]}
+      />
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>

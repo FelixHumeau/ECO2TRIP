@@ -1,6 +1,5 @@
 import { createContext, useContext, useState } from "react";
 
-<<<<<<< HEAD
 export const SearchContext = createContext();
 
 export const SearchProvider = ({ children }) => {
@@ -19,21 +18,6 @@ export const SearchProvider = ({ children }) => {
     </SearchContext.Provider>
   );
 };
-=======
-// Création du contexte
-const SearchContext = createContext();
-
-// Fournisseur du contexte (provider)
-export function SearchProvider({ children }) {
-    const [searchData, setSearchData] = useState({});
-
-    return (
-        <SearchContext.Provider value={{ searchData, setSearchData }}>
-            {children}
-        </SearchContext.Provider>
-    );
-}
->>>>>>> dev
 
 // Hook personnalisé pour utiliser le contexte
 export function useSearch() {
