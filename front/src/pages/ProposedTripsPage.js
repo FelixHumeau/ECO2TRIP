@@ -14,6 +14,7 @@ const ProposedTripsPage = () => {
       tags: ["Mer", "Soleil", "Culture", "Soirée"],
       carbonFootprint: { transport: 40, housing: 260, activities: 90 },
       days: 5,
+      price: "200-300€",
       latitude: 43.299999,
       longitude: 5.4,
     },
@@ -24,6 +25,7 @@ const ProposedTripsPage = () => {
       imageSrc: "https://www.ot-lelavandou.fr/app/uploads/2023/07/port-cros-hyeres-a-tourisme-provence-mediterranee-julien-mauceri.webp",
       carbonFootprint: { transport: 200, housing: 150, activities: 20 },
       days: 5,
+      price: "220-340€",
       latitude: 43,
       longitude: 6.3833,
     },
@@ -34,19 +36,20 @@ const ProposedTripsPage = () => {
       imageSrc: "https://www.tourisme64.com/wp-content/uploads/2024/02/biarritz-grande-plage-et-phare-001-copyedelweiss_loren-bedeli.jpg",
       carbonFootprint: { transport: 50, housing: 190, activities: 20 },
       days: 5,
+      price: "190-310€",
       latitude: 43.4831519,
       longitude: -1.558626,
     },
   ];
 
   return (
-    <div>
+    <div style={{ marginTop: "100px" }}> {/* Ajoutez une marge en haut ici */}
       <h1 style={{ marginLeft: "20px" }}>Destinations</h1>
 
       <div>
         <BarTrips
           items={["Option 1", "Option 2", "Option 3", "Option 4"]}
-          rightItems={["01/01/2026","4 voyageurs", "Entre amis"]}
+          rightItems={["01/01/2026", "4 voyageurs", "Entre amis"]}
           rightItemImages={[
             "https://cdn-icons-png.flaticon.com/512/747/747310.png",  // Icône calendrier
           ]}
@@ -65,6 +68,7 @@ const ProposedTripsPage = () => {
             days={city.days}
             latitude={city.latitude}
             longitude={city.longitude}
+            price={city.price}
           />
         ))}
       </div>
@@ -73,3 +77,4 @@ const ProposedTripsPage = () => {
 };
 
 export default ProposedTripsPage;
+

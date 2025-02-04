@@ -7,11 +7,11 @@ import maison from "../assets/logement_logo.png";
 import hiking from "../assets/activite_logo.png";
 import { useNavigate } from "react-router-dom";
 
-
-
 const ExpandableMapCard = forwardRef(
-
-  ({ city, description, imageSrc, tags = [], carbonFootprint, days, backgroundColor = "#C3E3B6", price }, ref) => {
+  (
+    { city, description, imageSrc, tags = [], carbonFootprint, days, backgroundColor = "#C3E3B6", price, latitude, longitude },
+    ref
+  ) => {
     const [isMapVisible, setIsMapVisible] = useState(false);
     const toggleMapVisibility = () => {
       setIsMapVisible(!isMapVisible);
@@ -28,11 +28,11 @@ const ExpandableMapCard = forwardRef(
         ref={ref}
         style={{
           width: "90%",
-          minHeight: isMapVisible ? "550px" : "200px", // Augmenter la hauteur pour éviter le chevauchement
+          minHeight: isMapVisible ? "550px" : "200px",
           border: "1px solid #ccc",
           borderRadius: "10px",
           padding: "15px",
-          paddingBottom: isMapVisible ? "30px" : "0px", // Ajouter un espace pour les boutons
+          paddingBottom: isMapVisible ? "30px" : "0px",
           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
           backgroundColor: backgroundColor,
           display: "flex",
@@ -97,7 +97,11 @@ const ExpandableMapCard = forwardRef(
           fontSize: "24px",
           fontWeight: "bold",
           color: "#333",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-end",
         }}>
+          <span style={{ fontSize: "14px", fontWeight: "normal", marginBottom: "5px" }}>Prix Logement</span>
           {price}
         </div>
 
@@ -151,9 +155,9 @@ const ExpandableMapCard = forwardRef(
                 style={{ width: "70px", height: "70px", marginBottom: "10px" }} 
               />
               <div>
-                <BoxInfo texts={["Train 1", "Score", "XXX €"]} />
-                <BoxInfo texts={["Train 2", "Score", "XXX €"]} />
-                <BoxInfo texts={["Voiture", "Score", "XXX €"]} />
+                <BoxInfo texts={["Train 1", "XXX Score", "XXX €"]} />
+                <BoxInfo texts={["Train 2", "XXX Score", "XXX €"]} />
+                <BoxInfo texts={["Voiture", "XXX Score", "XXX €"]} />
               </div>
             </div>
 
@@ -165,16 +169,18 @@ const ExpandableMapCard = forwardRef(
                 style={{ width: "70px", height: "70px", marginBottom: "10px" }} 
               />
               <div>
-                <BoxInfo texts={["Surf", "Score", "XXX €"]} />
-                <BoxInfo texts={["Randonnée", "Score", "XXX €"]} />
-                <BoxInfo texts={["Beach Volley", "Score", "XXX €"]} />
-              </div>            </div>
+                <BoxInfo texts={["Surf", "XXX Score", "XXX €"]} />
+                <BoxInfo texts={["Randonnée", "XXX Score", "XXX €"]} />
+                <BoxInfo texts={["Beach Volley", "XXX Score", "XXX €"]} />
+              </div>            
+            </div>
+            
+            {/* Carte */}
             <div style={{ flex: 1, paddingLeft: "10px" }}>
               <MapComponent
-                coordinates={[43.2965, 5.3698]}
+                coordinates={[latitude, longitude]} // Passer les coordonnées dynamiques ici
                 locationName={city}
                 zoom={5}
-
                 style={{ width: "100%", height: "100%" }}
               />
             </div>
