@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select/async";
-import { useSearch } from "../context/SearchContext"; // Import du contexte
 import cities from "../assets/communes_france_2025.json";
+import { useSearch } from "../context/SearchContext"; // Import du contexte
 
 function DepartureCitySelect({ onChange }) {
   const { searchData } = useSearch(); // Récupération de la valeur du contexte
@@ -16,11 +16,11 @@ function DepartureCitySelect({ onChange }) {
     }
   }, [searchData.departureCity]);
 
+  // Nouvelle fonction de filtrage : affiche uniquement les villes qui commencent par la saisie
   const filterCities = (inputValue) => {
     if (!inputValue) return [];
-    const regex = new RegExp(inputValue, "i");
     return cities
-      .filter((city) => regex.test(city.name))
+      .filter((city) => city.name.toLowerCase().startsWith(inputValue.toLowerCase()))
       .map((city) => ({
         value: city.name,
         label: `${city.name} (${city.region})`,
@@ -32,6 +32,31 @@ function DepartureCitySelect({ onChange }) {
     callback(filteredOptions);
   };
 
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      backgroundColor: "transparent",
+      border: "none",
+      boxShadow: "none",
+      minHeight: "38px",
+      fontSize: "0.9rem",
+    }),
+    input: (provided) => ({
+      ...provided,
+      color: "#000",
+    }),
+    placeholder: (provided) => ({
+      ...provided,
+      color: "#000",
+
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: "#000",
+
+    }),
+  };
+
   return (
     <div style={{ width: "100%", maxWidth: "400px", margin: "0 auto" }}>
       <Select
@@ -41,11 +66,12 @@ function DepartureCitySelect({ onChange }) {
         isSearchable
         noOptionsMessage={() => "Aucune ville trouvée"}
         cacheOptions
-        value={selectedCity} // Afficher la valeur sauvegardée
+        value={selectedCity}
         onChange={(selectedOption) => {
           setSelectedCity(selectedOption);
-          onChange(selectedOption ? selectedOption.label : ""); // Transmettre la sélection
+          onChange(selectedOption ? selectedOption.label : "");
         }}
+        styles={customStyles}
       />
     </div>
   );

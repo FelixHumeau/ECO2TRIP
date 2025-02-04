@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import TagListBar from "../components/TagListBar";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import InterestTags from "../components/InterestTags";
 import SearchForm from "../components/SearchForm";
+import TagListBar from "../components/TagListBar";
+import { useSearch } from "../context/SearchContext"; // Import du contexte global
 
 const QuestionnairePage = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { searchData } = useSearch(); // Récupération des données du contexte
+
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedAmbiance, setSelectedAmbiance] = useState("");
 
-  // Récupérer les données passées depuis la HomePage
   useEffect(() => {
     if (location.state) {
-      const { selectedTag} = location.state;
-
-      // Si un tag est passé, l'ajouter aux filtres sélectionnés
+      const { selectedTag } = location.state;
       if (selectedTag) {
         setSelectedFilters([selectedTag]);
       }
@@ -34,6 +35,15 @@ const QuestionnairePage = () => {
     setSelectedFilters(selectedFilters.filter((item) => item !== filter));
   };
 
+  // Vérification que tous les champs sont remplis avant d'activer le bouton
+  const isFormValid =
+    searchData.departureCity &&
+    searchData.startDate &&
+    searchData.endDate &&
+    searchData.travelers.adults > 0 &&
+    selectedFilters.length > 0 &&
+    selectedAmbiance;
+
   return (
     <div style={{ fontFamily: "Georgia, sans-serif", background: 'linear-gradient(0deg, rgb(181 239 201), rgb(95 172 205))', height: "100vh", padding: "90px 40px 40px 40px" }}>
       <div style={{ textAlign: "center" }}>
@@ -41,9 +51,8 @@ const QuestionnairePage = () => {
 
         {/* Champs principaux */}
         <div style={{ display: "flex", justifyContent: "center", gap: "20px", margin: "0px 200px 30px" }}>
-          < SearchForm />
+          <SearchForm />
         </div>
-
 
         {/* Centres d’intérêts */}
         <div style={{ backgroundColor: "#dcedc8", padding: "20px", borderRadius: "10px", marginBottom: "20px" }}>
@@ -66,24 +75,17 @@ const QuestionnairePage = () => {
           <h3 style={{ textAlign: "left", marginBottom: "10px", fontSize: "1.2rem", fontFamily: "Georgia, sans-serif" }}>Ambiance :</h3>
           <div style={{ display: "flex", justifyContent: "space-between", overflowX: "auto", gap: "10px" }}>
             {["Familiale", "En amoureux", "Entre copains", "Avec les collègues", "En solo"].map((option) => (
-              <label
-              key={option}
-              style={{
-                cursor: "pointer",
-                fontSize: "1.1rem",
-                whiteSpace: "nowrap", // Empêche le texte de passer à la ligne
-                flexShrink: 0, // Empêche le rétrécissement des options
-                fontFamily: "Georgia, sans-serif"
-              }}
-            >
-              <input
-                type="radio"
-                name="ambiance"
-                value={option}
-                style={{ marginRight: "10px" }}
-              />
-              {option}
-            </label>
+              <label key={option} style={{ cursor: "pointer", fontSize: "1.1rem", whiteSpace: "nowrap", flexShrink: 0, fontFamily: "Georgia, sans-serif" }}>
+                <input
+                  type="radio"
+                  name="ambiance"
+                  value={option}
+                  checked={selectedAmbiance === option}
+                  onChange={(e) => setSelectedAmbiance(e.target.value)}
+                  style={{ marginRight: "10px" }}
+                />
+                {option}
+              </label>
             ))}
           </div>
         </div>
@@ -91,13 +93,14 @@ const QuestionnairePage = () => {
         {/* Bouton continuer */}
         <button
           onClick={() => navigate("/trips")}
+          disabled={!isFormValid}
           style={{
             padding: "15px 30px",
-            backgroundColor: "#4CAF50",
+            backgroundColor: isFormValid ? "#4CAF50" : "#A5D6A7",
             color: "white",
             border: "none",
             borderRadius: "5px",
-            cursor: "pointer",
+            cursor: isFormValid ? "pointer" : "not-allowed",
             fontSize: "1.2rem",
           }}
         >
