@@ -61,9 +61,13 @@ async function getDistanceFromORS(from, to, mode = "driving-car") {
     const url = `https://api.openrouteservice.org/v2/directions/${mode}`;
 
     try {
-        // Obtenir les coordonnées des villes
-        const fromCoordinates = await geocodeLocation(from);
-        const toCoordinates = await geocodeLocation(to);
+        // Vérifie si les entrées sont déjà des coordonnées
+        const isValidCoordinates = (value) => 
+            Array.isArray(value) && value.length === 2 && 
+            typeof value[0] === "number" && typeof value[1] === "number";
+
+        const fromCoordinates = isValidCoordinates(from) ? from : await geocodeLocation(from);
+        const toCoordinates = isValidCoordinates(to) ? to : await geocodeLocation(to);
 
         const response = await axios.post(url, {
             coordinates: [fromCoordinates, toCoordinates], // [lon, lat]
@@ -83,6 +87,7 @@ async function getDistanceFromORS(from, to, mode = "driving-car") {
         throw new Error(`Impossible de calculer la distance entre ${from} et ${to}.`);
     }
 }
+
 
 // 🔍 Fonction pour récupérer les coordonnées d'une ville
 async function geocodeLocation(location) {
