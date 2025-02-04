@@ -8,72 +8,31 @@ const BarTrips = ({ items, rightItems, rightItemImages }) => {
     justifyContent: "flex-start",
     backgroundColor: "#d0d0d0",
     borderRadius: "10px",
-<<<<<<< HEAD
-<<<<<<< HEAD
     padding: "10px", // Réduit de 20px à 10px
     width: "91%",
-=======
-    padding: "20px",
-    width: "87%",
->>>>>>> e265419 (finished front trips)
-=======
-    padding: "10px", // Réduit de 20px à 10px
-    width: "91%",
->>>>>>> 42d2a8d (aled oui)
     margin: "15px auto",
   };
 
   const itemStyle = {
     backgroundColor: "#f0f0f0",
     borderRadius: "10px",
-<<<<<<< HEAD
-<<<<<<< HEAD
     padding: "6px 10px", // Réduit de 8px 12px à 6px 10px
     margin: "5px",
     textAlign: "center",
     minWidth: "80px",
     fontSize: "13px", // Réduit de 14px à 13px
-=======
-    padding: "8px 12px",
-    margin: "5px",
-    textAlign: "center",
-    minWidth: "80px",
-    fontSize: "14px",
->>>>>>> e265419 (finished front trips)
-=======
-    padding: "6px 10px", // Réduit de 8px 12px à 6px 10px
-    margin: "5px",
-    textAlign: "center",
-    minWidth: "80px",
-    fontSize: "13px", // Réduit de 14px à 13px
->>>>>>> 42d2a8d (aled oui)
     color: "#333",
   };
 
   const rightItemStyle = {
     backgroundColor: "#909090",
     borderRadius: "10px",
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     padding: "6px 10px", // Réduit de 8px 12px à 6px 10px
     margin: "5px",
     textAlign: "center",
     minWidth: "80px",
     fontSize: "13px", // Réduit de 14px à 13px
-=======
-    padding: "8px 12px",
-    margin: "5px",
-    textAlign: "center",
-    minWidth: "80px",
-    fontSize: "14px",
->>>>>>> e265419 (finished front trips)
-=======
-    padding: "6px 10px", // Réduit de 8px 12px à 6px 10px
-    margin: "5px",
-    textAlign: "center",
-    minWidth: "80px",
-    fontSize: "13px", // Réduit de 14px à 13px
->>>>>>> 42d2a8d (aled oui)
     color: "#ffffff",
     display: "flex",
     alignItems: "center",
@@ -81,18 +40,8 @@ const BarTrips = ({ items, rightItems, rightItemImages }) => {
   };
 
   const imageStyle = {
-<<<<<<< HEAD
-<<<<<<< HEAD
     width: "16px", // Réduit de 20px à 16px
     height: "16px", // Réduit de 20px à 16px
-=======
-    width: "20px", // Taille de l'image
-    height: "20px",
->>>>>>> e265419 (finished front trips)
-=======
-    width: "16px", // Réduit de 20px à 16px
-    height: "16px", // Réduit de 20px à 16px
->>>>>>> 42d2a8d (aled oui)
   };
 
   return (
@@ -132,12 +81,4 @@ BarTrips.defaultProps = {
   rightItemImages: [],
 };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 export default BarTrips;
-=======
-export default BarTrips;
->>>>>>> e265419 (finished front trips)
-=======
-export default BarTrips;
->>>>>>> 42d2a8d (aled oui)
