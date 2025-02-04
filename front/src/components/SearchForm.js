@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
-import { SearchContext } from "../context/SearchContext"; // Utilisez useContext pour accéder au contexte
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useSearch } from "../context/SearchContext"; // Import du SearchContext
+import { useNavigate } from "react-router-dom"; // Pour rediriger vers la page suivante
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { forwardRef } from "react";
@@ -9,27 +9,21 @@ import DepartureCitySelect from "./DepartureCitySelect";
 import TravelersCounter from "./TravelersCounter";
 
 function SearchForm() {
-  const { searchData, setSearchData } = useContext(SearchContext); // Utilisez useContext
-  const navigate = useNavigate();
+  const { searchData, setSearchData } = useSearch(); // Récupérer les données existantes
+  const navigate = useNavigate(); 
 
   // Initialisation avec les valeurs du contexte si elles existent
   const [dateRange, setDateRange] = useState([
     searchData.startDate || null,
-    searchData.endDate || null,
+    searchData.endDate || null
   ]);
   const [departureCity, setDepartureCity] = useState(searchData.departureCity || "");
   const [travelers, setTravelers] = useState(searchData.travelers || { adults: 2, children: 0, rooms: 1 });
-  const [error, setError] = useState("");
+  const [error, setError] = useState(""); 
 
   // Mise à jour du contexte dès qu’un champ change
   useEffect(() => {
-    setSearchData((prevData) => ({
-      ...prevData,
-      departureCity,
-      startDate: dateRange[0],
-      endDate: dateRange[1],
-      travelers,
-    }));
+    setSearchData({ departureCity, startDate: dateRange[0], endDate: dateRange[1], travelers });
   }, [departureCity, dateRange, travelers, setSearchData]);
 
   const CustomDateInput = forwardRef(({ value, onClick }, ref) => (
@@ -43,7 +37,7 @@ function SearchForm() {
         justifyContent: "center",
         textAlign: "center",
         width: "80%",
-        color: "hsl(0, 0.00%, 0.00%)",
+        color: "hsl(0, 0.00%, 0.00%)"
       }}
     >
       {value || "Dates de voyage"}

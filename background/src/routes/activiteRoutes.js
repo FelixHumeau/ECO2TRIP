@@ -1,5 +1,7 @@
 const express = require('express');
 const redisClient = require('../config/database'); // Import de Redis
+const { findActivitiesByTags } = require('../config/redisService');
+const { groupActivitiesByCity } = require('../config/redisService');
 
 const router = express.Router();
 
@@ -14,12 +16,18 @@ router.get('/test', async (req, res) => {
         }
 
         // Trier et prendre les 3 premières clés
+<<<<<<< HEAD
         const first10Keys = keys.slice(0, 3);
+=======
+        const first3Keys = keys.slice(0, 3);
+>>>>>>> dev
 
         // Récupérer les détails des activités
         const activites = [];
-        for (const key of first10Keys) {
+        
+        for (const key of first3Keys) {
             const data = await redisClient.hGetAll(key);
+<<<<<<< HEAD
 
             // Construire l'objet avec les champs demandés
             activites.push({
@@ -30,6 +38,22 @@ router.get('/test', async (req, res) => {
                 coordonnees: {
                     latitude: parseFloat(data.latitude),
                     longitude: parseFloat(data.longitude)
+=======
+            if (!data.Nom_du_POI) {
+                console.warn(`Activité vide ou incorrecte : ${key}`);
+                continue; // Ignore les activités incomplètes
+            }
+
+            activites.push({
+                key: key, // Ajoute l'identifiant
+                nom: data.Nom_du_POI || "Nom inconnu",
+                description: data.Description || "Description non disponible",
+                adresse: data.Adresse_postale || "Adresse inconnue",
+                tags: data.Tags ? JSON.parse(data.Tags.replace(/\\/g, '').replace(/'/g, '"')) : [],
+                coordonnees: {
+                    latitude: data.Latitude ? parseFloat(data.Latitude) : null,
+                    longitude: data.Longitude ? parseFloat(data.Longitude) : null
+>>>>>>> dev
                 }
             });
         }
@@ -40,5 +64,23 @@ router.get('/test', async (req, res) => {
         res.status(500).json({ error: 'Erreur interne du serveur' });
     }
 });
+
+router.post('/search', async (req, res) => {
+    const { from, tags } = req.body;
+
+    if (!from || !tags || !Array.isArray(tags)) {
+        return res.status(400).json({ error: "La ville de départ et une liste de tags sont requises." });
+    }
+
+    try {
+        const activities = await findActivitiesByTags(tags);
+        const groupedActivities = await groupActivitiesByCity(activities, from);
+        res.json(groupedActivities);
+    } catch (error) {
+        console.error("❌ Erreur lors du regroupement des activités :", error);
+        res.status(500).json({ error: "Erreur interne du serveur" });
+    }
+});
+
 
 module.exports = router;

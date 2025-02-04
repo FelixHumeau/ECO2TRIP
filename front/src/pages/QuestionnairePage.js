@@ -1,14 +1,26 @@
-import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { SearchContext } from "../context/SearchContext";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import TagListBar from "../components/TagListBar";
+import InterestTags from "../components/InterestTags";
 import SearchForm from "../components/SearchForm";
 
 const QuestionnairePage = () => {
   const navigate = useNavigate();
-  const { searchData, setSearchData } = useContext(SearchContext);
-  const [selectedFilters, setSelectedFilters] = useState(searchData.selectedFilters || []);
+  const location = useLocation();
+  const [selectedFilters, setSelectedFilters] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [ambiance, setAmbiance] = useState(searchData.ambiance || "");
+
+  // Récupérer les données passées depuis la HomePage
+  useEffect(() => {
+    if (location.state) {
+      const { selectedTag} = location.state;
+
+      // Si un tag est passé, l'ajouter aux filtres sélectionnés
+      if (selectedTag) {
+        setSelectedFilters([selectedTag]);
+      }
+    }
+  }, [location.state]);
 
   const handleFilterClick = (filter) => {
     if (selectedFilters.includes(filter)) {
@@ -22,19 +34,6 @@ const QuestionnairePage = () => {
     setSelectedFilters(selectedFilters.filter((item) => item !== filter));
   };
 
-  const handleAmbianceChange = (event) => {
-    setAmbiance(event.target.value);
-  };
-
-  const handleContinue = () => {
-    setSearchData((prevData) => ({
-      ...prevData,
-      selectedFilters,
-      ambiance,
-    }));
-    navigate("/trips");
-  };
-
   return (
     <div style={{ fontFamily: "Georgia, sans-serif", background: 'linear-gradient(0deg, rgb(181 239 201), rgb(95 172 205))', height: "100vh", padding: "90px 40px 40px 40px" }}>
       <div style={{ textAlign: "center" }}>
@@ -42,122 +41,67 @@ const QuestionnairePage = () => {
 
         {/* Champs principaux */}
         <div style={{ display: "flex", justifyContent: "center", gap: "20px", margin: "0px 200px 30px" }}>
-          <SearchForm />
+          < SearchForm />
         </div>
+
 
         {/* Centres d’intérêts */}
         <div style={{ backgroundColor: "#dcedc8", padding: "20px", borderRadius: "10px", marginBottom: "20px" }}>
           <h3 style={{ textAlign: "left", marginBottom: "10px", fontSize: "1.2rem" }}>Centres d’intérêts :</h3>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              flexWrap: "wrap",
-              padding: "10px",
-              border: "1px solid #ccc",
-              borderRadius: "5px",
-              backgroundColor: "white",
-              marginBottom: "10px",
-            }}
-          >
-            {selectedFilters.map((filter) => (
-              <span
-                key={filter}
-                onClick={() => handleRemoveFilter(filter)}
-                style={{
-                  backgroundColor: "#8bc34a",
-                  padding: "5px 10px",
-                  margin: "2px",
-                  borderRadius: "5px",
-                  color: "white",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  fontSize: "0.9rem",
-                }}
-              >
-                {filter}
-                <span style={{ marginLeft: "5px", fontSize: "0.8rem" }}>×</span>
-              </span>
-            ))}
-            <input
-              type="text"
-              placeholder={selectedFilters.length > 0 ? "" : "Recherche"}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={{
-                flex: 1,
-                padding: "5px",
-                border: "none",
-                outline: "none",
-                minWidth: "100px",
-                fontSize: "1rem",
-              }}
-            />
-          </div>
-          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-            {["Aventures", "Nature", "Activités aquatiques", "SPA & Bien être"].map((item) => (
-              <span
-                key={item}
-                onClick={() => handleFilterClick(item)}
-                style={{
-                  backgroundColor: selectedFilters.includes(item) ? "#8bc34a" : "white",
-                  padding: "10px",
-                  border: "1px solid #ccc",
-                  borderRadius: "5px",
-                  cursor: "pointer",
-                  color: selectedFilters.includes(item) ? "white" : "black",
-                  fontSize: "1rem",
-                }}
-              >
-                {item}
-              </span>
-            ))}
-          </div>
+
+          {/* Recherche et sélection des tags */}
+          <InterestTags selectedFilters={selectedFilters} handleFilterClick={handleFilterClick} />
+
+          {/* Barre principale sous la recherche */}
+          <TagListBar
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            selectedFilters={selectedFilters}
+            handleRemoveFilter={handleRemoveFilter}
+          />
         </div>
 
         {/* Ambiance */}
         <div style={{ backgroundColor: "#dcedc8", padding: "20px", borderRadius: "10px", marginBottom: "30px" }}>
           <h3 style={{ textAlign: "left", marginBottom: "10px", fontSize: "1.2rem", fontFamily: "Georgia, sans-serif" }}>Ambiance :</h3>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              overflowX: "auto",
-              gap: "10px",
-            }}
-          >
+          <div style={{ display: "flex", justifyContent: "space-between", overflowX: "auto", gap: "10px" }}>
             {["Familiale", "En amoureux", "Entre copains", "Avec les collègues", "En solo"].map((option) => (
               <label
-                key={option}
-                style={{
-                  cursor: "pointer",
-                  fontSize: "1.1rem",
-                  whiteSpace: "nowrap",
-                  flexShrink: 0,
-                  fontFamily: "Georgia, sans-serif"
-                }}
-              >
-                <input
-                  type="radio"
-                  name="ambiance"
-                  value={option}
-                  checked={ambiance === option}
-                  onChange={handleAmbianceChange}
-                  style={{ marginRight: "10px" }}
-                />
-                {option}
-              </label>
+              key={option}
+              style={{
+                cursor: "pointer",
+                fontSize: "1.1rem",
+                whiteSpace: "nowrap", // Empêche le texte de passer à la ligne
+                flexShrink: 0, // Empêche le rétrécissement des options
+                fontFamily: "Georgia, sans-serif"
+              }}
+            >
+              <input
+                type="radio"
+                name="ambiance"
+                value={option}
+                style={{ marginRight: "10px" }}
+              />
+              {option}
+            </label>
             ))}
           </div>
         </div>
 
         {/* Bouton continuer */}
         <button
-          onClick={handleContinue}
-          className="continue-button"
+          onClick={() => navigate("/trips")}
+          style={{
+            padding: "15px 30px",
+            backgroundColor: "#4CAF50",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+            fontSize: "1.2rem",
+          }}
         >
-          Découvrons votre voyage idéal !
+          Continuer
         </button>
       </div>
     </div>
