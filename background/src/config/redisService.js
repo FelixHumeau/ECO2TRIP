@@ -243,9 +243,10 @@ async function getHotelsForCity(city) {
             if (hotelData.city && hotelData.city.trim().toLowerCase() === city.trim().toLowerCase()) {
                 hotels.push({
                     name: hotelData.name || "Nom inconnu",
-                    address: hotelData.address || "Adresse inconnue",
                     eco_score: parseFloat(hotelData.eco_score) || null,
-                    website: hotelData.website || "Non disponible"
+                    link: hotelData.link || "Non disponible",
+                    image: hotelData.image_url || "",
+                    price: hotelData.price || "-- €"
                 });
             }
         }
@@ -285,6 +286,21 @@ async function getTransportOptions(from, to, occupancyRate) {
 async function groupActivitiesByCity(activities, from, occupancyRate = 1) {
     console.log(`🔄 Regroupement des activités par villes avec distance depuis ${from}...`);
     const groupedByCity = {};
+    // 📌 Étape 1 : Construire le mapping Ville → Code INSEE
+    console.log("📍 Construction du mapping Ville → Code INSEE...");
+    const villeKeys = await redis.keys('ville:*');
+    const villeMapping = {};
+    for (const key of villeKeys) {
+        try {
+            const villeData = await redis.hgetall(key);
+            if (villeData["Commune"] && villeData["Code INSEE"]) {
+                villeMapping[villeData["Commune"].toLowerCase()] = villeData["Code INSEE"];
+            }
+        } catch (error) {
+            console.error(`❌ Erreur lors de la récupération des données pour ${key}:`, error.message);
+        }
+    }
+    console.log(`✅ Mapping Ville → Code INSEE terminé (${Object.keys(villeMapping).length} villes enregistrées).`);
 
     for (const activity of activities) {
         if (!activity.Communes_proches) continue;
@@ -330,25 +346,43 @@ async function groupActivitiesByCity(activities, from, occupancyRate = 1) {
         groupedByCity[city].transport_options = await getTransportOptions(from, city, occupancyRate);
 
         groupedByCity[city].score_total = groupedByCity[city].score_hotel + groupedByCity[city].score_activite + groupedByCity[city].score_transport;
+
+        let cityCodeINSEE = villeMapping[city.toLowerCase()] || null;
+        if (!cityCodeINSEE) {
+            console.warn(`⚠️ Code INSEE non trouvé pour ${city}, impossible de récupérer les détails.`);
+        }
+
+        try {
+            if (cityCodeINSEE) {
+                const cityData = await redis.hgetall(`ville:${cityCodeINSEE}`);
+                if (cityData && Object.keys(cityData).length > 0) {
+                    groupedByCity[city].details = cityData;
+                } else {
+                    console.warn(`⚠️ Aucune donnée complète trouvée pour la ville ${city} (Code INSEE: ${cityCodeINSEE})`);
+                }
+            }
+        } catch (error) {
+            console.error(`❌ Erreur lors de la récupération des informations de la ville ${city}:`, error.message);
+        }
     }
 
     const sortedCities = Object.entries(groupedByCity)
-    .sort(([, a], [, b]) => {
-        // Vérifier si a ou b ont des valeurs nulles
-        const aHasNull = a.score_activite === null || a.score_transport === null || a.score_hotel === null;
-        const bHasNull = b.score_activite === null || b.score_transport === null || b.score_hotel === null;
+        .sort(([, a], [, b]) => {
+            // Vérifier si a ou b ont des valeurs nulles
+            const aHasNull = a.score_activite === null || a.score_transport === null || a.score_hotel === null;
+            const bHasNull = b.score_activite === null || b.score_transport === null || b.score_hotel === null;
 
-        // Si a a une valeur nulle et b non, a doit être en dernier
-        if (aHasNull && !bHasNull) return 1;
-        if (!aHasNull && bHasNull) return -1;
+            // Si a a une valeur nulle et b non, a doit être en dernier
+            if (aHasNull && !bHasNull) return 1;
+            if (!aHasNull && bHasNull) return -1;
 
-        // Sinon, trier normalement sur score_total
-        return a.score_total - b.score_total;
-    })
-    .reduce((acc, [key, value]) => {
-        acc[key] = value;
-        return acc;
-    }, {});
+            // Sinon, trier normalement sur score_total
+            return a.score_total - b.score_total;
+        })
+        .reduce((acc, [key, value]) => {
+            acc[key] = value;
+            return acc;
+        }, {});
 
     return sortedCities;
 }

@@ -4,7 +4,17 @@ const CarbonGauge = ({ carbonFootprint, maxWidthGauge }) => {
   const { activities, housing, transport, transport_max } = carbonFootprint;
 
   // Calcul des pourcentages dynamiques
-  const transportPercentage = (transport / transport_max) * 100;
+  // Extraction des nombres depuis les chaînes
+  const transportValue = parseFloat(transport);
+  const transportMaxValue = parseFloat(transport_max);
+
+  const transportPercentage = (transportValue / transportMaxValue) * 100;
+
+  // Vérification si les valeurs sont bien des nombres valides
+  if (isNaN(transportValue) || isNaN(transportMaxValue) || transportMaxValue === 0) {
+    console.error("Valeur invalide :", transport, transport_max);
+  } 
+
   const housingPercentage = ((5 - housing) / 5) * 100; // Inversion du score
   const activitiesPercentage = (activities / 3) * 100;
 
