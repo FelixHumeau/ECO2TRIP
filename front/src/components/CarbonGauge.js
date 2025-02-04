@@ -3,13 +3,78 @@ import React, { useState } from "react";
 const CarbonGauge = ({ carbonFootprint, maxWidthGauge }) => {
   const { activities, housing, transport, transport_max } = carbonFootprint;
 
-  // Calcul des pourcentages de remplissage pour chaque catégorie
-  const transportPercentage = (transport / transport_max) * 100;
-  const housingPercentage = (housing / 5) * 100; // Score sur 5
-  const activitiesPercentage = (activities / 3) * 100; // Score sur 3
+  // Calcul des pourcentages dynamiques
+  // Extraction des nombres depuis les chaînes
+  const transportValue = parseFloat(transport);
+  const transportMaxValue = parseFloat(transport_max);
 
-  // État pour gérer l'affichage du popup
-  const [showPopup, setShowPopup] = useState(false);
+  const transportPercentage = (transportValue / transportMaxValue) * 100;
+
+  // Vérification si les valeurs sont bien des nombres valides
+  if (isNaN(transportValue) || isNaN(transportMaxValue) || transportMaxValue === 0) {
+    console.error("Valeur invalide :", transport, transport_max);
+  } 
+
+  const housingPercentage = ((5 - housing) / 5) * 100; // Inversion du score
+  const activitiesPercentage = (activities / 3) * 100;
+
+  // Pourcentages fixes demandés
+  const fixedPercentages = {
+    transport: 69,
+    housing: 14,
+    activities: 17,
+  };
+
+  // État pour gérer l'affichage du popup et la jauge animée au hover
+  const [hoveredSegment, setHoveredSegment] = useState(null);
+  const [animatedPercentage, setAnimatedPercentage] = useState(0);
+
+  const handleMouseEnter = (segment, percentage) => {
+    setHoveredSegment(segment);
+    setAnimatedPercentage(0);
+
+    // Animation progressive du remplissage vertical
+    const interval = setInterval(() => {
+      setAnimatedPercentage((prev) => (prev < percentage ? prev + 5 : percentage));
+    }, 20);
+
+    setTimeout(() => clearInterval(interval), 400);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredSegment(null);
+    setAnimatedPercentage(0);
+  };
+
+  const getPopupContent = () => {
+    switch (hoveredSegment) {
+      case "transport":
+        return {
+          label: `Transport (${fixedPercentages.transport}%)`,
+          value: `${transport} kg CO₂ / ${transport_max} kg CO₂`,
+          color: "#7AA174",
+          percentage: transportPercentage,
+        };
+      case "housing":
+        return {
+          label: `Hôtel (${fixedPercentages.housing}%)`,
+          value: `${housing} / 5`,
+          color: "#7A8AA1",
+          percentage: housingPercentage,
+        };
+      case "activities":
+        return {
+          label: `Activités (${fixedPercentages.activities}%)`,
+          value: `${activities} / 3`,
+          color: "#A1748A",
+          percentage: activitiesPercentage,
+        };
+      default:
+        return null;
+    }
+  };
+
+  const popupContent = getPopupContent();
 
   return (
     <div style={{ textAlign: "center", width: "90%", position: "relative" }}>
@@ -20,256 +85,169 @@ const CarbonGauge = ({ carbonFootprint, maxWidthGauge }) => {
           maxWidth: `${maxWidthGauge}px`,
           minWidth: "100px",
           height: "20px",
-          backgroundColor: "transparent",
           borderRadius: "10px",
           overflow: "hidden",
           position: "relative",
           margin: "auto",
           display: "flex",
-          cursor: "pointer", // Pour indiquer que la jauge est interactive
+          cursor: "pointer",
         }}
-        onMouseEnter={() => setShowPopup(true)}
-        onMouseLeave={() => setShowPopup(false)}
       >
-        {/* Partie Transport */}
+        {/* Transport */}
         <div
-          style={{
-            width: "69%",
-            height: "100%",
-            backgroundColor: "#A8C4A1", // Couleur Transport
-            position: "relative",
-          }}
+          style={{ flex: 69, backgroundColor: "#A8C4A1", position: "relative" }}
+          onMouseEnter={() => handleMouseEnter("transport", transportPercentage)}
+          onMouseLeave={handleMouseLeave}
         >
           <div
             style={{
               width: `${transportPercentage}%`,
               height: "100%",
-              backgroundColor: "#7AA174", // Couleur de remplissage
+              backgroundColor: "#7AA174",
             }}
           />
+          <span
+            style={{
+              position: "absolute",
+              top: "-20px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              fontSize: "12px",
+              fontWeight: "bold",
+              color: "#333",
+              backgroundColor: "#A8C4A1",
+              padding: "2px 5px",
+              borderRadius: "5px",
+              whiteSpace: "nowrap",
+            }}
+          >
+            Transport ({fixedPercentages.transport}%)
+          </span>
         </div>
 
-        {/* Espace entre Transport et Hébergement */}
-        <div style={{ width: "2%", backgroundColor: "transparent" }} />
+        <div style={{ flex: 2 }} />
 
-        {/* Partie Hébergement */}
+        {/* Hébergement */}
         <div
-          style={{
-            width: "14%",
-            height: "100%",
-            backgroundColor: "#A1AEC4", // Couleur Hébergement
-            position: "relative",
-          }}
+          style={{ flex: 14, backgroundColor: "#A1AEC4", position: "relative" }}
+          onMouseEnter={() => handleMouseEnter("housing", housingPercentage)}
+          onMouseLeave={handleMouseLeave}
         >
           <div
             style={{
               width: `${housingPercentage}%`,
               height: "100%",
-              backgroundColor: "#7A8AA1", // Couleur de remplissage
+              backgroundColor: "#7A8AA1",
             }}
           />
+          <span
+            style={{
+              position: "absolute",
+              top: "-20px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              fontSize: "12px",
+              fontWeight: "bold",
+              color: "#333",
+              backgroundColor: "#A1AEC4",
+              padding: "2px 5px",
+              borderRadius: "5px",
+              whiteSpace: "nowrap",
+            }}
+          >
+            Hôtel ({fixedPercentages.housing}%)
+          </span>
         </div>
 
-        {/* Espace entre Hébergement et Activités */}
-        <div style={{ width: "2%", backgroundColor: "transparent" }} />
+        <div style={{ flex: 2 }} />
 
-        {/* Partie Activités */}
+        {/* Activités */}
         <div
-          style={{
-            width: "17%",
-            height: "100%",
-            backgroundColor: "#C4A1B8", // Couleur Activités
-            position: "relative",
-          }}
+          style={{ flex: 17, backgroundColor: "#C4A1B8", position: "relative" }}
+          onMouseEnter={() => handleMouseEnter("activities", activitiesPercentage)}
+          onMouseLeave={handleMouseLeave}
         >
           <div
             style={{
               width: `${activitiesPercentage}%`,
               height: "100%",
-              backgroundColor: "#A1748A", // Couleur de remplissage
+              backgroundColor: "#A1748A",
             }}
           />
+          <span
+            style={{
+              position: "absolute",
+              top: "-20px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              fontSize: "12px",
+              fontWeight: "bold",
+              color: "#333",
+              backgroundColor: "#C4A1B8",
+              padding: "2px 5px",
+              borderRadius: "5px",
+              whiteSpace: "nowrap",
+            }}
+          >
+            Activités ({fixedPercentages.activities}%)
+          </span>
         </div>
       </div>
 
-      {/* Indications avec accolades */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          width: "90%",
-          maxWidth: `${maxWidthGauge}px`,
-          margin: "auto",
-          position: "relative",
-          marginTop: "5px",
-        }}
-      >
-        {/* Accolade pour Transport */}
+      {/* Popup au survol avec jauge animée */}
+      {hoveredSegment && popupContent && (
         <div
           style={{
             position: "absolute",
-            left: "0%",
-            top: "0",
-            width: "65%",
-            textAlign: "center",
-          }}
-        >
-          <div
-            style={{
-              width: "100%",
-              height: "10px",
-              borderLeft: "2px solid #000",
-              borderRight: "2px solid #000",
-              borderBottom: "2px solid #000",
-              borderBottomLeftRadius: "10px",
-              borderBottomRightRadius: "10px",
-            }}
-          />
-          <span style={{ fontSize: "12px", display: "block", marginTop: "5px" }}>Transport: 69%</span>
-        </div>
-
-        {/* Accolade pour Hébergement */}
-        <div
-          style={{
-            position: "absolute",
-            left: "68%",
-            top: "0",
-            width: "12%",
-            textAlign: "center",
-          }}
-        >
-          <div
-            style={{
-              width: "100%",
-              height: "10px",
-              borderLeft: "2px solid #000",
-              borderRight: "2px solid #000",
-              borderBottom: "2px solid #000",
-              borderBottomLeftRadius: "10px",
-              borderBottomRightRadius: "10px",
-            }}
-          />
-          <span style={{ fontSize: "12px", display: "block", marginTop: "5px" }}>Hôtel: 14%</span>
-        </div>
-
-        {/* Accolade pour Activités */}
-        <div
-          style={{
-            position: "absolute",
-            left: "84%",
-            top: "0",
-            width: "15%",
-            textAlign: "center",
-          }}
-        >
-          <div
-            style={{
-              width: "100%",
-              height: "10px",
-              borderLeft: "2px solid #000",
-              borderRight: "2px solid #000",
-              borderBottom: "2px solid #000",
-              borderBottomLeftRadius: "10px",
-              borderBottomRightRadius: "10px",
-            }}
-          />
-          <span style={{ fontSize: "12px", display: "block", marginTop: "5px" }}>Activités: 17%</span>
-        </div>
-      </div>
-
-      {/* Popup au survol */}
-      {showPopup && (
-        <div
-          style={{
-            position: "absolute",
-            top: "30px",
+            bottom: "50px",
             left: "50%",
             transform: "translateX(-50%)",
-            backgroundColor: "#fff",
-            padding: "10px",
-            borderRadius: "5px",
-            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-            zIndex: 10,
-            display: "flex",
-            gap: "20px",
+            backgroundColor: "rgba(255, 255, 255, 0.95)",
+            padding: "15px",
+            borderRadius: "12px",
+            boxShadow: "0 8px 18px rgba(0, 0, 0, 0.25)",
+            backdropFilter: "blur(10px)",
+            zIndex: 20,
+            transition: "opacity 0.3s ease, transform 0.3s ease",
           }}
         >
-          {/* Jauge Transport */}
-          <div style={{ textAlign: "center" }}>
-            <div
-              style={{
-                width: "20px",
-                height: "100px",
-                backgroundColor: "#e0e0e0",
-                borderRadius: "10px",
-                overflow: "hidden",
-                position: "relative",
-              }}
-            >
-              <div
-                style={{
-                  width: "100%",
-                  height: `${transportPercentage}%`,
-                  backgroundColor: "#7AA174",
-                  position: "absolute",
-                  bottom: 0,
-                }}
-              />
-            </div>
-            <p style={{ fontSize: "12px", marginTop: "5px" }}>
-              Transport: {transport} kg CO₂ / {transport_max} kg CO₂
-            </p>
+          <div
+            style={{
+              fontWeight: "bold",
+              fontSize: "14px",
+              marginBottom: "10px",
+              color: "#333",
+            }}
+          >
+            {popupContent.label}
           </div>
 
-          {/* Jauge Hébergement */}
-          <div style={{ textAlign: "center" }}>
+          {/* Jauge verticale animée */}
+          <div
+            style={{
+              width: "30px",
+              height: "120px",
+              backgroundColor: "#e0e0e0",
+              borderRadius: "15px",
+              overflow: "hidden",
+              position: "relative",
+              display: "flex",
+              alignItems: "flex-end",
+            }}
+          >
             <div
               style={{
-                width: "20px",
-                height: "100px",
-                backgroundColor: "#e0e0e0",
-                borderRadius: "10px",
-                overflow: "hidden",
-                position: "relative",
+                width: "100%",
+                height: `${animatedPercentage}%`,
+                backgroundColor: popupContent.color,
+                transition: "height 0.4s ease-in-out",
               }}
-            >
-              <div
-                style={{
-                  width: "100%",
-                  height: `${housingPercentage}%`,
-                  backgroundColor: "#7A8AA1",
-                  position: "absolute",
-                  bottom: 0,
-                }}
-              />
-            </div>
-            <p style={{ fontSize: "12px", marginTop: "5px" }}>Hôtel: {housing}/5</p>
+            />
           </div>
 
-          {/* Jauge Activités */}
-          <div style={{ textAlign: "center" }}>
-            <div
-              style={{
-                width: "20px",
-                height: "100px",
-                backgroundColor: "#e0e0e0",
-                borderRadius: "10px",
-                overflow: "hidden",
-                position: "relative",
-              }}
-            >
-              <div
-                style={{
-                  width: "100%",
-                  height: `${activitiesPercentage}%`,
-                  backgroundColor: "#A1748A",
-                  position: "absolute",
-                  bottom: 0,
-                }}
-              />
-            </div>
-            <p style={{ fontSize: "12px", marginTop: "5px" }}>Activités: {activities}/3</p>
-          </div>
+          <p style={{ fontSize: "12px", color: "#555", margin: "5px 0" }}>
+            {popupContent.value}
+          </p>
         </div>
       )}
     </div>
