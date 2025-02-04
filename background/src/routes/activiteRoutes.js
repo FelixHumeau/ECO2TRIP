@@ -49,21 +49,23 @@ router.get('/test', async (req, res) => {
 });
 
 router.post('/search', async (req, res) => {
-    const { from, tags } = req.body;
+    const { from, tags, occupancyRate } = req.body;
 
-    if (!from || !tags || !Array.isArray(tags)) {
-        return res.status(400).json({ error: "La ville de départ et une liste de tags sont requises." });
+    if (!from || !tags) {
+        return res.status(400).json({ error: 'Les champs "from" et "tags" sont obligatoires.' });
     }
 
     try {
         const activities = await findActivitiesByTags(tags);
-        const groupedActivities = await groupActivitiesByCity(activities, from);
+        const groupedActivities = await groupActivitiesByCity(activities, from, occupancyRate || 1); // Valeur par défaut = 1
+
         res.json(groupedActivities);
     } catch (error) {
-        console.error("❌ Erreur lors du regroupement des activités :", error);
-        res.status(500).json({ error: "Erreur interne du serveur" });
+        console.error('❌ Erreur lors de la recherche :', error.message);
+        res.status(500).json({ error: 'Erreur interne du serveur.' });
     }
 });
+
 
 
 module.exports = router;
