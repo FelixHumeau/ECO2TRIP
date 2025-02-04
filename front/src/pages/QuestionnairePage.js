@@ -5,10 +5,12 @@ import InterestTags from "../components/InterestTags";
 import SearchForm from "../components/SearchForm";
 
 const QuestionnairePage = () => {
+  
   const navigate = useNavigate();
   const location = useLocation();
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [ambiance, setAmbiance] = useState("");
 
   // Récupérer les données passées depuis la HomePage
   useEffect(() => {
@@ -62,17 +64,15 @@ const QuestionnairePage = () => {
         </div>
 
         {/* Ambiance */}
-        <div style={{ backgroundColor: "#dcedc8", padding: "20px", borderRadius: "10px", marginBottom: "30px" }}>
-          <h3 style={{ textAlign: "left", marginBottom: "10px", fontSize: "1.2rem", fontFamily: "Georgia, sans-serif" }}>Ambiance :</h3>
-          <div style={{ display: "flex", justifyContent: "space-between", overflowX: "auto", gap: "10px" }}>
-            {["Familiale", "En amoureux", "Entre copains", "Avec les collègues", "En solo"].map((option) => (
-              <label
+        <div style={{ display: "flex", justifyContent: "space-between", overflowX: "auto", gap: "10px" }}>
+          {["Familiale", "En amoureux", "Entre copains", "Avec les collègues", "En solo"].map((option) => (
+            <label
               key={option}
               style={{
                 cursor: "pointer",
                 fontSize: "1.1rem",
-                whiteSpace: "nowrap", // Empêche le texte de passer à la ligne
-                flexShrink: 0, // Empêche le rétrécissement des options
+                whiteSpace: "nowrap",
+                flexShrink: 0,
                 fontFamily: "Georgia, sans-serif"
               }}
             >
@@ -81,16 +81,22 @@ const QuestionnairePage = () => {
                 name="ambiance"
                 value={option}
                 style={{ marginRight: "10px" }}
+                onChange={() => setAmbiance(option)} // Mettre à jour l'ambiance
               />
               {option}
             </label>
-            ))}
-          </div>
+          ))}
         </div>
 
         {/* Bouton continuer */}
         <button
-          onClick={() => navigate("/trips")}
+          onClick={() => navigate("/trips", {
+            state: {
+              ambiance: ambiance,
+              selectedFilters: selectedFilters,
+              // Ajoutez d'autres données si nécessaire
+            }
+          })}
           style={{
             padding: "15px 30px",
             backgroundColor: "#4CAF50",

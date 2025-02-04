@@ -16,13 +16,29 @@ router.get('/test', async (req, res) => {
         }
 
         // Trier et prendre les 3 premières clés
+<<<<<<< HEAD
+        const first10Keys = keys.slice(0, 3);
+=======
         const first3Keys = keys.slice(0, 3);
+>>>>>>> dev
 
         // Récupérer les détails des activités
         const activites = [];
         
         for (const key of first3Keys) {
             const data = await redisClient.hGetAll(key);
+<<<<<<< HEAD
+
+            // Construire l'objet avec les champs demandés
+            activites.push({
+                nom: data.nom,
+                description: data.description,
+                adresse: data.adresse,
+                tags: data.tags ? JSON.parse(data.tags.replace(/'/g, '"')) : [], // Corrige les tags mal formatés
+                coordonnees: {
+                    latitude: parseFloat(data.latitude),
+                    longitude: parseFloat(data.longitude)
+=======
             if (!data.Nom_du_POI) {
                 console.warn(`Activité vide ou incorrecte : ${key}`);
                 continue; // Ignore les activités incomplètes
@@ -37,6 +53,7 @@ router.get('/test', async (req, res) => {
                 coordonnees: {
                     latitude: data.Latitude ? parseFloat(data.Latitude) : null,
                     longitude: data.Longitude ? parseFloat(data.Longitude) : null
+>>>>>>> dev
                 }
             });
         }
