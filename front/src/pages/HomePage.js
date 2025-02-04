@@ -3,10 +3,11 @@ import DynamicText from "../components/DynamicText";
 import SearchForm from "../components/SearchForm";
 import TagList from "../components/TagList";
 import { useNavigate } from "react-router-dom";
+import { useSearch } from "../context/SearchContext"; // Import du contexte
 
 const HomePage = () => {
   const [scrollOpacity, setScrollOpacity] = useState(1);
-  const categories = ["Ski", "Montagne", "Plage", "Ville", "Campagne", "Culture", "Sport", "Bien-être", "Gastronomie", "Shopping"];
+  const categories = ["domaine de ski alpin", "Montagne", "Plage", "cave de dégustation", "château", "site culturel", "festival", "restaurant", "lac", "forêt"];
   const endings = [
     "exxplorez la France sans polluer",
     "deécouvrez des merveilles cachées dans des endroits insolites",
@@ -15,6 +16,7 @@ const HomePage = () => {
     "mooins d’empreinte, plus d’émotions.",
   ];
   const navigate = useNavigate();
+  const { searchData } = useSearch(); // Récupérer les données du contexte
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,6 +29,16 @@ const HomePage = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Fonction pour gérer le clic sur un tag
+  const handleTagClick = (tag) => {
+    navigate("/questionnaire", { state: { selectedTag: tag } }); // Passer uniquement le tag
+  };
+
+  // Fonction pour gérer le clic sur "C'est parti !"
+  const handleSearchClick = () => {
+    navigate("/questionnaire", { state: { ...searchData } }); // Passer uniquement les données du formulaire
+  };
 
   return (
     <div className="homepage">
@@ -41,12 +53,12 @@ const HomePage = () => {
         
 
         <div className="p-6">
-          <TagList tags={categories} />
+          <TagList tags={categories} onTagClick={handleTagClick} />
         </div>
         <div className="search-form">
           <SearchForm />
-          <button className="search-button" onClick={() => navigate("/questionnaire")}>
-          C'est parti !
+          <button className="search-button" onClick={handleSearchClick}>
+            C'est parti !
           </button>
         </div>
       </section>
