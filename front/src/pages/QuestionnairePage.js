@@ -1,12 +1,14 @@
-import React, { useState } from "react";
-import "react-datepicker/dist/react-datepicker.css";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { SearchContext } from "../context/SearchContext";
 import SearchForm from "../components/SearchForm";
 
 const QuestionnairePage = () => {
   const navigate = useNavigate();
-  const [selectedFilters, setSelectedFilters] = useState([]);
+  const { searchData, setSearchData } = useContext(SearchContext);
+  const [selectedFilters, setSelectedFilters] = useState(searchData.selectedFilters || []);
   const [searchQuery, setSearchQuery] = useState("");
+  const [ambiance, setAmbiance] = useState(searchData.ambiance || "");
 
   const handleFilterClick = (filter) => {
     if (selectedFilters.includes(filter)) {
@@ -20,6 +22,19 @@ const QuestionnairePage = () => {
     setSelectedFilters(selectedFilters.filter((item) => item !== filter));
   };
 
+  const handleAmbianceChange = (event) => {
+    setAmbiance(event.target.value);
+  };
+
+  const handleContinue = () => {
+    setSearchData((prevData) => ({
+      ...prevData,
+      selectedFilters,
+      ambiance,
+    }));
+    navigate("/trips");
+  };
+
   return (
     <div style={{ fontFamily: "Georgia, sans-serif", background: 'linear-gradient(0deg, rgb(181 239 201), rgb(95 172 205))', height: "100vh", padding: "90px 40px 40px 40px" }}>
       <div style={{ textAlign: "center" }}>
@@ -27,7 +42,7 @@ const QuestionnairePage = () => {
 
         {/* Champs principaux */}
         <div style={{ display: "flex", justifyContent: "center", gap: "20px", margin: "0px 200px 30px" }}>
-          < SearchForm />
+          <SearchForm />
         </div>
 
         {/* Centres d’intérêts */}
@@ -103,41 +118,43 @@ const QuestionnairePage = () => {
 
         {/* Ambiance */}
         <div style={{ backgroundColor: "#dcedc8", padding: "20px", borderRadius: "10px", marginBottom: "30px" }}>
-  <h3 style={{ textAlign: "left", marginBottom: "10px", fontSize: "1.2rem", fontFamily: "Georgia, sans-serif" }}>Ambiance :</h3>
-  <div
-    style={{
-      display: "flex",
-      justifyContent: "space-between", // Répartit les options uniformément
-      overflowX: "auto", // Permet le défilement horizontal si nécessaire
-      gap: "10px", // Espacement entre les options
-    }}
-  >
-    {["Familiale", "En amoureux", "Entre copains", "Avec les collègues", "En solo"].map((option) => (
-      <label
-        key={option}
-        style={{
-          cursor: "pointer",
-          fontSize: "1.1rem",
-          whiteSpace: "nowrap", // Empêche le texte de passer à la ligne
-          flexShrink: 0, // Empêche le rétrécissement des options
-          fontFamily: "Georgia, sans-serif"
-        }}
-      >
-        <input
-          type="radio"
-          name="ambiance"
-          value={option}
-          style={{ marginRight: "10px" }}
-        />
-        {option}
-      </label>
-    ))}
-  </div>
-</div>
+          <h3 style={{ textAlign: "left", marginBottom: "10px", fontSize: "1.2rem", fontFamily: "Georgia, sans-serif" }}>Ambiance :</h3>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              overflowX: "auto",
+              gap: "10px",
+            }}
+          >
+            {["Familiale", "En amoureux", "Entre copains", "Avec les collègues", "En solo"].map((option) => (
+              <label
+                key={option}
+                style={{
+                  cursor: "pointer",
+                  fontSize: "1.1rem",
+                  whiteSpace: "nowrap",
+                  flexShrink: 0,
+                  fontFamily: "Georgia, sans-serif"
+                }}
+              >
+                <input
+                  type="radio"
+                  name="ambiance"
+                  value={option}
+                  checked={ambiance === option}
+                  onChange={handleAmbianceChange}
+                  style={{ marginRight: "10px" }}
+                />
+                {option}
+              </label>
+            ))}
+          </div>
+        </div>
 
         {/* Bouton continuer */}
         <button
-          onClick={() => navigate("/trips")}
+          onClick={handleContinue}
           className="continue-button"
         >
           Découvrons votre voyage idéal !

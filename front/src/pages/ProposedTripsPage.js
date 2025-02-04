@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import ExpandableMapCard from "../components/ExpandableCard";
 import BarTrips from "../components/BarTrips";
 import CloudBackground from "../components/Cloud";
-
-
+import { SearchContext } from "../context/SearchContext";
 
 const ProposedTripsPage = () => {
   const navigate = useNavigate();
+  const { searchData } = useContext(SearchContext);
 
   const cityData = [
     {
@@ -45,23 +45,27 @@ const ProposedTripsPage = () => {
     },
   ];
 
+  const totalTravelers = searchData.travelers.adults + searchData.travelers.children;
+  const days = Math.ceil((searchData.endDate - searchData.startDate) / (1000 * 60 * 60 * 24));
 
   return (
     <div style={{background: 'linear-gradient(0deg, rgb(181 239 201), rgb(95 172 205))'}}>
       <h1 style={{ marginLeft: "20px", paddingTop: "90px", paddingLeft: "10px", zIndex: "1", fontFamily: "Georgia, sans-serif" }}>Destinations</h1>  
-        < CloudBackground /> 
+      <CloudBackground /> 
 
       <div>
         <BarTrips
-          items={["Option 1", "Option 2", "Option 3", "Option 4"]}
-          rightItems={["01/01/2026", "4 voyageurs", "Entre amis"]}
+          items={[searchData.selectedFilters]}
+          rightItems={[
+            searchData.startDate ? searchData.startDate.toLocaleDateString() : "01/01/2026",
+            `${totalTravelers} voyageurs`,
+            searchData.ambiance,
+          ]}
           rightItemImages={[
             "https://cdn-icons-png.flaticon.com/512/747/747310.png",  // Icône calendrier
           ]}
-
         />
       </div>
-
 
       <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
         {cityData.map((city, index) => (
@@ -72,7 +76,7 @@ const ProposedTripsPage = () => {
             imageSrc={city.imageSrc}
             tags={city.tags}
             carbonFootprint={city.carbonFootprint}
-            days={city.days}
+            days={days}
             latitude={city.latitude}
             longitude={city.longitude}
             price={city.price}
