@@ -6,48 +6,66 @@ import CloudBackground from "../components/Cloud";
 import { SearchContext } from "../context/SearchContext";
 import { useLocation } from "react-router-dom";
 
+// Importer le JSON statique
+import cityDataJson from "../test.json";
 
 const ProposedTripsPage = () => {
   const location = useLocation();
-
   const { searchData } = useContext(SearchContext);
   const { ambiance, selectedFilters } = location.state || {};
 
-  const cityData = [
-    {
-      city: "Marseille",
-      description: "Située sur la côte méditerranéenne",
-      imageSrc: "https://www.wonderbox.fr/blog/wp-content/uploads/sites/4/2020/02/Visiter-Marseille-en-10-lieux-marseille-scaled-1-1.jpeg",
-      tags: ["Mer", "Soleil", "Culture", "Soirée"],
-      carbonFootprint: { transport: 40, housing: 260, activities: 90 },
-      days: 5,
-      price: "200-300€",
-      latitude: 43.299999,
-      longitude: 5.4,
-    },
-    {
-      city: "Île de Port Cros",
-      description: "L’île de Port-Cros, située dans l’archipel",
-      tags: ["Mer", "Aquatique", "Parc naturel", "Randonnée"],
-      imageSrc: "https://www.ot-lelavandou.fr/app/uploads/2023/07/port-cros-hyeres-a-tourisme-provence-mediterranee-julien-mauceri.webp",
-      carbonFootprint: { transport: 200, housing: 150, activities: 20 },
-      days: 5,
-      price: "220-340€",
-      latitude: 43,
-      longitude: 6.3833,
-    },
-    {
-      city: "Biarritz",
-      description: "Station balnéaire prisée de la côte basque",
-      tags: ["Mer", "Aquatique", "Surf"],
-      imageSrc: "https://www.tourisme64.com/wp-content/uploads/2024/02/biarritz-grande-plage-et-phare-001-copyedelweiss_loren-bedeli.jpg",
-      carbonFootprint: { transport: 50, housing: 190, activities: 20 },
-      days: 5,
-      price: "190-310€",
-      latitude: 43.4831519,
-      longitude: -1.558626,
-    },
-  ];
+  // Fonction pour extraire et formater le prix des hôtels
+  const getHotelPriceRange = (hotels) => {
+    if (!hotels || hotels.length === 0) return "Prix non disponible";
+
+    // Si un seul hôtel, retourner son prix directement
+    if (hotels.length === 1) {
+      return hotels[0].price; // Retourne directement le prix (ex: "44 €")
+    }
+
+    // Si plusieurs hôtels, calculer la fourchette de prix
+    const prices = hotels.map(hotel => {
+      const priceString = hotel.price.replace(" €", "").trim();
+      return parseFloat(priceString);
+    });
+
+    const minPrice = Math.min(...prices);
+    const maxPrice = Math.max(...prices);
+
+    return `${minPrice}-${maxPrice} €`;
+  };
+
+  // Fonction pour extraire les tags de details.Top_Tags et limiter à 4 tags
+  const getTagsFromDetails = (details) => {
+    if (!details || !details.Top_Tags) return [];
+    try {
+      const tags = JSON.parse(details.Top_Tags); // Convertir la chaîne JSON en tableau
+      return tags.slice(0, 4); // Limiter à 4 tags
+    } catch (error) {
+      console.error("Erreur lors de la conversion des tags :", error);
+      return [];
+    }
+  };
+
+  // Mapper les données du JSON pour créer les objets cityData
+  const cityData = Object.keys(cityDataJson).map(cityName => {
+    const cityInfo = cityDataJson[cityName];
+    return {
+      city: cityName,
+      description: cityInfo.details?.description || "Description de la ville", // Utiliser la description de details si disponible
+      imageSrc: "https://www.wonderbox.fr/blog/wp-content/uploads/sites/4/2020/02/Visiter-Marseille-en-10-lieux-marseille-scaled-1-1.jpeg", // Vous pouvez ajouter une image par défaut ou spécifique
+      tags: getTagsFromDetails(cityInfo.details), // Utiliser les tags de details (limités à 4)
+      carbonFootprint: {
+        transport: parseFloat(cityInfo.score_transport),
+        housing: parseFloat(cityInfo.score_hotel),
+        activities: parseFloat(cityInfo.score_activite)
+      },
+      days: 5, // Vous pouvez ajuster cela en fonction de vos besoins
+      price: getHotelPriceRange(cityInfo.hotels), // Utiliser la fonction pour obtenir le prix ou la fourchette de prix
+      latitude: parseFloat(cityInfo.details?.latitude || cityInfo.activities[0]?.Latitude), // Utiliser la latitude de details si disponible
+      longitude: parseFloat(cityInfo.details?.longitude || cityInfo.activities[0]?.Longitude) // Utiliser la longitude de details si disponible
+    };
+  });
 
   const totalTravelers = searchData.travelers.adults + searchData.travelers.children;
   const days = Math.ceil((searchData.endDate - searchData.startDate) / (1000 * 60 * 60 * 24));

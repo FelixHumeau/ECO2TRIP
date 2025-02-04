@@ -1,0 +1,522 @@
+{
+    "Metz": {
+        "activities": [
+            {
+                "Tags": "[\"Tourisme Montagne\", \"Site Sportif, R\\u00e9cr\\u00e9atif Et De Loisirs\", \"Point Dint\\u00e9r\\u00eat\", \"Domaine De Ski Alpin\", \"Lieu\"]",
+                "Contacts_du_POI": "#https://www.snowworld.com/amneville/fr",
+                "URI_ID_du_POI": "https://data.datatourisme.fr/10/8277eb4e-0228-3f82-a401-cf2df0b547a7",
+                "Adresse_postale": "La Cité des Loisirs Allée du snowhall",
+                "Description": "L'unique domaine skiable indoor de France offre différentes zones de glisses tapissées de véritable poudreuse. Ouvert toute l'année, il permet à tous les amateurs et même aux professionnels, de s'adonner à la joie des sports d'hiver en toute saison. SnowWorld propose des pentes techniques de 15 à 18%, un snowpark qui évolue sans cesse, une piste de luge et une piste de ski débutants qui permettent un apprentissage idéal.",
+                "Covid19_mesures_specifiques": "",
+                "Communes_proches": "Metz, Thionville",
+                "Latitude": "49.2487313509395",
+                "Categories_de_POI": "https://www.datatourisme.fr/ontology/core#PlaceOfInterest|https://www.datatourisme.fr/ontology/core#PointOfInterest|https://www.datatourisme.fr/ontology/core#SportsAndLeisurePlace|https://www.datatourisme.fr/ontology/core#DownhillSkiResort",
+                "Periodes_regroupees": "",
+                "Date_de_mise_a_jour": "2024-07-18",
+                "Longitude": "6.12807040469363",
+                "Score_Moyen": "1.5",
+                "Nom_du_POI": "SNOWWORLD",
+                "Classements_du_POI": "Famille plus#Famille plus",
+                "Code_postal_et_commune": "57360#Amnéville",
+                "Createur_de_la_donnee": "DESTINATION AMNEVILLE",
+                "SIT_diffuseur": "Système d’information touristique Lorrain"
+            }
+        ],
+        "hotels": [
+            {
+                "name": "Le Grand Large",
+                "eco_score": 2,
+                "link": "https://www.greengo.voyage/hote/le-grand-large?checkIn=2025-03-17&checkOut=2025-03-18&numberOfAdults=2&numberOfChildren=0&numberOfBabies=0&numberOfPets=0",
+                "image": "https://images.greengo.voyage/_/w_1440__q_75/plain/s3://greengobackend-production-media/pictures/accommmodation/ordered_images/9680e7bb-c13b-4ece-ac15-9e5f6b049394.webp",
+                "price": "100 €"
+            },
+            {
+                "name": "Le Grand Large",
+                "eco_score": 2,
+                "link": "https://www.greengo.voyage/hote/le-grand-large?checkIn=2025-03-17&checkOut=2025-03-18&numberOfAdults=2&numberOfChildren=0&numberOfBabies=0&numberOfPets=0",
+                "image": "https://images.greengo.voyage/_/w_1440__q_75/plain/s3://greengobackend-production-media/pictures/accommmodation/ordered_images/9680e7bb-c13b-4ece-ac15-9e5f6b049394.webp",
+                "price": "100 €"
+            }
+        ],
+        "transport_options": [
+            {
+                "transport": "Train (TGV)",
+                "distance": "299.28 km",
+                "carbonImpact": "0.688 kg CO₂"
+            },
+            {
+                "transport": "Avion",
+                "distance": "281.38 km",
+                "carbonImpact": "72.654 kg CO₂"
+            },
+            {
+                "transport": "Vélo",
+                "distance": "367.01 km",
+                "carbonImpact": "0.000 kg CO₂"
+            },
+            {
+                "transport": "Voiture électrique",
+                "distance": "332.53 km",
+                "carbonImpact": "6.584 kg CO₂"
+            },
+            {
+                "transport": "Voiture thermique",
+                "distance": "332.53 km",
+                "carbonImpact": "63.846 kg CO₂"
+            },
+            {
+                "transport": "Bus thermique",
+                "distance": "339.64 km",
+                "carbonImpact": "35.425 kg CO₂"
+            }
+        ],
+        "score_activite": 1.5,
+        "score_transport": 2,
+        "score_hotel": 3,
+        "score_total": 6.5,
+        "distance": 332.531,
+        "details": {
+            "Code INSEE": "57463",
+            "Commune": "Metz",
+            "images": "[\"\", \"\", \"\", \"\"]",
+            "Département": "Moselle",
+            "latitude": "49.119308",
+            "Top_Tags": "[\"Tourisme Culturel\", \"F\\u00eate Et Manifestation\", \"Event\", \"\\u00c9v\\u00e8nement Culturel\", \"Restauration\", \"Monument\", \"Restaurant\", \"Spectacles\", \"Spectacle\", \"Localbusiness\"]",
+            "description": "Metz est une ville de Grand Est réputée pour Restauration et son charme authentique.",
+            "longitude": "6.175716",
+            "Région": "Grand Est"
+        }
+    },
+    "Belfort": {
+        "activities": [
+            {
+                "Tags": "[\"Tourisme Montagne\", \"Site Sportif, R\\u00e9cr\\u00e9atif Et De Loisirs\", \"Point Dint\\u00e9r\\u00eat\", \"Domaine De Ski Alpin\", \"Lieu\"]",
+                "Contacts_du_POI": "Le Schlumpf#http://www.dolleren-ski.fr/|Le Schlumpf#http://www.dolleren-ski.fr/",
+                "URI_ID_du_POI": "https://data.datatourisme.fr/5/217fed92-2186-3234-933a-7779935ff831",
+                "Adresse_postale": "23 Route du Schlumpf",
+                "Description": "",
+                "Covid19_mesures_specifiques": "",
+                "Communes_proches": "Belfort",
+                "Latitude": "47.7939569697469",
+                "Categories_de_POI": "https://www.datatourisme.fr/ontology/core#PlaceOfInterest|https://www.datatourisme.fr/ontology/core#PointOfInterest|https://www.datatourisme.fr/ontology/core#SportsAndLeisurePlace|https://www.datatourisme.fr/ontology/core#DownhillSkiResort",
+                "Periodes_regroupees": "",
+                "Date_de_mise_a_jour": "2024-04-05",
+                "Longitude": "6.92087173461914",
+                "Score_Moyen": "1.5",
+                "Nom_du_POI": "Station de ski alpin du Schlumpf",
+                "Classements_du_POI": "",
+                "Code_postal_et_commune": "68290#Dolleren",
+                "Createur_de_la_donnee": "Office de Tourisme de la Vallée de la Doller et du Soultzbach",
+                "SIT_diffuseur": "Système d'informations touristique Alsace"
+            },
+            {
+                "Tags": "[\"Tourisme Montagne\", \"Site Sportif, R\\u00e9cr\\u00e9atif Et De Loisirs\", \"Point Dint\\u00e9r\\u00eat\", \"Domaine De Ski Alpin\", \"Lieu\"]",
+                "Contacts_du_POI": "Destination Ballon d'Alsace#http://www.ballondalsace.fr/",
+                "URI_ID_du_POI": "https://data.datatourisme.fr/5/f34e9775-38fb-30e8-b8fd-e3b71bac7644",
+                "Adresse_postale": "",
+                "Description": "",
+                "Covid19_mesures_specifiques": "",
+                "Communes_proches": "Belfort",
+                "Latitude": "47.8021441790881",
+                "Categories_de_POI": "https://www.datatourisme.fr/ontology/core#PlaceOfInterest|https://www.datatourisme.fr/ontology/core#PointOfInterest|https://www.datatourisme.fr/ontology/core#SportsAndLeisurePlace|https://www.datatourisme.fr/ontology/core#DownhillSkiResort",
+                "Periodes_regroupees": "",
+                "Date_de_mise_a_jour": "2024-06-03",
+                "Longitude": "6.8494176864624",
+                "Score_Moyen": "1.5",
+                "Nom_du_POI": "Station de ski alpin du Ballon d'Alsace",
+                "Classements_du_POI": "",
+                "Code_postal_et_commune": "68290#Sewen",
+                "Createur_de_la_donnee": "Office de Tourisme de la Vallée de la Doller et du Soultzbach",
+                "SIT_diffuseur": "Système d'informations touristique Alsace"
+            }
+        ],
+        "hotels": [
+            {
+                "name": "Le Chêne d'Or - Belfort",
+                "eco_score": 2,
+                "link": "https://www.greengo.voyage/hote/le-chene-d-or-belfort?checkIn=2025-03-17&checkOut=2025-03-18&numberOfAdults=2&numberOfChildren=0&numberOfBabies=0&numberOfPets=0",
+                "image": "https://images.greengo.voyage/_/w_1440__q_75/plain/s3://greengobackend-production-media/pictures/accommmodation/ordered_images/img_1451_qkmopcd.jpg",
+                "price": "173 €"
+            }
+        ],
+        "transport_options": [
+            {
+                "transport": "Train (TGV)",
+                "distance": "454.52 km",
+                "carbonImpact": "1.045 kg CO₂"
+            },
+            {
+                "transport": "Avion",
+                "distance": "363.75 km",
+                "carbonImpact": "93.920 kg CO₂"
+            },
+            {
+                "transport": "Vélo",
+                "distance": "506.83 km",
+                "carbonImpact": "0.000 kg CO₂"
+            },
+            {
+                "transport": "Voiture électrique",
+                "distance": "505.02 km",
+                "carbonImpact": "9.999 kg CO₂"
+            },
+            {
+                "transport": "Voiture thermique",
+                "distance": "505.02 km",
+                "carbonImpact": "96.965 kg CO₂"
+            },
+            {
+                "transport": "Bus thermique",
+                "distance": "467.37 km",
+                "carbonImpact": "48.747 kg CO₂"
+            }
+        ],
+        "score_activite": 1.5,
+        "score_transport": 3.1,
+        "score_hotel": 3,
+        "score_total": 7.6,
+        "distance": 505.025,
+        "details": {
+            "Code INSEE": "90010",
+            "Commune": "Belfort",
+            "images": "[\"\", \"\", \"\", \"\"]",
+            "Département": "Territoire de Belfort",
+            "latitude": "47.633333",
+            "Top_Tags": "[\"Tourisme Culturel\", \"Produit\", \"Site Sportif, R\\u00e9cr\\u00e9atif Et De Loisirs\", \"Restauration\", \"Location\", \"Prestataire Dactivit\\u00e9\", \"Pratique\", \"Tourisme Sportif\", \"Itin\\u00e9raire\", \"Itin\\u00e9raire Touristique\"]",
+            "description": "Belfort, nichée au cœur de Bourgogne-Franche-Comté, est appréciée pour son Produit et son histoire fascinante.",
+            "longitude": "6.866667",
+            "Région": "Bourgogne-Franche-Comté"
+        }
+    },
+    "Grenoble": {
+        "activities": [
+            {
+                "Tags": "[\"Tourisme Montagne\", \"Site Sportif, R\\u00e9cr\\u00e9atif Et De Loisirs\", \"Point Dint\\u00e9r\\u00eat\", \"Lieu\", \"Piste De Ski Alpin\"]",
+                "Contacts_du_POI": "#https://www.vercors-experience.com/",
+                "URI_ID_du_POI": "https://data.datatourisme.fr/13/7150a32d-6e78-3f3e-8bd6-5035be1ac07d",
+                "Adresse_postale": "Station de ski Montagnes de Lans",
+                "Description": "Situé sur la piste bleue des Rhodos, le boardercross des Montagnes de Lans est un parcours d'obstacles sur piste comportant des bosses, des portes et des virages relevés.",
+                "Covid19_mesures_specifiques": "",
+                "Communes_proches": "Grenoble",
+                "Latitude": "45.115727",
+                "Categories_de_POI": "https://www.datatourisme.fr/ontology/core#PlaceOfInterest|https://www.datatourisme.fr/ontology/core#PointOfInterest|https://www.datatourisme.fr/ontology/core#SportsAndLeisurePlace|https://www.datatourisme.fr/ontology/core#DownhillSkiRun",
+                "Periodes_regroupees": "",
+                "Date_de_mise_a_jour": "2022-09-29",
+                "Longitude": "5.614431",
+                "Score_Moyen": "1.5",
+                "Nom_du_POI": "Boardercross",
+                "Classements_du_POI": "",
+                "Code_postal_et_commune": "38250#Lans-en-Vercors",
+                "Createur_de_la_donnee": "Office de Tourisme Intercommunal du Vercors",
+                "SIT_diffuseur": "Apidae Tourisme Scic SA - source : Apidae Tourisme"
+            }
+        ],
+        "hotels": [
+            {
+                "name": "Une chambre de bric(olage) et de broc(ante)",
+                "eco_score": 1,
+                "link": "https://www.greengo.voyage/hote/une-chambre-de-bric-olage-et-de-broc-ante?checkIn=2025-03-17&checkOut=2025-03-18&numberOfAdults=2&numberOfChildren=0&numberOfBabies=0&numberOfPets=0",
+                "image": "https://images.greengo.voyage/_/w_1440__q_75/plain/s3://greengobackend-production-media/pictures/accommmodation/ordered_images/3c65a6ff-8230-45cd-9a6a-a441aa870bf1.avif",
+                "price": "44 €"
+            },
+            {
+                "name": "PoMo Hôtel & Restaurant",
+                "eco_score": 1,
+                "link": "https://www.greengo.voyage/hote/pomo-hotel-restaurant?checkIn=2025-03-17&checkOut=2025-03-18&numberOfAdults=2&numberOfChildren=0&numberOfBabies=0&numberOfPets=0",
+                "image": "https://images.greengo.voyage/_/w_1440__q_75/plain/s3://greengobackend-production-media/pictures/hosting_establishment/ordered_images/221736935.jpg",
+                "price": "116 €"
+            },
+            {
+                "name": "PoMo Hôtel & Restaurant",
+                "eco_score": 1,
+                "link": "https://www.greengo.voyage/hote/pomo-hotel-restaurant?checkIn=2025-03-17&checkOut=2025-03-18&numberOfAdults=2&numberOfChildren=0&numberOfBabies=0&numberOfPets=0",
+                "image": "https://images.greengo.voyage/_/w_1440__q_75/plain/s3://greengobackend-production-media/pictures/hosting_establishment/ordered_images/221736935.jpg",
+                "price": "116 €"
+            },
+            {
+                "name": "Une chambre de bric(olage) et de broc(ante)",
+                "eco_score": 1,
+                "link": "https://www.greengo.voyage/hote/une-chambre-de-bric-olage-et-de-broc-ante?checkIn=2025-03-17&checkOut=2025-03-18&numberOfAdults=2&numberOfChildren=0&numberOfBabies=0&numberOfPets=0",
+                "image": "https://images.greengo.voyage/_/w_1440__q_75/plain/s3://greengobackend-production-media/pictures/accommmodation/ordered_images/3c65a6ff-8230-45cd-9a6a-a441aa870bf1.avif",
+                "price": "44 €"
+            },
+            {
+                "name": "Appart city Grenoble Innovallée",
+                "eco_score": 2,
+                "link": "https://www.greengo.voyage/hote/appart-city-grenoble-innovallee?checkIn=2025-03-17&checkOut=2025-03-18&numberOfAdults=2&numberOfChildren=0&numberOfBabies=0&numberOfPets=0",
+                "image": "https://images.greengo.voyage/_/w_1440__q_75/plain/s3://greengobackend-production-media/pictures/hosting_establishment/ordered_images/196260220.jpg",
+                "price": "122 €"
+            },
+            {
+                "name": "Appart city Grenoble Innovallée",
+                "eco_score": 2,
+                "link": "https://www.greengo.voyage/hote/appart-city-grenoble-innovallee?checkIn=2025-03-17&checkOut=2025-03-18&numberOfAdults=2&numberOfChildren=0&numberOfBabies=0&numberOfPets=0",
+                "image": "https://images.greengo.voyage/_/w_1440__q_75/plain/s3://greengobackend-production-media/pictures/hosting_establishment/ordered_images/196260220.jpg",
+                "price": "122 €"
+            },
+            {
+                "name": "Appart city Grenoble Innovallée",
+                "eco_score": 2,
+                "link": "https://www.greengo.voyage/hote/appart-city-grenoble-innovallee?checkIn=2025-03-17&checkOut=2025-03-18&numberOfAdults=2&numberOfChildren=0&numberOfBabies=0&numberOfPets=0",
+                "image": "https://images.greengo.voyage/_/w_1440__q_75/plain/s3://greengobackend-production-media/pictures/hosting_establishment/ordered_images/196260220.jpg",
+                "price": "122 €"
+            },
+            {
+                "name": "Une chambre de bric(olage) et de broc(ante)",
+                "eco_score": 1,
+                "link": "https://www.greengo.voyage/hote/une-chambre-de-bric-olage-et-de-broc-ante?checkIn=2025-03-17&checkOut=2025-03-18&numberOfAdults=2&numberOfChildren=0&numberOfBabies=0&numberOfPets=0",
+                "image": "https://images.greengo.voyage/_/w_1440__q_75/plain/s3://greengobackend-production-media/pictures/accommmodation/ordered_images/3c65a6ff-8230-45cd-9a6a-a441aa870bf1.avif",
+                "price": "44 €"
+            },
+            {
+                "name": "PoMo Hôtel & Restaurant",
+                "eco_score": 1,
+                "link": "https://www.greengo.voyage/hote/pomo-hotel-restaurant?checkIn=2025-03-17&checkOut=2025-03-18&numberOfAdults=2&numberOfChildren=0&numberOfBabies=0&numberOfPets=0",
+                "image": "https://images.greengo.voyage/_/w_1440__q_75/plain/s3://greengobackend-production-media/pictures/hosting_establishment/ordered_images/221736935.jpg",
+                "price": "116 €"
+            }
+        ],
+        "transport_options": [
+            {
+                "transport": "Train (TGV)",
+                "distance": "519.40 km",
+                "carbonImpact": "1.195 kg CO₂"
+            },
+            {
+                "transport": "Avion",
+                "distance": "482.59 km",
+                "carbonImpact": "124.605 kg CO₂"
+            },
+            {
+                "transport": "Vélo",
+                "distance": "648.62 km",
+                "carbonImpact": "0.000 kg CO₂"
+            },
+            {
+                "transport": "Voiture électrique",
+                "distance": "577.12 km",
+                "carbonImpact": "11.427 kg CO₂"
+            },
+            {
+                "transport": "Voiture thermique",
+                "distance": "577.12 km",
+                "carbonImpact": "110.806 kg CO₂"
+            },
+            {
+                "transport": "Bus thermique",
+                "distance": "603.49 km",
+                "carbonImpact": "62.944 kg CO₂"
+            }
+        ],
+        "score_activite": 1.5,
+        "score_transport": 3.5,
+        "score_hotel": 3.7,
+        "score_total": 8.7,
+        "distance": 577.116,
+        "details": {
+            "Code INSEE": "38185",
+            "Commune": "Grenoble",
+            "images": "[\"\", \"\", \"\", \"\"]",
+            "Département": "Isère",
+            "latitude": "45.188529",
+            "Top_Tags": "[\"Site Sportif, R\\u00e9cr\\u00e9atif Et De Loisirs\", \"Localbusiness\", \"Restauration\", \"Tourisme Culturel\", \"Monument\", \"Site Culturel\", \"Commerce De D\\u00e9tail\", \"Prestataire Dactivit\\u00e9\", \"F\\u00eate Et Manifestation\", \"Event\"]",
+            "description": "Entre tradition et modernité, Grenoble est connue en Auvergne-Rhône-Alpes pour son Prestataire Dactivité et sa qualité de vie.",
+            "longitude": "5.724524",
+            "Région": "Auvergne-Rhône-Alpes"
+        }
+    },
+    "Thonon-les-Bains": {
+        "activities": [
+            {
+                "Tags": "[\"Tourisme Montagne\", \"Site Sportif, R\\u00e9cr\\u00e9atif Et De Loisirs\", \"Point Dint\\u00e9r\\u00eat\", \"Lieu\", \"Piste De Ski Alpin\"]",
+                "Contacts_du_POI": "#https://www.esf-bellevaux.com/fr/",
+                "URI_ID_du_POI": "https://data.datatourisme.fr/13/b322829b-5bab-3019-8cf0-8aedfcfcdefb",
+                "Adresse_postale": "Hirmentaz Sation Hirmentaz",
+                "Description": "Tout est organisé pour que le ski soit ressenti comme plaisir et jeu. Des l'âge de 3 ans, les enfants peuvent découvrir les plaisirs de la glisse en toute sérénité.",
+                "Covid19_mesures_specifiques": "",
+                "Communes_proches": "Thonon-les-Bains",
+                "Latitude": "46.245872",
+                "Categories_de_POI": "https://www.datatourisme.fr/ontology/core#PlaceOfInterest|https://www.datatourisme.fr/ontology/core#PointOfInterest|https://www.datatourisme.fr/ontology/core#SportsAndLeisurePlace|https://www.datatourisme.fr/ontology/core#DownhillSkiRun",
+                "Periodes_regroupees": "",
+                "Date_de_mise_a_jour": "2019-12-17",
+                "Longitude": "6.50615",
+                "Score_Moyen": "1.5",
+                "Nom_du_POI": "Jardin des Neiges d'Hirmentaz",
+                "Classements_du_POI": "",
+                "Code_postal_et_commune": "74470#Bellevaux",
+                "Createur_de_la_donnee": "Office de Tourisme des Alpes du Léman",
+                "SIT_diffuseur": "Apidae Tourisme Scic SA - source : Apidae Tourisme"
+            },
+            {
+                "Tags": "[\"Tourisme Montagne\", \"Site Sportif, R\\u00e9cr\\u00e9atif Et De Loisirs\", \"Point Dint\\u00e9r\\u00eat\", \"Lieu\", \"Piste De Ski Alpin\"]",
+                "Contacts_du_POI": "#http://www.rocdenfer.com/",
+                "URI_ID_du_POI": "https://data.datatourisme.fr/13/2c433405-e8e8-305c-856f-1c7fd946fd85",
+                "Adresse_postale": "Roc d'Enfer Station de La Chèvrerie",
+                "Description": "Le Paret et le yooner est une activité réalisable sur la station du Roc d'Enfer, versant de la Chèvrerie, plus précisément au village, ou sur le secteur du Torchon.",
+                "Covid19_mesures_specifiques": "",
+                "Communes_proches": "Thonon-les-Bains",
+                "Latitude": "46.212843",
+                "Categories_de_POI": "https://www.datatourisme.fr/ontology/core#PlaceOfInterest|https://www.datatourisme.fr/ontology/core#PointOfInterest|https://www.datatourisme.fr/ontology/core#SportsAndLeisurePlace|https://www.datatourisme.fr/ontology/core#DownhillSkiRun",
+                "Periodes_regroupees": "",
+                "Date_de_mise_a_jour": "2022-11-12",
+                "Longitude": "6.570326",
+                "Score_Moyen": "1.5",
+                "Nom_du_POI": "Paret/Yooner",
+                "Classements_du_POI": "",
+                "Code_postal_et_commune": "74470#Bellevaux",
+                "Createur_de_la_donnee": "Office de Tourisme des Alpes du Léman",
+                "SIT_diffuseur": "Apidae Tourisme Scic SA - source : Apidae Tourisme"
+            },
+            {
+                "Tags": "[\"Tourisme Montagne\", \"Site Sportif, R\\u00e9cr\\u00e9atif Et De Loisirs\", \"Point Dint\\u00e9r\\u00eat\", \"Lieu\", \"Piste De Ski Alpin\"]",
+                "Contacts_du_POI": "#",
+                "URI_ID_du_POI": "https://data.datatourisme.fr/13/87ad8fa4-d1cc-3720-be95-8e75fe49c475",
+                "Adresse_postale": "le Bois Noir parking principal des remontées mécaniques",
+                "Description": "L'espace ludique ski alpin est l'un des trois espaces du Monde de Perce-Neige, la petite hermine des Habères, situés en front de neige.",
+                "Covid19_mesures_specifiques": "",
+                "Communes_proches": "Thonon-les-Bains",
+                "Latitude": "46.244926",
+                "Categories_de_POI": "https://www.datatourisme.fr/ontology/core#PlaceOfInterest|https://www.datatourisme.fr/ontology/core#PointOfInterest|https://www.datatourisme.fr/ontology/core#SportsAndLeisurePlace|https://www.datatourisme.fr/ontology/core#DownhillSkiRun",
+                "Periodes_regroupees": "",
+                "Date_de_mise_a_jour": "2021-07-15",
+                "Longitude": "6.472964",
+                "Score_Moyen": "1.5",
+                "Nom_du_POI": "Espace ludique ski alpin \"le Monde de Perce-Neige\"",
+                "Classements_du_POI": "",
+                "Code_postal_et_commune": "74420#Habère-Poche",
+                "Createur_de_la_donnee": "Office de Tourisme des Alpes du Léman",
+                "SIT_diffuseur": "Apidae Tourisme Scic SA - source : Apidae Tourisme"
+            }
+        ],
+        "hotels": [
+            {
+                "name": "Résidence les Thermes Côté Chalet",
+                "eco_score": 1,
+                "link": "https://www.greengo.voyage/hote/residence-les-thermes-cote-chalet?checkIn=2025-03-17&checkOut=2025-03-18&numberOfAdults=2&numberOfChildren=0&numberOfBabies=0&numberOfPets=0",
+                "image": "https://images.greengo.voyage/_/w_1440__q_75/plain/s3://greengobackend-production-media/pictures/hosting_establishment/ordered_images/resid_photo.jpg",
+                "price": "88 €"
+            }
+        ],
+        "transport_options": [
+            {
+                "transport": "Train (TGV)",
+                "distance": "520.57 km",
+                "carbonImpact": "1.197 kg CO₂"
+            },
+            {
+                "transport": "Avion",
+                "distance": "415.80 km",
+                "carbonImpact": "107.359 kg CO₂"
+            },
+            {
+                "transport": "Vélo",
+                "distance": "619.88 km",
+                "carbonImpact": "0.000 kg CO₂"
+            },
+            {
+                "transport": "Voiture électrique",
+                "distance": "578.41 km",
+                "carbonImpact": "11.452 kg CO₂"
+            },
+            {
+                "transport": "Voiture thermique",
+                "distance": "578.41 km",
+                "carbonImpact": "111.055 kg CO₂"
+            },
+            {
+                "transport": "Bus thermique",
+                "distance": "514.86 km",
+                "carbonImpact": "53.700 kg CO₂"
+            }
+        ],
+        "score_activite": 1.5,
+        "score_transport": 3.5,
+        "score_hotel": 4,
+        "score_total": 9,
+        "distance": 578.409,
+        "details": {
+            "Code INSEE": "74281",
+            "Commune": "Thonon-les-Bains",
+            "images": "[\"\", \"\", \"\", \"\"]",
+            "Département": "Haute-Savoie",
+            "latitude": "46.366667",
+            "Top_Tags": "[\"Site Sportif, R\\u00e9cr\\u00e9atif Et De Loisirs\", \"Localbusiness\", \"Restauration\", \"Commerce De D\\u00e9tail\", \"Tourisme Culturel\", \"Monument\", \"Site Culturel\", \"Prestataire Dactivit\\u00e9\", \"Tourisme Sportif\", \"Randonn\\u00e9e\"]",
+            "description": "Thonon-les-bains est une ville de Auvergne-Rhône-Alpes réputée pour Restauration et son charme authentique.",
+            "longitude": "6.483333",
+            "Région": "Auvergne-Rhône-Alpes"
+        }
+    },
+    "Thionville": {
+        "activities": [
+            {
+                "Tags": "[\"Tourisme Montagne\", \"Site Sportif, R\\u00e9cr\\u00e9atif Et De Loisirs\", \"Point Dint\\u00e9r\\u00eat\", \"Domaine De Ski Alpin\", \"Lieu\"]",
+                "Contacts_du_POI": "#https://www.snowworld.com/amneville/fr",
+                "URI_ID_du_POI": "https://data.datatourisme.fr/10/8277eb4e-0228-3f82-a401-cf2df0b547a7",
+                "Adresse_postale": "La Cité des Loisirs Allée du snowhall",
+                "Description": "L'unique domaine skiable indoor de France offre différentes zones de glisses tapissées de véritable poudreuse. Ouvert toute l'année, il permet à tous les amateurs et même aux professionnels, de s'adonner à la joie des sports d'hiver en toute saison. SnowWorld propose des pentes techniques de 15 à 18%, un snowpark qui évolue sans cesse, une piste de luge et une piste de ski débutants qui permettent un apprentissage idéal.",
+                "Covid19_mesures_specifiques": "",
+                "Communes_proches": "Metz, Thionville",
+                "Latitude": "49.2487313509395",
+                "Categories_de_POI": "https://www.datatourisme.fr/ontology/core#PlaceOfInterest|https://www.datatourisme.fr/ontology/core#PointOfInterest|https://www.datatourisme.fr/ontology/core#SportsAndLeisurePlace|https://www.datatourisme.fr/ontology/core#DownhillSkiResort",
+                "Periodes_regroupees": "",
+                "Date_de_mise_a_jour": "2024-07-18",
+                "Longitude": "6.12807040469363",
+                "Score_Moyen": "1.5",
+                "Nom_du_POI": "SNOWWORLD",
+                "Classements_du_POI": "Famille plus#Famille plus",
+                "Code_postal_et_commune": "57360#Amnéville",
+                "Createur_de_la_donnee": "DESTINATION AMNEVILLE",
+                "SIT_diffuseur": "Système d’information touristique Lorrain"
+            }
+        ],
+        "hotels": [],
+        "transport_options": [
+            {
+                "transport": "Train (TGV)",
+                "distance": "306.72 km",
+                "carbonImpact": "0.705 kg CO₂"
+            },
+            {
+                "transport": "Avion",
+                "distance": "283.40 km",
+                "carbonImpact": "73.174 kg CO₂"
+            },
+            {
+                "transport": "Vélo",
+                "distance": "397.09 km",
+                "carbonImpact": "0.000 kg CO₂"
+            },
+            {
+                "transport": "Voiture électrique",
+                "distance": "340.80 km",
+                "carbonImpact": "6.748 kg CO₂"
+            },
+            {
+                "transport": "Voiture thermique",
+                "distance": "340.80 km",
+                "carbonImpact": "65.434 kg CO₂"
+            },
+            {
+                "transport": "Bus thermique",
+                "distance": "342.80 km",
+                "carbonImpact": "35.754 kg CO₂"
+            }
+        ],
+        "score_activite": 1.5,
+        "score_transport": 2.1,
+        "score_hotel": null,
+        "score_total": 3.6,
+        "distance": 340.802,
+        "details": {
+            "Code INSEE": "57672",
+            "Commune": "Thionville",
+            "images": "[\"\", \"\", \"\", \"\"]",
+            "Département": "Moselle",
+            "latitude": "49.35",
+            "Top_Tags": "[\"Tourisme Culturel\", \"Restauration\", \"Restaurant\", \"F\\u00eate Et Manifestation\", \"Event\", \"\\u00c9v\\u00e8nement Culturel\", \"Localbusiness\", \"Monument\", \"Spectacle\", \"Spectacles\"]",
+            "description": "Située en Grand Est, Thionville séduit par son Event et son cadre de vie agréable.",
+            "longitude": "6.166667",
+            "Région": "Grand Est"
+        }
+    }
+}

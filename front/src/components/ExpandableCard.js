@@ -1,7 +1,7 @@
 import React, { useState, forwardRef } from "react";
 import Button from "./Button";
 import MapComponent from "./MapComponent";
-import CarbonGaugeReducted from "./CarbonGaugeReducted";
+import CarbonGauge from "./CarbonGauge";
 import BoxInfo from "./BoxInfo";
 import maison from "../assets/logement_logo.png";
 import hiking from "../assets/activite_logo.png";
@@ -84,7 +84,7 @@ const ExpandableMapCard = forwardRef(
                 {description}
               </p>
               <div style={{ gap: "10px", marginTop: "0px", display: "flex", alignItems: "flex-start" }}>
-                <CarbonGaugeReducted carbonFootprint={carbonFootprint} days={days} style={{ marginLeft: "-20px", flex: 1 }} />
+                <CarbonGauge carbonFootprint={carbonFootprint} days={days} style={{ marginLeft: "-20px", flex: 1 }} />
               </div>
             </div>
           </div>
