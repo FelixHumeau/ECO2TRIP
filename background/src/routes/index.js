@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const carbonRoutes = require('./carbonRoutes'); // Routes pour l'empreinte carbone
+const carbonRoutes = require('./carbonRoutes').router; // On prend seulement `router`
 const activiteRoutes = require('./activiteRoutes'); // Import des routes des activités
 const hotelRoutes = require('./hotelRoutes'); // Import des routes hôtels
 

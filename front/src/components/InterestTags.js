@@ -75,72 +75,76 @@ const InterestTags = ({ selectedFilters, handleFilterClick, limit = 15 }) => {
     "cabane", "camping car"
   ];
 
+
   const filteredTags = searchTerm
     ? tags.filter(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
     : [];
 
   return (
     <div style={{ position: "relative", width: "100%", textAlign: "left", marginBottom: "10px" }}>
-      {/* Barre de recherche des tags */}
-      <input
-        type="text"
-        placeholder="Rechercher un tag..."
-        value={searchTerm}
-        onChange={(e) => {
-          setSearchTerm(e.target.value);
-          setShowDropdown(e.target.value.length > 0);
-        }}
-        onFocus={() => setShowDropdown(searchTerm.length > 0)}
-        onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
-        style={{
-          width: "200px",
-          padding: "8px",
-          border: "1px solid #ccc",
-          borderRadius: "5px",
-          fontSize: "0.9rem",
-          display: "block",
-          margin: "0",
-        }}
-      />
-
-      {/* Menu déroulant des tags */}
-      {showDropdown && filteredTags.length > 0 && (
-        <ul
+      {/* Conteneur de la barre de recherche et du menu déroulant */}
+      <div style={{ position: "relative", display: "inline-block", width: "200px" }}>
+        {/* Barre de recherche des tags */}
+        <input
+          type="text"
+          placeholder="Rechercher un tag..."
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setShowDropdown(e.target.value.length > 0);
+          }}
+          onFocus={() => setShowDropdown(searchTerm.length > 0)}
+          onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
           style={{
-            position: "absolute",
-            left: "50%",
-            transform: "translateX(-50%)",
-            width: "200px",
-            backgroundColor: "white",
+            width: "100%",
+            padding: "8px",
             border: "1px solid #ccc",
             borderRadius: "5px",
-            marginTop: "5px",
-            listStyle: "none",
-            padding: "0",
-            maxHeight: "120px",
-            overflowY: "auto",
-            zIndex: 1000,
+            fontSize: "0.9rem",
+            display: "block",
+            margin: "0",
           }}
-        >
-          {filteredTags.map((tag) => (
-            <li
-              key={tag}
-              onClick={() => {
-                handleFilterClick(tag);
-                setSearchTerm("");
-                setShowDropdown(false);
-              }}
-              style={{
-                padding: "8px",
-                cursor: "pointer",
-                borderBottom: "1px solid #eee",
-              }}
-            >
-              {tag}
-            </li>
-          ))}
-        </ul>
-      )}
+        />
+
+        {/* Menu déroulant des tags */}
+        {showDropdown && filteredTags.length > 0 && (
+          <ul
+            style={{
+              position: "absolute",
+              top: "100%", // Position juste sous l'input
+              left: "0",
+              width: "100%",
+              backgroundColor: "white",
+              border: "1px solid #ccc",
+              borderRadius: "5px",
+              marginTop: "5px",
+              listStyle: "none",
+              padding: "0",
+              maxHeight: "120px",
+              overflowY: "auto",
+              zIndex: 1000,
+            }}
+          >
+            {filteredTags.map((tag) => (
+              <li
+                key={tag}
+                onClick={() => {
+                  handleFilterClick(tag);
+                  setSearchTerm("");
+                  setShowDropdown(false);
+                }}
+                style={{
+                  padding: "8px",
+                  cursor: "pointer",
+                  borderBottom: "1px solid #eee",
+                }}
+              >
+                {tag}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
       {/* Liste des tags sélectionnables */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "10px", justifyContent: "center" }}>
