@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import pieceOfMap from "../assets/piece_of_map.png";
 import PopupModal from "./PopupModal";
 import MapComponent from "./MapComponent";
+import CarbonGauge from "./CarbonGauge";
 
-const CityCard = ({ cityName, rating, tags, carbonFootprint, coordinates }) => {
+const CityCard = ({ cityName, rating, tags, carbonFootprint, coordinates, days }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   // Fonction pour afficher les étoiles
@@ -15,7 +16,7 @@ const CityCard = ({ cityName, rating, tags, carbonFootprint, coordinates }) => {
           key={i}
           style={{
             color: i <= rating ? "#2C7332" : "#CCC",
-            fontSize: "20px",
+            fontSize: "25px",
           }}
         >
           ★
@@ -24,6 +25,8 @@ const CityCard = ({ cityName, rating, tags, carbonFootprint, coordinates }) => {
     }
     return stars;
   };
+
+  console.log(carbonFootprint, days)
 
   return (
     <div
@@ -129,12 +132,14 @@ const CityCard = ({ cityName, rating, tags, carbonFootprint, coordinates }) => {
           </div>
         </div>
 
-        {/* Bloc 4 : Empreinte carbone */}
+        {/* Bloc 4 : Empreinte carbone avec jauge */}
         <div style={{ textAlign: "center", flex: 1 }}>
           <h2 style={{ marginBottom: "10px", minHeight: "40px" }}>Empreinte carbone</h2>
-          <div style={{ fontSize: "16px", fontWeight: "bold", color: "#FF5722" }}>
-            {carbonFootprint} kg/CO2
-          </div>
+          {/*<CarbonGauge carbonFootprint={carbonFootprint} days={days} maxWidthGauge={400} />*/}
+          <CarbonGauge
+            carbonFootprint={carbonFootprint}
+            maxWidthGauge={500} // Ajustez selon vos besoins
+          />
         </div>
 
       </div>

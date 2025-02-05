@@ -1,8 +1,8 @@
 body {
   margin: 0;
-  font-family: 'Arial', sans-serif;
+  font-family: 'Georgia', sans-serif; /* Police de caractères par défaut */
   background-color: #f0f8f0; /* Fond vert clair, comme suggéré */
-  color: #333; /* Couleur de texte sombre */
+  color: #373636; /* Couleur de texte sombre */
 }
 
 .container {
@@ -46,31 +46,13 @@ body {
   color: inherit; /* Garde la couleur du texte par défaut */
 }
 
-.text-green {
-  color: #4CAF50; /* Couleur verte */
-  margin-right: 0px;
-  margin-left: 0px;
-}
 
-.text-black {
-  color: #333; /* Couleur noire */
-  margin-right: 0px;
-  margin-left: 0px;
-}
-
-.navbar-logo-text {
-  font-size: 2rem; /* Taille du texte */
-  font-weight: bold;
-  display: flex; /* Alignement en ligne */
-  align-items: center; /* Centre les éléments verticalement */
-  gap: -5px; /* Espace entre les lettres et le logo */
-}
 
 .navbar-logo {
-  width: 50px; /* Taille du logo */
+  width: 100px; /* Taille du logo */
   height: auto; /* Hauteur automatique */
   vertical-align: middle; /* Aligne le logo au texte */
-  margin-left: 5px; /* Espace à gauche du logo */
+  margin-left: 0px; /* Espace à gauche du logo */
   margin-right: 5px; /* Espace à droite du logo */
 }
 
@@ -80,6 +62,20 @@ body {
   right: 90px; /* Positionne à droite */
   top: 50%; /* Aligne verticalement au centre */
   transform: translateY(-50%); /* Correction pour un alignement parfait */
+}
+
+.navbar-left {
+  position: absolute;
+  left: 70px; /* Positionne à droite */
+  top: 50%; /* Aligne verticalement au centre */
+  transform: translateY(-50%); /* Correction pour un alignement parfait */
+}
+/* Style pour l'image avant le logo */
+.header-image {
+  width: 175px; /* Ajuste la taille de l'image */
+  height: auto; /* Conserve les proportions */
+  margin-right: 0px; /* Espace entre l'image et le logo */
+  vertical-align: middle; /* Aligne verticalement avec le texte ou le logo */
 }
 
 /* Style du bouton rond pour le point d'interrogation */
@@ -108,12 +104,13 @@ body {
 /* Section pour HomePage */
 .hero-section {
   height: 100vh;
-  background: url('./assets/Background1.jpg') no-repeat center center/cover;
+  background: url('./assets/Background2.jpeg') no-repeat center center/cover;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   transition: opacity 0.5s ease-out;
+  flex-direction: column;
 }
 
 .content-section {
@@ -145,11 +142,11 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center; /* Centre les éléments horizontalement */
-  padding: 50px;  /* Espacement interne */
+  padding: 10px;  /* Espacement interne */
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  background-color: white; /* Fond blanc pour le conteneur */
-  margin: 100px auto; /* Centre le formulaire verticalement et horizontalement */
+  background-color: rgb(255, 255, 255); /* Fond blanc pour le conteneur */
+  margin: 10px auto; /* Centre le formulaire verticalement et horizontalement */
   width: 100%;
   max-width: 900px;
 }
@@ -157,9 +154,10 @@ body {
 .search-input {
   border: none;
   background: none;
-  flex: 1;
-  padding: 10px 0;
-  font-size: 16px;
+  flex: 1; 
+  padding: 10px 40px 10px 8px;
+  font-size: 15px;
+  
 }
 .search-input > input {
 border: none;
@@ -176,47 +174,29 @@ flex: 1;
 }
 
 .search-button {
-  background-color: #f0c14b; /* Jaune pour le bouton de recherche */
+  background-color: #06be0f; /* Jaune pour le bouton de recherche */
   border: none;
-  color: white;
-  padding: 15px 30px;
+  color: rgb(255, 255, 255);
+  padding: 10px 372px;
   text-align: center;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 30px;
   cursor: pointer;
   border-radius: 4px;
   width: fit-content;
-  margin: 20px auto 0; /* Marge en haut et centré */
+  margin: 10px auto 0; /* Marge en haut et centré */
   display: block;
   transition: background-color 0.3s ease;
+  /* Type de la police */
+  font-family: Georgia, sans-serif;
 }
 
 .search-button:hover {
-  background-color: #daa520; /* Jaune plus sombre au survol */
-}
-
-
-
-button {
-  background-color: #f0c14b; /* Jaune pour les boutons */
-  border: none;
-  color: white;
-  padding: 10px 15px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #daa520; /* Jaune plus sombre */
+  background-color: #025806; /* Jaune plus sombre au survol */
 }
 
 /* Styles pour les pages simples */
-.content h1 {
+.content h1 { 
   text-align: center;
   margin-top: 50px;
 }
@@ -226,7 +206,6 @@ button:hover {
   justify-content: space-between; /* Espace uniforme entre les champs */
   align-items: center; /* Centre verticalement les éléments */
   width: 100%; /* Assure que le conteneur occupe toute la largeur */
-  margin-bottom: 20px; /* Espacement sous les champs */
   gap: 10px; /* Espacement horizontal entre les champs */
 }
 
@@ -241,12 +220,15 @@ button:hover {
   width: calc(33.33% - 10px); /* Chaque champ occupe environ 1/3 de la largeur */
   position: relative; /* Permet le positionnement absolu des icônes */
   box-sizing: border-box; /* Inclut les bordures et paddings dans la largeur */
+  justify-content: center;
+  font-family: "Georgia", sans-serif
 }
 
 .icon {
-  width: 200px; /* Taille des icônes */
+  width: 30px; /* Taille des icônes */
   height: auto; /* Conserve les proportions */
   position: relative; /* Position relative pour les icônes */
+  right: 90px; /* Décalage par rapport au bord gauche */
 }
 
 .icon-container {
@@ -301,26 +283,28 @@ button:hover {
 
 
 /* Styles pour le nombre de voyageur */
+
 .travelers-counter { /* Conteneur principal */
   position: relative;  /* Position relative pour les éléments enfants */
   display: inline-block;  /* Affiche les éléments en ligne */
-  font-family: Georgia, serif;   /* Police de caractères */
+  font-family: Georgia, sans-serif;   /* Police de caractères */
+  font-size: 40px;  /* Taille de la police */
+  color: #000000;  /* Couleur du texte */
 }
 
 .travelers-summary { /* Zone de résumé */
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 10px 15px; /* Espacement interne */
-  border: 1px solid #ddd;
+  justify-content: space-around;
+  padding: 10px 8px; /* Espacement interne */
   border-radius: 5px;
-  background-color: #fff;
-  cursor: pointer;
-  width: 90%; /* Largeur de la zone de résumé */
+  background-color: #f9f9f9;
+  cursor: pointer; /* Curseur interactif */
+  width: 100%; /* Largeur de la zone de résumé */
 }
 
 .travelers-summary span {
-  font-size: 14px;
+  font-size: 15px;
   color: #333;
 }
 
@@ -334,9 +318,9 @@ button:hover {
 
 .travelers-dropdown {
   position: absolute;
-  top: 90%;
+  top: 105%;
   left: 0;
-  width: 93%; 
+  width: 96%; 
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 5px; 
@@ -358,7 +342,7 @@ button:hover {
 }
 
 .counter-row span {
-  font-size: 14px;
+  font-size: 15px;
   color: #333;
 }
 
@@ -404,23 +388,224 @@ button:hover {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   background-color: white;
   z-index: 1000;
-  
-}
-
-.react-datepicker__header {
-  background-color: #f9f9f9;
-  border-bottom: 1px solid #ddd;
+  left : 20px;
 }
 
 
-.react-datepicker__day--in-selecting-range, 
+
 .react-datepicker__day--in-range {
   background-color: #c8e6c9; /* Couleur de la plage sélectionnée */
   color: #333;
 }
 
 .react-datepicker__close-icon {
-  border-radius: 50%;
-  color: white;
+  border-radius: 5%;
+  color: rgb(0, 0, 0);
   z-index: 1000;
+  cursor: pointer; /* Change le curseur au survol */
+}
+
+/* Ajustement pour Select */
+.css-yk16xz-control {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.css-1okebmr-indicatorSeparator {
+  display: none; /* Supprime la barre entre le champ et l'icône */
+}
+
+.css-1pahdxg-control {
+  box-shadow: none; /* Supprime le contour au clic */
+  border-color: #f0c14b; /* Ajoute une couleur de bordure */
+}
+
+
+/* Styles pour les Tag */
+.tag {
+  background-color: rgba(255, 255, 255, 0.683);
+  color: #000000;
+  font-weight: 500;
+  padding: 13px 16px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  display: inline-block;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+}
+
+.tag:hover {
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 10px;
+}
+
+/* Styles généraux pour le footer */
+.footer {
+  background-color: #f9f9f9;
+  color: #333;
+  padding: 40px 20px;
+  font-family: Arial, sans-serif;
+  border-top: 1px solid #ddd;
+}
+
+.footer-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-section {
+  flex: 1;
+  margin: 10px;
+}
+
+.footer-section h4 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #000;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+  color: #000;
+}
+
+/* Styles pour les icônes de réseaux sociaux */
+.social-icons a {
+  text-decoration: none;
+  color: #333;
+  margin: 0 10px;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icons a:hover {
+  transform: scale(1.2);
+  color: #000;
+}
+
+/* Section du logo */
+.logo-section {
+  text-align: center;
+}
+
+.footer-logo {
+  max-width: 150px;
+  height: auto;
+  margin: 0 auto;
+}
+
+/* Barre en bas */
+.footer-bottom {
+  margin-top: 40px;
+  font-size: 12px;
+  text-align: center;
+  color: #666;
+}
+
+.footer-bottom a {
+  text-decoration: none;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.footer-bottom a:hover {
+  color: #000;
+}
+
+.dynamic-text {
+  font-size: 40px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+  color: #000;
+}
+
+.dynamic-ending {
+  color: #4dcf51;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.loader-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.center-image {
+  width: 100px; /* Ajuste selon la taille souhaitée */
+  height: 100px;
+  position: absolute;
+}
+
+.orbit-image {
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  top: 60%;
+  left: 48%;
+  transform-origin: center -100px; /* Détermine le rayon de rotation */
+}
+
+.continue-button {
+  padding: 15px 30px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background-color 0.3s ease;
+  /* Type de la police */
+  font-family: Georgia, sans-serif;
+}
+
+.continue-button:hover {
+  background-color: #025806;
+}
+
+.clouds-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0; /* Met les nuages derrière le contenu */
+  overflow: hidden;
+  pointer-events: none;
+}
+
+
+.cloud {
+  filter: blur(2px); /* Flou léger */
 }

@@ -1,68 +1,80 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css"; // Style par défaut du datepicker
-
-import { useNavigate } from "react-router-dom";
+import "react-datepicker/dist/react-datepicker.css";
 import calender from "../assets/Calendrier.png";
-import map from "../assets/Carte.png";
-import TravelersCounter from "./TravelersCounter"; // Import du composant TravelersCounter
+import { useSearch } from "../context/SearchContext"; // Contexte global
+import DepartureCitySelect from "./DepartureCitySelect";
+import TravelersCounter from "./TravelersCounter";
 
 function SearchForm() {
-  const navigate = useNavigate();
+  const { searchData, setSearchData } = useSearch(); // Accès au contexte global
 
-  const [dateRange, setDateRange] = useState([null, null]); // Tableau contenant [startDate, endDate]
-  const [startDate, endDate] = dateRange; // Déstructure la plage en startDate et endDate
+  // États locaux (initialisés avec les données du contexte)
+  const [dateRange, setDateRange] = useState([
+    searchData.startDate || null,
+    searchData.endDate || null,
+  ]);
+  const [departureCity, setDepartureCity] = useState(searchData.departureCity || "");
+  const [travelers, setTravelers] = useState(searchData.travelers || { adults: 2, children: 0, rooms: 1 });
 
-  // Composant personnalisé pour rendre le champ "lecture seule"
+  // Met à jour le contexte global dès qu’un champ change
+  useEffect(() => {
+    setSearchData({
+      departureCity,
+      startDate: dateRange[0],
+      endDate: dateRange[1],
+      travelers,
+    });
+  }, [departureCity, dateRange, travelers, setSearchData]);
+
   const CustomDateInput = forwardRef(({ value, onClick }, ref) => (
-    <div onClick={onClick} ref={ref} className="search-input">
-      {value || "Dates de voyage"} {/* Texte par défaut ou les dates sélectionnées */}
-      <div className="icon-container">
-        <img src={calender} alt="calendar" className="icon" />
-      </div>
+    <div
+      onClick={onClick}
+      ref={ref}
+      className="search-input"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center",
+        width: "80%",
+        color: "hsl(0, 0.00%, 0.00%)"
+      }}
+    >
+      {value || "Dates de voyage"}
     </div>
   ));
 
   return (
-    <div className="search-form">
-      <div className="inputs-container">
-        {/* Champ pour la destination */}
-        <div className="input-container">
-          <input
-            type="text"
-            placeholder="Où allez-vous?"
-            className="search-input"
-          />
-          <div className="icon-container">
-            <img src={map} alt={"map"} className="icon" />
-          </div>
-        </div>
+    <div className="inputs-container">
+      {/* Champ pour la ville de départ */}
+      <div className="input-container">
+        <DepartureCitySelect onChange={(value) => setDepartureCity(value)} />
+      </div>
 
-        {/* Champ pour la plage de dates */}
-        <div className="input-container">
-          <DatePicker
-            selected={startDate}
-            onChange={(update) => setDateRange(update)}
-            startDate={startDate}
-            endDate={endDate}
-            selectsRange
-            placeholderText="Dates de voyage"
-            customInput={<CustomDateInput />} // Utilisation de l'input personnalisé
-            dateFormat="dd/MM/yyyy"
-            isClearable
-          />
-        </div>
-
-        {/* Remplacement du champ pour les voyageurs */}
-        <div className="input-container">
-          <TravelersCounter /> {/* Intégration du composant TravelersCounter */}
+      {/* Champ pour les dates */}
+      <div className="input-container">
+        <DatePicker
+          selected={dateRange[0]}
+          onChange={(update) => setDateRange(update)}
+          startDate={dateRange[0]}
+          endDate={dateRange[1]}
+          selectsRange
+          placeholderText="Dates de voyage"
+          className="search-input"
+          dateFormat="dd/MM/yyyy"
+          isClearable
+          customInput={<CustomDateInput />}
+        />
+        <div className="icon-container">
+          <img src={calender} alt="calendar" className="icon" />
         </div>
       </div>
 
-      {/* Bouton de recherche */}
-      <button className="search-button" onClick={() => navigate("/about")}>
-        Rechercher
-      </button>
+      {/* Compteur pour les voyageurs */}
+      <div className="input-container">
+        <TravelersCounter onChange={setTravelers} />
+      </div>
     </div>
   );
 }
