@@ -160,8 +160,8 @@ const ExpandableMapCard = forwardRef(
                   key={index}
                   texts={[
                     transport.transport,
-                    transport.distance,
-                    transport.carbonImpact
+                    transport.carbonImpact,
+                    transport.distance
                   ]}
                 />
               ))}
@@ -183,7 +183,7 @@ const ExpandableMapCard = forwardRef(
                     key={index}
                     texts={[
                       activity.Nom_du_POI,
-                      activity.Score_Moyen,
+                      `${parseFloat(activity.Score_Moyen).toFixed(1)}/3`, // Format du score moyen
                       tags[0] // Premier tag
                     ]}
                   />
