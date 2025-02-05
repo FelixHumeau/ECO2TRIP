@@ -48,7 +48,7 @@ async function findActivitiesByTags(tags) {
     }
 }
 
-async function calculateTransportScore(city, distance) {
+/*async function calculateTransportScore(city, distance) {
     console.log(`🚗 Calcul du score transport pour ${city}...`);
 
     const transports = [1, 2, 4, 5, 6, 7, 8, 9, 10]; // ID des transports
@@ -81,6 +81,22 @@ async function calculateTransportScore(city, distance) {
     // Calcul du score transport
     const score_transport = Math.round((totalCarbon / 100) * 10) / 10;
     console.log(`✅ Score transport pour ${city}:`, score_transport);
+    return score_transport;
+}*/
+
+async function calculateTransportScore(city, transport_options) {
+    console.log(` ${city}...`);
+
+    let totalCarbon = 0;
+
+    for (var i in transport_options) {
+        let carbonValue = parseFloat(transport_options[i].carbonImpact.replace(' kg CO₂', ''));
+        totalCarbon += carbonValue;
+    }
+
+    // Calcul du score transport
+    const score_transport = Math.round((totalCarbon / 100) * 10) / 10;
+    console.log(`ICI STINAAAA Score transport pour ${city}:`, score_transport);
     return score_transport;
 }
 
@@ -227,6 +243,7 @@ async function groupActivitiesByCity(activities, from, occupancyRate = 1) {
 
         try {
             groupedByCity[city].distance = await getDistanceFromORS(from, city, "driving-car");
+            console.log(`CarbonRoutes pour ${city} calculées`)
         } catch (error) {
             console.error(`❌ Erreur distance pour ${city}:`, error.message);
         }
@@ -234,13 +251,15 @@ async function groupActivitiesByCity(activities, from, occupancyRate = 1) {
         const scores = cityActivities.map(a => parseFloat(a.Score_Moyen)).filter(score => !isNaN(score));
         groupedByCity[city].score_activite = scores.length > 0 ? parseFloat((scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(2)) : 0;
 
-        groupedByCity[city].score_transport = await calculateTransportScore(city, groupedByCity[city].distance);
         groupedByCity[city].score_hotel = await calculateHotelScore(city);
+        //groupedByCity[city].score_transport = await calculateTransportScore(city, groupedByCity[city].distance);
 
         groupedByCity[city].hotels = await getHotelsForCity(city);
 
         // 🔥 Passer `occupancyRate` à `getTransportOptions`
         groupedByCity[city].transport_options = await getTransportOptions(from, city, occupancyRate);
+
+        groupedByCity[city].score_transport = await calculateTransportScore(city, groupedByCity[city].transport_options);
 
         groupedByCity[city].score_total = groupedByCity[city].score_hotel + groupedByCity[city].score_activite + groupedByCity[city].score_transport;
 

@@ -56,7 +56,6 @@ const router = express.Router();
 }*/
 
 async function getDistanceFromORS(from, to, mode = "driving-car") {
-    console.log(`📏 Calcul de la distance entre ${from} et ${to}...`);
     
     const url = `https://api.openrouteservice.org/v2/directions/${mode}`;
 
@@ -80,7 +79,6 @@ async function getDistanceFromORS(from, to, mode = "driving-car") {
 
         // Extraire la distance en km
         const distance = response.data.routes[0].summary.distance;
-        console.log(`✅ Distance entre ${from} et ${to} : ${distance} km`);
         return distance;
     } catch (error) {
         console.error(`❌ Erreur OpenRouteService pour ${from} → ${to}:`, error.response ? error.response.data : error.message);
