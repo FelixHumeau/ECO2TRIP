@@ -40,30 +40,46 @@ const ProposedTripsPage = () => {
     if (!details || !details.Top_Tags) return [];
     try {
       const tags = JSON.parse(details.Top_Tags); // Convertir la chaîne JSON en tableau
-      return tags.slice(0, 4); // Limiter à 4 tags
+      return tags.slice(0, 3); // Limiter à 4 tags
     } catch (error) {
       console.error("Erreur lors de la conversion des tags :", error);
       return [];
     }
   };
 
+  
+
   // Mapper les données du JSON pour créer les objets cityData
   const cityData = Object.keys(cityDataJson).map(cityName => {
     const cityInfo = cityDataJson[cityName];
+    const images = cityInfo.details?.images ? JSON.parse(cityInfo.details.images) : [];
+
+        // Extraire les transports spécifiques (indices 0, 3, 5)
+    const selectedTransports = [
+      cityInfo.transport_options[0],
+      cityInfo.transport_options[3],
+      cityInfo.transport_options[5]
+    ];
+
+    // Extraire les 3 premières activités
+    const selectedActivities = cityInfo.activities.slice(0, 3);
+
     return {
       city: cityName,
       description: cityInfo.details?.description || "Description de la ville", // Utiliser la description de details si disponible
-      imageSrc: "https://www.wonderbox.fr/blog/wp-content/uploads/sites/4/2020/02/Visiter-Marseille-en-10-lieux-marseille-scaled-1-1.jpeg", // Vous pouvez ajouter une image par défaut ou spécifique
+      imageSrc: images[0],
       tags: getTagsFromDetails(cityInfo.details), // Utiliser les tags de details (limités à 4)
       carbonFootprint: {
-        transport: parseFloat(cityInfo.score_transport),
+        activities: parseFloat(cityInfo.score_activite),
         housing: parseFloat(cityInfo.score_hotel),
-        activities: parseFloat(cityInfo.score_activite)
+        transport: parseFloat(cityInfo.transport_options[0].carbonImpact),
+        transport_max: parseFloat(cityInfo.transport_options[1].carbonImpact),
       },
-      days: 5, // Vous pouvez ajuster cela en fonction de vos besoins
       price: getHotelPriceRange(cityInfo.hotels), // Utiliser la fonction pour obtenir le prix ou la fourchette de prix
       latitude: parseFloat(cityInfo.details?.latitude || cityInfo.activities[0]?.Latitude), // Utiliser la latitude de details si disponible
-      longitude: parseFloat(cityInfo.details?.longitude || cityInfo.activities[0]?.Longitude) // Utiliser la longitude de details si disponible
+      longitude: parseFloat(cityInfo.details?.longitude || cityInfo.activities[0]?.Longitude), // Utiliser la longitude de details si disponible
+      selectedTransports,
+      selectedActivities
     };
   });
 
@@ -102,6 +118,8 @@ const ProposedTripsPage = () => {
             latitude={city.latitude}
             longitude={city.longitude}
             price={city.price}
+            selectedTransports={city.selectedTransports} // Pass selectedTransports
+            selectedActivities={city.selectedActivities} // Pass selectedActivities
           />
         ))}
       </div>
@@ -110,3 +128,4 @@ const ProposedTripsPage = () => {
 };
 
 export default ProposedTripsPage;
+

@@ -10,9 +10,9 @@ export const SearchProvider = ({ children }) => {
     travelers: { adults: 2, children: 0, rooms: 1 },
     selectedFilters: [], // Pour stocker les tags sélectionnés
     ambiance: "", // Pour stocker l'ambiance sélectionnée
-  });
+    });
 
-  return (
+  return(
     <SearchContext.Provider value={{ searchData, setSearchData }}>
       {children}
     </SearchContext.Provider>

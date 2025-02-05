@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 const ExpandableMapCard = forwardRef(
   (
-    { city, description, imageSrc, tags = [], carbonFootprint, days, backgroundColor = "#C3E3B6", price, latitude, longitude },
+    { city, description, imageSrc, tags = [], carbonFootprint, days, backgroundColor = "#C3E3B6", price, latitude, longitude, selectedTransports, selectedActivities},
     ref
   ) => {
     const [isMapVisible, setIsMapVisible] = useState(false);
@@ -83,8 +83,9 @@ const ExpandableMapCard = forwardRef(
               <p style={{ fontSize: "14px", color: "#333", marginTop: "5px", maxWidth: "50%", wordWrap: "break-word" }}>
                 {description}
               </p>
-              <div style={{ gap: "10px", marginTop: "0px", display: "flex", alignItems: "flex-start" }}>
-                <CarbonGauge carbonFootprint={carbonFootprint} days={days} style={{ marginLeft: "-20px", flex: 1 }} />
+              {/* Conteneur de la jauge avec une largeur réduite et aligné à gauche */}
+              <div style={{ width: "50%", alignSelf: "flex-start", marginTop: "10px" }}>
+                <CarbonGauge carbonFootprint={carbonFootprint} days={days} />
               </div>
             </div>
           </div>
@@ -102,7 +103,7 @@ const ExpandableMapCard = forwardRef(
           flexDirection: "column",
           alignItems: "flex-end",
         }}>
-          <span style={{ fontSize: "14px", fontWeight: "normal", marginBottom: "5px" }}>Prix Logement</span>
+          <span style={{ fontSize: "14px", fontWeight: "normal", marginBottom: "5px" }}>Prix Logement /Nuit</span>
           {price}
         </div>
 
@@ -136,58 +137,72 @@ const ExpandableMapCard = forwardRef(
           > En route !</button>
         </div>
 
-        {/* Carte visible quand isMapVisible est activé */}
         {isMapVisible && (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              marginTop: "15px",
-              width: "100%",
-              maxHeight: "300px",
-              overflow: "hidden",
-            }}
-          >
-            {/* Texte + Image à gauche */}
-            <div style={{ flex: 1, paddingRight: "10px", textAlign: "center" }}>
-              <img 
-                src={maison}
-                alt="Icone gauche" 
-                style={{ width: "70px", height: "70px", marginBottom: "10px" }} 
-              />
-              <div>
-                <BoxInfo texts={["Train 1", "XXX Score", "XXX €"]} />
-                <BoxInfo texts={["Train 2", "XXX Score", "XXX €"]} />
-                <BoxInfo texts={["Voiture", "XXX Score", "XXX €"]} />
-              </div>
-            </div>
-
-            {/* Texte + Image au centre */}
-            <div style={{ flex: 1, textAlign: "center" }}>
-              <img 
-                src={hiking}
-                alt="Icone centre" 
-                style={{ width: "70px", height: "70px", marginBottom: "10px" }} 
-              />
-              <div>
-                <BoxInfo texts={["Surf", "XXX Score", "XXX €"]} />
-                <BoxInfo texts={["Randonnée", "XXX Score", "XXX €"]} />
-                <BoxInfo texts={["Beach Volley", "XXX Score", "XXX €"]} />
-              </div>            
-            </div>
-            
-            {/* Carte */}
-
-            <div style={{ flex: 1, paddingLeft: "10px" }}>
-              <MapComponent
-                coordinates={[latitude, longitude]} // Passer les coordonnées dynamiques ici
-                locationName={city}
-                zoom={5}
-                style={{ width: "100%", height: "100%" }}
-              />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: "15px",
+            width: "100%",
+            overflow: "hidden",
+          }}
+        >
+          {/* Texte + Image à gauche */}
+          <div style={{ flex: 1, paddingRight: "10px", textAlign: "center" }}>
+            <img 
+              src={maison}
+              alt="Icone gauche" 
+              style={{ width: "70px", height: "70px", marginBottom: "10px" }} 
+            />
+            <div>
+              {selectedTransports.map((transport, index) => (
+                <BoxInfo
+                  key={index}
+                  texts={[
+                    transport.transport,
+                    transport.distance,
+                    transport.carbonImpact
+                  ]}
+                />
+              ))}
             </div>
           </div>
-        )}
+
+          {/* Texte + Image au centre */}
+          <div style={{ flex: 1, textAlign: "center" }}>
+            <img 
+              src={hiking}
+              alt="Icone centre" 
+              style={{ width: "70px", height: "70px", marginBottom: "10px" }} 
+            />
+            <div>
+              {selectedActivities.map((activity, index) => {
+                const tags = JSON.parse(activity.Tags);
+                return (
+                  <BoxInfo
+                    key={index}
+                    texts={[
+                      activity.Nom_du_POI,
+                      activity.Score_Moyen,
+                      tags[0] // Premier tag
+                    ]}
+                  />
+                );
+              })}
+            </div>            
+          </div>
+          
+          {/* Carte */}
+          <div style={{ flex: 1, paddingLeft: "10px" }}>
+            <MapComponent
+              coordinates={[latitude, longitude]}
+              locationName={city}
+              zoom={5}
+              style={{ width: "100%", height: "100%" }}
+            />
+          </div>
+        </div>
+      )}
       </div>
     );
   }
