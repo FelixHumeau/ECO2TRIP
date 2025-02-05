@@ -1,8 +1,10 @@
 import React from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
+import PropTypes from "prop-types";
+import styles from "../style/MapComponent.module.css";
 
-// Définition d'une icône personnalisée
+// Définition d'une icône personnalisée pour Leaflet
 const customIcon = new L.Icon({
   iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
   iconSize: [25, 41],
@@ -12,20 +14,10 @@ const customIcon = new L.Icon({
   shadowSize: [41, 41],
 });
 
-const MapComponent = ({ coordinates, locationName, address = "", zoom = 13}) => {
+const MapComponent = ({ coordinates, locationName, address = "", zoom = 13 }) => {
   return (
-    <div style={{ display: "flex", flexDirection: "column", flex: 1, width: "100%" }}>
-      <MapContainer
-        center={coordinates}
-        zoom={zoom}
-        style={{
-          width: "100%",
-          flex: 1,
-          minHeight: "300px",
-          maxHeight: "100%",
-          borderRadius: "8px",
-        }}
-      >
+    <div className={styles.mapContainer}>
+      <MapContainer center={coordinates} zoom={zoom} className={styles.leafletContainer}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <Marker position={coordinates} icon={customIcon}>
           <Popup>{locationName}</Popup>
@@ -33,19 +25,23 @@ const MapComponent = ({ coordinates, locationName, address = "", zoom = 13}) => 
       </MapContainer>
 
       {/* Affichage de l'adresse sous la carte si elle existe */}
-      {address && (
-        <p style={{
-          textAlign: "center",
-          marginTop: "10px",
-          fontSize: "20px",
-          fontWeight: "bold",
-          color: "#333"
-        }}>
-          📍 {address}
-        </p>
-      )}
+      {address && <p className={styles.address}>📍 {address}</p>}
     </div>
   );
+};
+
+// 🔍 Ajout de PropTypes pour valider les types des props
+MapComponent.propTypes = {
+  coordinates: PropTypes.arrayOf(PropTypes.number).isRequired,
+  locationName: PropTypes.string.isRequired,
+  address: PropTypes.string,
+  zoom: PropTypes.number,
+};
+
+// Valeurs par défaut
+MapComponent.defaultProps = {
+  address: "",
+  zoom: 13,
 };
 
 export default MapComponent;

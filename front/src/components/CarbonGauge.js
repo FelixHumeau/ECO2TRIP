@@ -1,83 +1,71 @@
-import React from "react";
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import styles from "../style/CarbonGauge.module.css";
 
-const CarbonGauge = ({ carbonFootprint, days, maxWidthGauge }) => {
-  const maxCarbon = 150 * days; // Total max basé sur le nombre de jours
-  const totalEmissions = carbonFootprint.transport + carbonFootprint.housing + carbonFootprint.activities;
+const GaugeBar = ({ percentage, color }) => (
+  <div className={styles.gaugeBar} style={{ backgroundColor: color, width: `${percentage}%` }} />
+);
 
-  // Calcul des pourcentages pour chaque catégorie
-  const transportPercentage = Math.min((carbonFootprint.transport / maxCarbon) * 100, 100);
-  const housingPercentage = Math.min((carbonFootprint.housing / maxCarbon) * 100, 100)+3;
-  const activitiesPercentage = Math.min((carbonFootprint.activities / maxCarbon) * 100, 100)+3;
+GaugeBar.propTypes = {
+  percentage: PropTypes.number.isRequired,
+  color: PropTypes.string.isRequired,
+};
+
+const PopupDetail = ({ transport, housing, activities, transport_max }) => (
+  <div className={styles.popup} role="tooltip">
+    {[
+      { name: "Transport", value: transport, max: transport_max, color: "#7AA174" },
+      { name: "Hôtel", value: housing, max: 5, color: "#7A8AA1" },
+      { name: "Activités", value: activities, max: 3, color: "#A1748A" },
+    ].map(({ name, value, max, color }) => (
+      <div key={name} className={styles.popupItem}>
+        <div className={styles.popupGauge}>
+          <div style={{ backgroundColor: color, height: `${(value / max) * 100}%` }} />
+        </div>
+        <p>{name}: {value} / {max}</p>
+      </div>
+    ))}
+  </div>
+);
+
+PopupDetail.propTypes = {
+  transport: PropTypes.number.isRequired,
+  housing: PropTypes.number.isRequired,
+  activities: PropTypes.number.isRequired,
+  transport_max: PropTypes.number.isRequired,
+};
+
+const CarbonGauge = ({ carbonFootprint, maxWidthGauge }) => {
+  const { activities, housing, transport, transport_max } = carbonFootprint;
+  const [showPopup, setShowPopup] = useState(false);
 
   return (
-    <div style={{ textAlign: "center", width: "90%" }}>
-      <div style={{
-        width: "90%", 
-        maxWidth: `${maxWidthGauge}px`,
-        minWidth: "100px",
-        height: "20px",
-        backgroundColor: "#e0e0e0",
-        borderRadius: "10px",
-        overflow: "hidden",
-        position: "relative",
-        margin: "auto",
-        display: "flex"
-      }}>
-        {/* Transport */}
-        <div style={{
-          width: `${transportPercentage}%`,
-          height: "100%",
-          backgroundColor: "#A8C4A1", //  Couleur Transport
-          transition: "width 0.5s ease-in-out",
-          borderTopRightRadius: "10px",
-          borderBottomRightRadius: "10px",
-          zIndex: 3,
-        }} />
-        {/* Hébergement */}
-        <div style={{
-          width: `${housingPercentage}%`,
-          height: "100%",
-          backgroundColor: "#A1AEC4", //  Couleur Hébergement
-          transition: "width 0.5s ease-in-out",
-          marginLeft: "-3%",
-          borderTopRightRadius: "10px",
-          borderBottomRightRadius: "10px",
-          zIndex: 2
-        }} />
-        {/* Activités */}
-        <div style={{
-          width: `${activitiesPercentage}%`,
-          height: "100%",
-          backgroundColor: "#C4A1B8", //  Couleur Activités
-          transition: "width 0.5s ease-in-out",
-          marginLeft: "-3%",
-          borderTopRightRadius: "10px",
-          borderBottomRightRadius: "10px",
-          zIndex: 1
-        }} />
+    <div className={styles.container} onMouseEnter={() => setShowPopup(true)} onMouseLeave={() => setShowPopup(false)}>
+      {/* Jauge principale */}
+      <div className={styles.gauge} style={{ maxWidth: `${maxWidthGauge}px` }}>
+        <GaugeBar percentage={(transport / transport_max) * 100} color="#7AA174" />
+        <GaugeBar percentage={(housing / 5) * 100} color="#7A8AA1" />
+        <GaugeBar percentage={(activities / 3) * 100} color="#A1748A" />
       </div>
 
-      {/* Légende des émissions */}
-      <p style={{ fontSize: "14px", fontWeight: "bold", marginTop: "5px" }}>
-        {totalEmissions} kg CO₂ / {maxCarbon} kg CO₂
-      </p>
-
-      <div style={{ display: "flex", justifyContent: "center", gap: "10px", marginTop: "5px" }}>
-        <span style={{ display: "flex", alignItems: "center" }}>
-          <div style={{ width: "12px", height: "12px", backgroundColor: "#A8C4A1", marginRight: "5px", borderRadius: "3px" }}></div>
-          Transport
-        </span>
-        <span style={{ display: "flex", alignItems: "center" }}>
-          <div style={{ width: "12px", height: "12px", backgroundColor: "#A1AEC4", marginRight: "5px", borderRadius: "3px" }}></div>
-          Hébergement
-        </span>
-        <span style={{ display: "flex", alignItems: "center" }}>
-          <div style={{ width: "12px", height: "12px", backgroundColor: "#C4A1B8", marginRight: "5px", borderRadius: "3px" }}></div>
-          Activités
-        </span>
-      </div>
+      {/* Popup d'infos */}
+      {showPopup && <PopupDetail transport={transport} housing={housing} activities={activities} transport_max={transport_max} />}
     </div>
   );
+};
+
+CarbonGauge.propTypes = {
+  carbonFootprint: PropTypes.shape({
+    activities: PropTypes.number.isRequired,
+    housing: PropTypes.number.isRequired,
+    transport: PropTypes.number.isRequired,
+    transport_max: PropTypes.number.isRequired,
+  }).isRequired,
+  maxWidthGauge: PropTypes.number,
+};
+
+CarbonGauge.defaultProps = {
+  maxWidthGauge: 400,
 };
 
 export default CarbonGauge;

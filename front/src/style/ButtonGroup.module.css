@@ -1,0 +1,28 @@
+.buttonGroup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.summaryButton {
+  min-width: 100px;
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, transform 0.2s;
+}
+
+/* Désactivé */
+.summaryButton:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  transform: none;
+}

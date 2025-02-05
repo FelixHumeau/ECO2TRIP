@@ -1,0 +1,57 @@
+/* Conteneur principal */
+.container {
+  text-align: center;
+  width: 90%;
+  position: relative;
+}
+
+/* Jauge principale */
+.gauge {
+  display: flex;
+  height: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: transparent;
+  width: 90%;
+  min-width: 100px;
+  margin: auto;
+  cursor: pointer;
+}
+
+.gaugeBar {
+  height: 100%;
+}
+
+/* Popup d’informations */
+.popup {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  gap: 20px;
+  z-index: 10;
+}
+
+.popupItem {
+  text-align: center;
+}
+
+.popupGauge {
+  width: 20px;
+  height: 100px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.popupGauge div {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}

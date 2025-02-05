@@ -1,0 +1,23 @@
+# Utilisation de l'image Node.js pour le build
+FROM node:18 AS build
+
+# Définir le répertoire de travail
+WORKDIR /app
+
+# Copier les fichiers nécessaires
+COPY package.json package-lock.json ./
+RUN npm install
+
+# Copier le code source et builder l'application
+COPY . .
+RUN npm run build
+
+# Utilisation d'une image Nginx pour servir le frontend
+FROM nginx:alpine
+COPY --from=build /app/build /usr/share/nginx/html
+
+# Exposer le port 80 pour accéder au site
+EXPOSE 80
+
+# Lancer Nginx
+CMD ["nginx", "-g", "daemon off;"]

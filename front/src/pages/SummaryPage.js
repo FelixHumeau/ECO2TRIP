@@ -26,10 +26,16 @@ const SummaryPage = () => {
 
   const travelData = {
     from: "Paris", to: "Lyon",
-    carbonFootprint: {
+    /*carbonFootprint: {
       activities: 75,
       housing: 130,
       transport: 160
+    }*/
+    carbonFootprint: {
+      "activities": 1.23,
+      "housing": 3,
+      "transport": 50,
+      "transport_max": 130
     },
     days: 5,
     results: [

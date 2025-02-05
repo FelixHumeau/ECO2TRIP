@@ -1,0 +1,41 @@
+/* Conteneur principal */
+.container {
+  width: 100%;
+  text-align: center;
+}
+
+/* Titre + affichage de la valeur totale */
+.title {
+  font-weight: normal;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.total {
+  font-size: 14px;
+  color: #555;
+  font-weight: bold;
+}
+
+/* Jauge principale */
+.gauge {
+  display: flex;
+  height: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #e0e0e0;
+  width: 100%;
+  min-width: 200px;
+  position: relative;
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+/* Segment de jauge */
+.gaugeSegment {
+  height: 100%;
+  transition: width 0.5s ease-in-out;
+  position: relative;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}

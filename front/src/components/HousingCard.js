@@ -1,23 +1,15 @@
 import React, { forwardRef } from "react";
 import BasicCard from "./BasicCard";
 import HousingBox from "./HousingBox";
+import styles from "../style/HousingCard.module.css";
 
 const HousingCard = forwardRef(({ housings }, ref) => {
   return (
     <BasicCard ref={ref} title="Hébergement">
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-          gap: "20px",
-          width: "100%",
-          alignItems: "stretch",
-        }}
-      >
+      <div className={styles.housingGrid}>
         {housings.map((house, index) => (
-          <div key={index} style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+          <div key={index} className={styles.housingItem}>
             <HousingBox
-              key={index}
               image={house.image_url}
               title={house.name}
               titleLink={house.link}

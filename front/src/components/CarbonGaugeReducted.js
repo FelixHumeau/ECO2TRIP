@@ -1,78 +1,61 @@
 import React from "react";
+import PropTypes from "prop-types";
+import styles from "../style/CarbonGaugeReducted.module.css";
 
-const CarbonGaugeReducted = ({ carbonFootprint, days, maxWidthGauge = 300 }) => {
+const GaugeSegment = ({ percentage, color, zIndex }) => (
+  <div
+    className={styles.gaugeSegment}
+    style={{
+      width: `${percentage}%`,
+      backgroundColor: color,
+      zIndex,
+    }}
+  />
+);
+
+GaugeSegment.propTypes = {
+  percentage: PropTypes.number.isRequired,
+  color: PropTypes.string.isRequired,
+  zIndex: PropTypes.number.isRequired,
+};
+
+const CarbonGaugeReducted = ({ carbonFootprint, days, maxWidthGauge }) => {
   const maxCarbon = 150 * days; // Total max basé sur le nombre de jours
   const totalEmissions = carbonFootprint.transport + carbonFootprint.housing + carbonFootprint.activities;
 
-  // Calcul des pourcentages pour chaque catégorie
   const transportPercentage = Math.min((carbonFootprint.transport / maxCarbon) * 100, 100);
   const housingPercentage = Math.min((carbonFootprint.housing / maxCarbon) * 100, 100) + 3;
   const activitiesPercentage = Math.min((carbonFootprint.activities / maxCarbon) * 100, 100) + 3;
 
   return (
-    <div style={{ width: "100%" }}>
-      {/* Titre "Empreinte Carbone" */}
-      <div style={{ fontWeight: "normal", fontSize: "16px", marginBottom: "10px" }}>
-        Empreinte Carbone
+    <div className={styles.container}>
+      {/* Titre et valeur totale */}
+      <div className={styles.title}>
+        Empreinte Carbone <span className={styles.total}>({totalEmissions.toFixed(1)} kg CO₂)</span>
       </div>
 
-      <div
-        style={{
-          width: "100%",               // Utilise toute la largeur disponible
-          maxWidth: `${maxWidthGauge}px`, // Limite la largeur maximale
-          minWidth: "200px",             // Taille minimale pour la jauge
-          height: "20px",                // Hauteur de la jauge
-          backgroundColor: "#e0e0e0",
-          borderRadius: "10px",
-          overflow: "hidden",
-          position: "relative",
-          display: "flex",               // Flex pour distribuer l'espace horizontalement
-        }}
-      >
-        {/* Transport */}
-        <div
-          style={{
-            width: `${transportPercentage}%`,
-            height: "100%",
-            backgroundColor: "#A8C4A1", //  Couleur Transport
-            transition: "width 0.5s ease-in-out",
-            borderTopRightRadius: "10px",
-            borderBottomRightRadius: "10px",
-            zIndex: 3,
-          }}
-        />
-        {/* Hébergement */}
-        <div
-          style={{
-            width: `${housingPercentage}%`,
-            height: "100%",
-            backgroundColor: "#A1AEC4", //  Couleur Hébergement
-            transition: "width 0.5s ease-in-out",
-            marginLeft: "-3%",
-            borderTopRightRadius: "10px",
-            borderBottomRightRadius: "10px",
-            zIndex: 2,
-          }}
-        />
-        {/* Activités */}
-        <div
-          style={{
-            width: `${activitiesPercentage}%`,
-            height: "100%",
-            backgroundColor: "#C4A1B8", //  Couleur Activités
-            transition: "width 0.5s ease-in-out",
-            marginLeft: "-3%",
-            borderTopRightRadius: "10px",
-            borderBottomRightRadius: "10px",
-            zIndex: 1,
-          }}
-        />
+      {/* Jauge principale */}
+      <div className={styles.gauge} style={{ maxWidth: `${maxWidthGauge}px` }}>
+        <GaugeSegment percentage={transportPercentage} color="#A8C4A1" zIndex={3} />
+        <GaugeSegment percentage={housingPercentage} color="#A1AEC4" zIndex={2} />
+        <GaugeSegment percentage={activitiesPercentage} color="#C4A1B8" zIndex={1} />
       </div>
-
-      
     </div>
   );
 };
 
+CarbonGaugeReducted.propTypes = {
+  carbonFootprint: PropTypes.shape({
+    activities: PropTypes.number.isRequired,
+    housing: PropTypes.number.isRequired,
+    transport: PropTypes.number.isRequired,
+  }).isRequired,
+  days: PropTypes.number.isRequired,
+  maxWidthGauge: PropTypes.number,
+};
+
+CarbonGaugeReducted.defaultProps = {
+  maxWidthGauge: 300,
+};
 
 export default CarbonGaugeReducted;

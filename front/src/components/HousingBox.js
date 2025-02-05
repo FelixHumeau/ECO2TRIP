@@ -1,11 +1,16 @@
 import React from "react";
 import ImageCard from "./ImageCard";
+import styles from "../style/HousingBox.module.css";
 
 const HousingBox = ({ image, title, titleLink, pricePerNight, rating }) => {
-  // Fonction pour afficher les étoiles
   const renderStars = (rating) => {
     return [...Array(5)].map((_, i) => (
-      <span key={i} style={{ color: i < rating ? "#FFD700" : "#CCC", fontSize: "20px" }}>★</span>
+      <span 
+        key={i} 
+        className={`${styles.star} ${i < rating ? "" : styles.empty}`}
+      >
+        ★
+      </span>
     ));
   };
 
@@ -13,10 +18,10 @@ const HousingBox = ({ image, title, titleLink, pricePerNight, rating }) => {
     <ImageCard
       image={image}
       title={title}
-      titleLink = {titleLink}
+      titleLink={titleLink}
       description={`Prix/nuit : ${pricePerNight}€`}
       backgroundColor="#D4E9C2"
-      extraContent={<div>{renderStars(rating)}</div>}
+      extraContent={<div className={styles.stars}>{renderStars(rating)}</div>}
     />
   );
 };
