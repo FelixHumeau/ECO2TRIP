@@ -1,35 +1,35 @@
-import React, { useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
+import React, { useRef, useState, useEffect } from "react";
 import Carousel from "../components/Carousel";
 import CityCard from "../components/CityCard";
-import BasicCard from "../components/BasicCard";
 import ScrollableButtons from "../components/ScrollableButtons";
 import activityImage from "../assets/activity_image.png";
 import ActivityCard from "../components/ActivityCard";
 import HousingCard from "../components/HousingCard";
 import TransportCard from "../components/TransportCard";
 
-const cityData2 = {
+/*const cityData2 = {
   "Metz": {
     "activities": [
       {
-        "Tags": "[\"Tourisme Montagne\", \"Site Sportif, R\\u00e9cr\\u00e9atif Et De Loisirs\", \"Point Dint\\u00e9r\\u00eat\", \"Domaine De Ski Alpin\", \"Lieu\"]",
-        "Contacts_du_POI": "#https://www.snowworld.com/amneville/fr",
-        "URI_ID_du_POI": "https://data.datatourisme.fr/10/8277eb4e-0228-3f82-a401-cf2df0b547a7",
-        "Adresse_postale": "La Cité des Loisirs Allée du snowhall",
-        "Description": "L'unique domaine skiable indoor de France offre différentes zones de glisses tapissées de véritable poudreuse. Ouvert toute l'année, il permet à tous les amateurs et même aux professionnels, de s'adonner à la joie des sports d'hiver en toute saison. SnowWorld propose des pentes techniques de 15 à 18%, un snowpark qui évolue sans cesse, une piste de luge et une piste de ski débutants qui permettent un apprentissage idéal.",
-        "Covid19_mesures_specifiques": "",
         "Communes_proches": "Metz, Thionville",
         "Latitude": "49.2487313509395",
         "Categories_de_POI": "https://www.datatourisme.fr/ontology/core#PlaceOfInterest|https://www.datatourisme.fr/ontology/core#PointOfInterest|https://www.datatourisme.fr/ontology/core#SportsAndLeisurePlace|https://www.datatourisme.fr/ontology/core#DownhillSkiResort",
-        "Periodes_regroupees": "",
         "Date_de_mise_a_jour": "2024-07-18",
+        "Contacts_du_POI": "#https://www.snowworld.com/amneville/fr",
+        "Createur_de_la_donnee": "DESTINATION AMNEVILLE",
         "Longitude": "6.12807040469363",
+        "Code_postal_et_commune": "57360#Amnéville",
+        "Classements_du_POI": "Famille plus#Famille plus",
+        "SIT_diffuseur": "Système d’information touristique Lorrain",
+        "URI_ID_du_POI": "https://data.datatourisme.fr/10/8277eb4e-0228-3f82-a401-cf2df0b547a7",
+        "Adresse_postale": "La Cité des Loisirs Allée du snowhall",
         "Score_Moyen": "1.5",
         "Nom_du_POI": "SNOWWORLD",
-        "Classements_du_POI": "Famille plus#Famille plus",
-        "Code_postal_et_commune": "57360#Amnéville",
-        "Createur_de_la_donnee": "DESTINATION AMNEVILLE",
-        "SIT_diffuseur": "Système d’information touristique Lorrain"
+        "Covid19_mesures_specifiques": "",
+        "Periodes_regroupees": "",
+        "Description": "L'unique domaine skiable indoor de France offre différentes zones de glisses tapissées de véritable poudreuse. Ouvert toute l'année, il permet à tous les amateurs et même aux professionnels, de s'adonner à la joie des sports d'hiver en toute saison. SnowWorld propose des pentes techniques de 15 à 18%, un snowpark qui évolue sans cesse, une piste de luge et une piste de ski débutants qui permettent un apprentissage idéal.",
+        "Tags": "[\"Tourisme Montagne\", \"Site Sportif, R\\u00e9cr\\u00e9atif Et De Loisirs\", \"Point Dint\\u00e9r\\u00eat\", \"Domaine De Ski Alpin\", \"Lieu\"]"
       }
     ],
     "hotels": [
@@ -86,51 +86,36 @@ const cityData2 = {
     "score_total": 6.5,
     "distance": 332.531,
     "details": {
-      "Code INSEE": "57463",
-      "Commune": "Metz",
-      "images": "[\"\", \"\", \"\", \"\"]",
+      "Région": "Grand Est",
       "Département": "Moselle",
-      "latitude": "49.119308",
-      "Top_Tags": "[\"Tourisme Culturel\", \"F\\u00eate Et Manifestation\", \"Event\", \"\\u00c9v\\u00e8nement Culturel\", \"Restauration\", \"Monument\", \"Restaurant\", \"Spectacles\", \"Spectacle\", \"Localbusiness\"]",
       "description": "Metz est une ville de Grand Est réputée pour Restauration et son charme authentique.",
+      "latitude": "49.119308",
+      "Code INSEE": "57463",
+      "Top_Tags": "[\"Tourisme Culturel\", \"F\\u00eate Et Manifestation\", \"Event\", \"\\u00c9v\\u00e8nement Culturel\", \"Restauration\", \"Monument\", \"Restaurant\", \"Spectacles\", \"Spectacle\", \"Localbusiness\"]",
+      "images": "[\"https://i0.wp.com/moselle.tv/wp-content/uploads/2024/11/jean-de-gastines-shigeru-ban-beaubourg-metz-1-e1732619502735.jpg?fit=1920%2C883&ssl=1\", \"https://www.tourisme-metz.com/uploads/page/a7ecb084ebb10a0562c8f74b7055e7e0.jpeg\", \"https://a2f6z9k6.rocketcdn.me/wp-content/uploads/2023/01/metz-ville-vert-eau-or-scaled.jpeg\"]",
       "longitude": "6.175716",
-      "Région": "Grand Est"
+      "Commune": "Metz"
     }
-  },
-};
+  }
+};*/
 
 const SummaryPage = () => {
+  const location = useLocation();
+  const { cityName, apiResponseCity } = location.state || {};
 
-  const city = cityData2["Metz"] || {};
+  console.log("🏙️ Ville sélectionnée :", cityName);
+  console.log("📊 Données API reçues :", apiResponseCity);
 
-  console.log(city.details.images)
+  if (!cityName || !apiResponseCity) {
+    return <h2>Erreur : Aucune donnée de ville reçue</h2>;
+  }
+
+  const city = apiResponseCity
+
+  console.log("LAA",cityName, apiResponseCity);
+
 
   // Transformer les données pour chaque section
-  const cityData = {
-    cityName: "Metz",
-    rating: 5,
-    tags: city.activities ? city.activities.flatMap(act => {
-      try {
-        return JSON.parse(act.Tags);
-      } catch (error) {
-        console.error("Erreur de parsing des tags :", act.Tags, error);
-        return [];
-      }
-    }) : [],
-    coordinates: city.activities?.length
-      ? [parseFloat(city.activities[0].Latitude), parseFloat(city.activities[0].Longitude)]
-      : [0, 0],
-    images: city.details.images ? (() => {
-      try {
-        return JSON.parse(city.details.images);
-      } catch (error) {
-        console.error("Erreur de parsing des images :", city.details.images, error);
-        return [];
-      }
-    })() : []
-  };
-
-
   const travelData = {
     from: "Paris",
     to: "Metz",
@@ -167,6 +152,31 @@ const SummaryPage = () => {
     }
   })) : [];
 
+  const cityData = {
+    cityName: "Metz",
+    rating: 5,
+    tags: city.activities ? city.activities.flatMap(act => {
+      try {
+        return JSON.parse(act.Tags);
+      } catch (error) {
+        console.error("Erreur de parsing des tags :", act.Tags, error);
+        return [];
+      }
+    }) : [],
+    coordinates: city.activities?.length
+      ? [parseFloat(city.activities[0].Latitude), parseFloat(city.activities[0].Longitude)]
+      : [0, 0],
+    images: city.details.images ? (() => {
+      try {
+        return JSON.parse(city.details.images);
+      } catch (error) {
+        console.error("Erreur de parsing des images :", city.details.images, error);
+        return [];
+      }
+    })() : [],
+    activities: activityData
+  };
+
   const buttonLabels = ["Transport", "Hébergement", "Activité", "Restauration"];
 
   // Références des cartes
@@ -180,6 +190,80 @@ const SummaryPage = () => {
     Hébergement: hebergementRef,
     Activité: activiteRef,
     Restauration: restaurationRef,
+  };
+
+  const [updatedCityData, setUpdatedCityData] = useState(cityData);
+
+  const activityDataUpdated = updatedCityData.activities ? updatedCityData.activities.map(activity => ({
+    nom: activity.Nom_du_POI || activity.nom,
+    description: activity.Description || activity.description,
+    adresse: activity.Adresse_postale || activity.adresse,
+    tags: activity.Tags ? JSON.parse(activity.Tags.replace(/\\u/g, "")) : [],
+    coordonnees: {
+      latitude: parseFloat(activity.Latitude) || (activity.coordonnees ? activity.coordonnees.latitude : null),
+      longitude: parseFloat(activity.Longitude) || (activity.coordonnees ? activity.coordonnees.longitude : null)
+    }
+  })).filter(activity => activity.coordonnees.latitude && activity.coordonnees.longitude) : [];
+
+
+  useEffect(() => {
+    const updateCityActivities = async () => {
+      let newCityData = { ...updatedCityData };
+      let hasChanges = false; // Vérifier si on doit mettre à jour
+
+      for (const city in newCityData) {
+        console.log("📌 Contenu de newCityData :", newCityData);
+        if (newCityData && Array.isArray(newCityData.activities) && newCityData.activities.length < 4) {
+          console.log(`🚀 Moins de 4 activités trouvées pour ${newCityData.cityName}, récupération en cours...`);
+
+          try {
+            const additionalActivities = await fetchAdditionalActivities(newCityData.cityName);
+
+            if (additionalActivities.length > 0) {
+              newCityData.activities = [
+                ...newCityData.activities,
+                ...additionalActivities,
+              ].slice(0, 4); // Garde un maximum de 4 activités
+              hasChanges = true; // Indique qu'une mise à jour est nécessaire
+            }
+          } catch (error) {
+            console.error(`❌ Erreur lors de la récupération des activités pour ${city} :`, error);
+          }
+        }
+      }
+
+      if (hasChanges) { // Évite de déclencher un re-render inutile
+        setUpdatedCityData(newCityData);
+      }
+    };
+
+    updateCityActivities();
+  }, []); // 🔥 Supprime cityData des dépendances pour éviter les boucles infinies
+
+  console.log("📌 Activities passées à ActivityCard :", updatedCityData.activities);
+
+  // 📌 Fonction pour récupérer des activités supplémentaires
+  const fetchAdditionalActivities = async (city) => {
+    try {
+      const response = await fetch("http://localhost:5000/api/activites/add-activities", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ city: city }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erreur API: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log(`✅ Activités supplémentaires pour ${city} :`, data);
+      return data.activities;
+    } catch (error) {
+      console.error(`❌ Erreur API pour ${city} :`, error);
+      return [];
+    }
   };
 
   return (
@@ -207,7 +291,7 @@ const SummaryPage = () => {
       }}>
         <TransportCard ref={transportRef} travelData={travelData} />
         <HousingCard ref={hebergementRef} housings={housingData} />
-        <ActivityCard ref={activiteRef} activities={activityData} activityImage={activityImage} />
+        <ActivityCard ref={activiteRef} activities={activityDataUpdated} activityImage={activityImage} />
       </div>
     </div>
   );

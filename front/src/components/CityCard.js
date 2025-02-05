@@ -26,7 +26,7 @@ const CityCard = ({ cityName, rating, tags, carbonFootprint, coordinates, days }
     return stars;
   };
 
-  console.log(carbonFootprint, days)
+  //console.log(carbonFootprint, days)
 
   return (
     <div

@@ -6,48 +6,87 @@ import CloudBackground from "../components/Cloud";
 import { SearchContext } from "../context/SearchContext";
 import { useLocation } from "react-router-dom";
 
-
 const ProposedTripsPage = () => {
   const location = useLocation();
-
   const { searchData } = useContext(SearchContext);
-  const { ambiance, selectedFilters } = location.state || {};
+  const { apiResponse, ambiance, selectedFilters } = location.state || {};
 
-  const cityData = [
-    {
-      city: "Marseille",
-      description: "Située sur la côte méditerranéenne",
-      imageSrc: "https://www.wonderbox.fr/blog/wp-content/uploads/sites/4/2020/02/Visiter-Marseille-en-10-lieux-marseille-scaled-1-1.jpeg",
-      tags: ["Mer", "Soleil", "Culture", "Soirée"],
-      carbonFootprint: { transport: 40, housing: 260, activities: 90 },
-      days: 5,
-      price: "200-300€",
-      latitude: 43.299999,
-      longitude: 5.4,
-    },
-    {
-      city: "Île de Port Cros",
-      description: "L’île de Port-Cros, située dans l’archipel",
-      tags: ["Mer", "Aquatique", "Parc naturel", "Randonnée"],
-      imageSrc: "https://www.ot-lelavandou.fr/app/uploads/2023/07/port-cros-hyeres-a-tourisme-provence-mediterranee-julien-mauceri.webp",
-      carbonFootprint: { transport: 200, housing: 150, activities: 20 },
-      days: 5,
-      price: "220-340€",
-      latitude: 43,
-      longitude: 6.3833,
-    },
-    {
-      city: "Biarritz",
-      description: "Station balnéaire prisée de la côte basque",
-      tags: ["Mer", "Aquatique", "Surf"],
-      imageSrc: "https://www.tourisme64.com/wp-content/uploads/2024/02/biarritz-grande-plage-et-phare-001-copyedelweiss_loren-bedeli.jpg",
-      carbonFootprint: { transport: 50, housing: 190, activities: 20 },
-      days: 5,
-      price: "190-310€",
-      latitude: 43.4831519,
-      longitude: -1.558626,
-    },
-  ];
+  const cityDataJson = apiResponse;
+
+  // Fonction pour extraire et formater le prix des hôtels
+  const getHotelPriceRange = (hotels) => {
+    if (!hotels || hotels.length === 0) return "Prix non disponible";
+
+    // Si un seul hôtel, retourner son prix directement
+    if (hotels.length === 1) {
+      return hotels[0].price; // Retourne directement le prix (ex: "44 €")
+    }
+
+    // Si plusieurs hôtels, calculer la fourchette de prix
+    const prices = hotels.map(hotel => {
+      const priceString = hotel.price.replace(" €", "").trim();
+      return parseFloat(priceString);
+    });
+
+    const minPrice = Math.min(...prices);
+    const maxPrice = Math.max(...prices);
+
+    return `${minPrice}-${maxPrice} €`;
+  };
+
+  // Fonction pour extraire les tags de details.Top_Tags et limiter à 4 tags
+  const getTagsFromDetails = (details) => {
+    if (!details || !details.Top_Tags) return [];
+    try {
+      const tags = JSON.parse(details.Top_Tags); // Convertir la chaîne JSON en tableau
+      return tags.slice(0, 3); // Limiter à 4 tags
+    } catch (error) {
+      console.error("Erreur lors de la conversion des tags :", error);
+      return [];
+    }
+  };
+
+  
+
+  // Mapper les données du JSON pour créer les objets cityData
+  const cityData = Object.keys(cityDataJson).map(cityName => {
+    const cityInfo = cityDataJson[cityName];
+    const images = cityInfo.details?.images ? JSON.parse(cityInfo.details.images) : [];
+
+        // Extraire les transports spécifiques (indices 0, 3, 5)
+    const selectedTransports = [
+      cityInfo.transport_options[0],
+      cityInfo.transport_options[3],
+      cityInfo.transport_options[5]
+    ];
+
+    // Extraire les 3 premières activités
+    const selectedActivities = cityInfo.activities.slice(0, 3);
+
+    console.log("LAAA:",cityInfo.transport_options,cityInfo.details.images)
+
+    return {
+      city: cityName,
+      description: cityInfo.details?.description || "Description de la ville", // Utiliser la description de details si disponible
+      imageSrc: images[0],
+      tags: getTagsFromDetails(cityInfo.details), // Utiliser les tags de details (limités à 4)
+      carbonFootprint: {
+        activities: parseFloat(cityInfo.score_activite),
+        housing: parseFloat(cityInfo.score_hotel),
+        transport: parseFloat(cityInfo.transport_options[0].carbonImpact),
+        transport_max: parseFloat(cityInfo.transport_options[1].carbonImpact),
+      },
+      price: getHotelPriceRange(cityInfo.hotels), // Utiliser la fonction pour obtenir le prix ou la fourchette de prix
+      hotels: cityInfo.hotels,
+      transport_options_all: cityInfo.transport_options,
+      images_all: cityInfo.details.images,
+      activities_all: cityInfo.activities,
+      latitude: parseFloat(cityInfo.details?.latitude || cityInfo.activities[0]?.Latitude), // Utiliser la latitude de details si disponible
+      longitude: parseFloat(cityInfo.details?.longitude || cityInfo.activities[0]?.Longitude), // Utiliser la longitude de details si disponible
+      selectedTransports,
+      selectedActivities
+    };
+  });
 
   const totalTravelers = searchData.travelers.adults + searchData.travelers.children;
   const days = Math.ceil((searchData.endDate - searchData.startDate) / (1000 * 60 * 60 * 24));
@@ -84,6 +123,12 @@ const ProposedTripsPage = () => {
             latitude={city.latitude}
             longitude={city.longitude}
             price={city.price}
+            selectedTransports={city.selectedTransports} // Pass selectedTransports
+            selectedActivities={city.selectedActivities} // Pass selectedActivities
+            hotels = {city.hotels}
+            transport_options= {city.transport_options_all}
+            images = {city.images_all}
+            activities = {city.activities_all}
           />
         ))}
       </div>

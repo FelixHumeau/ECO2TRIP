@@ -1,7 +1,7 @@
 import React from "react";
 
 const ImageCard = ({ image, title, titleLink, description, extraContent, backgroundColor = "#C3E3B6" }) => {
-  console.log(titleLink)
+  //console.log(titleLink)
     return (
     <div
       style={{

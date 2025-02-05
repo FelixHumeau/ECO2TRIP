@@ -1,7 +1,7 @@
 import React, { useState, forwardRef } from "react";
 import Button from "./Button";
 import MapComponent from "./MapComponent";
-import CarbonGaugeReducted from "./CarbonGaugeReducted";
+import CarbonGauge from "./CarbonGauge";
 import BoxInfo from "./BoxInfo";
 import maison from "../assets/logement_logo.png";
 import hiking from "../assets/activite_logo.png";
@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 const ExpandableMapCard = forwardRef(
   (
-    { city, description, imageSrc, tags = [], carbonFootprint, days, backgroundColor = "#C3E3B6", price, latitude, longitude },
+    { city, description, imageSrc, tags = [], carbonFootprint, days, backgroundColor = "#C3E3B6", price, latitude, longitude, selectedTransports, selectedActivities, hotels, transport_options, images, activities },
     ref
   ) => {
     const [isMapVisible, setIsMapVisible] = useState(false);
@@ -83,8 +83,9 @@ const ExpandableMapCard = forwardRef(
               <p style={{ fontSize: "14px", color: "#333", marginTop: "5px", maxWidth: "50%", wordWrap: "break-word" }}>
                 {description}
               </p>
-              <div style={{ gap: "10px", marginTop: "0px", display: "flex", alignItems: "flex-start" }}>
-                <CarbonGaugeReducted carbonFootprint={carbonFootprint} days={days} style={{ marginLeft: "-20px", flex: 1 }} />
+              {/* Conteneur de la jauge avec une largeur réduite et aligné à gauche */}
+              <div style={{ width: "50%", alignSelf: "flex-start", marginTop: "10px" }}>
+                <CarbonGauge carbonFootprint={carbonFootprint} days={days} />
               </div>
             </div>
           </div>
@@ -94,7 +95,7 @@ const ExpandableMapCard = forwardRef(
         <div style={{
           position: "absolute",
           top: "25px",
-          right: "15px", 
+          right: "15px",
           fontSize: "24px",
           fontWeight: "bold",
           color: "#333",
@@ -102,7 +103,7 @@ const ExpandableMapCard = forwardRef(
           flexDirection: "column",
           alignItems: "flex-end",
         }}>
-          <span style={{ fontSize: "14px", fontWeight: "normal", marginBottom: "5px" }}>Prix Logement</span>
+          <span style={{ fontSize: "14px", fontWeight: "normal", marginBottom: "5px" }}>Prix Logement /Nuit</span>
           {price}
         </div>
 
@@ -124,19 +125,41 @@ const ExpandableMapCard = forwardRef(
             }}
           />
 
-          <button 
+          <button
             className="continue-button"
-            onClick={() => navigate("/summary")}
+            onClick={() => navigate("/summary", {
+              state: {
+                cityName: city, // Nom de la ville
+                apiResponseCity: { // Seule la partie de la ville sélectionnée
+                  activities: activities,
+                  hotels: hotels, // Si besoin, tu peux envoyer tous les hôtels au lieu de la fourchette
+                  transport_options: transport_options,
+                  score_activite: carbonFootprint.activities,
+                  score_transport: carbonFootprint.transport,
+                  score_hotel: carbonFootprint.housing,
+                  score_total: carbonFootprint.activities + carbonFootprint.housing + carbonFootprint.transport,
+                  details: {
+                    description: description,
+                    latitude: latitude,
+                    longitude: longitude,
+                    tags: tags,
+                    images: images,
+                  }
+                }
+              }
+            })}
             style={{
               padding: "10px 15px",
               cursor: "pointer",
               fontSize: "16px",
               backgroundColor: "#56B46C"
             }}
-          > En route !</button>
+          >
+            En route !
+          </button>
+
         </div>
 
-        {/* Carte visible quand isMapVisible est activé */}
         {isMapVisible && (
           <div
             style={{
@@ -144,43 +167,58 @@ const ExpandableMapCard = forwardRef(
               justifyContent: "space-between",
               marginTop: "15px",
               width: "100%",
-              maxHeight: "300px",
               overflow: "hidden",
             }}
           >
             {/* Texte + Image à gauche */}
             <div style={{ flex: 1, paddingRight: "10px", textAlign: "center" }}>
-              <img 
+              <img
                 src={maison}
-                alt="Icone gauche" 
-                style={{ width: "70px", height: "70px", marginBottom: "10px" }} 
+                alt="Icone gauche"
+                style={{ width: "70px", height: "70px", marginBottom: "10px" }}
               />
               <div>
-                <BoxInfo texts={["Train 1", "XXX Score", "XXX €"]} />
-                <BoxInfo texts={["Train 2", "XXX Score", "XXX €"]} />
-                <BoxInfo texts={["Voiture", "XXX Score", "XXX €"]} />
+                {selectedTransports.map((transport, index) => (
+                  <BoxInfo
+                    key={index}
+                    texts={[
+                      transport.transport,
+                      transport.distance,
+                      transport.carbonImpact
+                    ]}
+                  />
+                ))}
               </div>
             </div>
 
             {/* Texte + Image au centre */}
             <div style={{ flex: 1, textAlign: "center" }}>
-              <img 
+              <img
                 src={hiking}
-                alt="Icone centre" 
-                style={{ width: "70px", height: "70px", marginBottom: "10px" }} 
+                alt="Icone centre"
+                style={{ width: "70px", height: "70px", marginBottom: "10px" }}
               />
               <div>
-                <BoxInfo texts={["Surf", "XXX Score", "XXX €"]} />
-                <BoxInfo texts={["Randonnée", "XXX Score", "XXX €"]} />
-                <BoxInfo texts={["Beach Volley", "XXX Score", "XXX €"]} />
-              </div>            
+                {selectedActivities.map((activity, index) => {
+                  const tags = JSON.parse(activity.Tags);
+                  return (
+                    <BoxInfo
+                      key={index}
+                      texts={[
+                        activity.Nom_du_POI,
+                        activity.Score_Moyen,
+                        tags[0] // Premier tag
+                      ]}
+                    />
+                  );
+                })}
+              </div>
             </div>
-            
-            {/* Carte */}
 
+            {/* Carte */}
             <div style={{ flex: 1, paddingLeft: "10px" }}>
               <MapComponent
-                coordinates={[latitude, longitude]} // Passer les coordonnées dynamiques ici
+                coordinates={[latitude, longitude]}
                 locationName={city}
                 zoom={5}
                 style={{ width: "100%", height: "100%" }}
