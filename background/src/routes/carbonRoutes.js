@@ -4,57 +4,6 @@ const { orsApiKey, impactCo2ApiKey } = require('../config/env');
 
 const router = express.Router();
 
-/*async function geocodeLocation(location) {
-
-    const url = `https://api.openrouteservice.org/geocode/search`;
-    try {
-        console.log('Requête de géocodage envoyée pour :', location);
-        
-        const response = await axios.get(url, {
-            params: {
-                api_key: orsApiKey,
-                text: location,
-            },
-        });
-
-        console.log('Réponse de l\'API ORS :', response.data); // Log toute la réponse
-
-        if (response.data.features.length === 0) {
-            throw new Error(`Aucun résultat trouvé pour ${location}`);
-        }
-
-        const coordinates = response.data.features[0].geometry.coordinates; // [lon, lat]
-        console.log(`Coordonnées trouvées pour ${location} :`, coordinates);
-
-        return coordinates;
-    } catch (error) {
-        console.error('Erreur Geocoding OpenRouteService:', error.message);
-        throw new Error(`Impossible de trouver les coordonnées pour ${location}`);
-    }
-}*/
-
-// Fonction pour obtenir la distance entre deux lieux avec OpenRouteService
-/*async function getDistanceFromORS(from, to, mode) {
-    const url = `https://api.openrouteservice.org/v2/directions/${mode}`;
-    try {
-        const response = await axios.post(url, {
-            coordinates: [from, to], // Coordonnées GPS [lon, lat]
-            units: 'km',
-        }, {
-            headers: {
-                Authorization: orsApiKey,
-            },
-        });
-
-        // Extraire la distance en km
-        const distance = response.data.routes[0].summary.distance;
-        return distance;
-    } catch (error) {
-        console.error('Erreur OpenRouteService:', error.response ? error.response.data : error.message);
-        throw new Error('Impossible de calculer la distance.');
-    }
-}*/
-
 async function getDistanceFromORS(from, to, mode = "driving-car") {
     
     const url = `https://api.openrouteservice.org/v2/directions/${mode}`;

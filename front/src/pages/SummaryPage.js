@@ -118,7 +118,7 @@ const SummaryPage = () => {
   // Transformer les données pour chaque section
   const travelData = {
     from: "Paris",
-    to: "Metz",
+    to: cityName,
     carbonFootprint: {
       activities: city.score_activite || 0,
       housing: city.score_hotel || 0,
@@ -153,7 +153,7 @@ const SummaryPage = () => {
   })) : [];
 
   const cityData = {
-    cityName: "Metz",
+    cityName: cityName,
     rating: 5,
     tags: city.activities ? city.activities.flatMap(act => {
       try {
