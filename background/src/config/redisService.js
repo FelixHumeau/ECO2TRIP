@@ -19,6 +19,7 @@ async function findActivitiesByTags(tags) {
         const matchingActivities = [];
 
         for (const key of activityKeys) {
+            if (matchingActivities.length >= 10) break;
             const activityTagsRaw = await redis.hget(key, 'Tags'); // Utiliser 'Tags' avec majuscule
             if (activityTagsRaw) {
                 try {
@@ -125,110 +126,6 @@ async function calculateHotelScore(city) {
     }
 }
 
-
-/*async function groupActivitiesByCity(activities, from) {
-    console.log(`🔄 Regroupement des activités par villes avec distance depuis ${from}...`);
-    const groupedByCity = {};
-
-    // 📌 Étape 1 : Construire le mapping Ville → Code INSEE
-    console.log("📍 Construction du mapping Ville → Code INSEE...");
-    const villeKeys = await redis.keys('ville:*');
-    const villeMapping = {};
-
-    for (const key of villeKeys) {
-        try {
-            const villeData = await redis.hgetall(key);
-            if (villeData["Commune"] && villeData["Code INSEE"]) {
-                villeMapping[villeData["Commune"].toLowerCase()] = villeData["Code INSEE"];
-            }
-        } catch (error) {
-            console.error(`❌ Erreur lors de la récupération des données pour ${key}:`, error.message);
-        }
-    }
-
-    console.log(`✅ Mapping Ville → Code INSEE terminé (${Object.keys(villeMapping).length} villes enregistrées).`);
-
-    // 📌 Étape 2 : Regrouper les activités par ville
-    for (const activity of activities) {
-        if (!activity.Communes_proches) continue;
-
-        const cities = activity.Communes_proches.split(",").map(city => city.trim());
-
-        for (const city of cities) {
-            if (!groupedByCity[city]) {
-                groupedByCity[city] = {
-                    activities: [],
-                    score_activite: 0,
-                    score_transport: 0,
-                    score_hotel: 0,
-                    score_total: 0,
-                    distance: 0,
-                    details: {}
-                };
-            }
-            groupedByCity[city].activities.push(activity);
-        }
-    }
-
-    // 📌 Étape 3 : Calcul des scores et récupération des détails des villes
-    for (const city of Object.keys(groupedByCity)) {
-        const cityActivities = groupedByCity[city].activities;
-
-        // 📍 **1. Calcul de la distance**
-        try {
-            groupedByCity[city].distance = await getDistanceFromORS(from, city, "driving-car");
-        } catch (error) {
-            console.error(`❌ Erreur lors du calcul de la distance pour ${city}:`, error.message);
-        }
-
-        // 📍 **2. Score activité**
-        const scores = cityActivities.map(a => parseFloat(a.Score_Moyen)).filter(score => !isNaN(score));
-        const score_activite = scores.length > 0 ? parseFloat((scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(2)) : 0;
-        groupedByCity[city].score_activite = score_activite;
-
-        // 📍 **3. Score transport**
-        const score_transport = await calculateTransportScore(city, groupedByCity[city].distance);
-        groupedByCity[city].score_transport = score_transport;
-
-        // 📍 **4. Score hôtel**
-        const score_hotel = await calculateHotelScore(city);
-        groupedByCity[city].score_hotel = score_hotel;
-
-        // 📍 **5. Score total**
-        groupedByCity[city].score_total = score_hotel + score_activite + score_transport;
-
-        // 📍 **6. Récupération du Code INSEE via le mapping**
-        let cityCodeINSEE = villeMapping[city.toLowerCase()] || null;
-        if (!cityCodeINSEE) {
-            console.warn(`⚠️ Code INSEE non trouvé pour ${city}, impossible de récupérer les détails.`);
-        }
-
-        // 📍 **7. Récupération des détails de la ville**
-        try {
-            if (cityCodeINSEE) {
-                const cityData = await redis.hgetall(`ville:${cityCodeINSEE}`);
-                if (cityData && Object.keys(cityData).length > 0) {
-                    groupedByCity[city].details = cityData;
-                } else {
-                    console.warn(`⚠️ Aucune donnée complète trouvée pour la ville ${city} (Code INSEE: ${cityCodeINSEE})`);
-                }
-            }
-        } catch (error) {
-            console.error(`❌ Erreur lors de la récupération des informations de la ville ${city}:`, error.message);
-        }
-    }
-
-    // 📌 **Tri des villes par `score_total` décroissant**
-    const sortedCities = Object.entries(groupedByCity)
-        .sort(([, a], [, b]) => b.score_total - a.score_total) // Tri descendant sur score_total
-        .reduce((acc, [key, value]) => {
-            acc[key] = value;
-            return acc;
-        }, {});
-
-    console.log("✅ Regroupement et scores complétés :", sortedCities);
-    return sortedCities;
-}*/
 
 async function getHotelsForCity(city) {
     console.log(`🏨 Récupération des hôtels pour ${city}...`);
