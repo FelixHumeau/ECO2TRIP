@@ -1,0 +1,108 @@
+/* Conteneur principal */
+.cityCard {
+  width: 90%;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #c3e3b6;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: relative;
+  margin: 30px;
+  padding-bottom:10px;
+}
+
+.cityTitle {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  margin: 0;
+}
+
+/* Conteneur des sections */
+.cityDetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 30px;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+/* Section */
+.citySection {
+  text-align: center;
+  flex: 1;
+  min-width: 200px;
+}
+
+/* Carte et bouton */
+.imageContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.mapImage {
+  width: 150px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.locationButton {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.locationButton:hover {
+  background-color: #0056b3;
+}
+
+/* Avis */
+.stars {
+  font-size: 25px;
+}
+
+.starFilled {
+  color: #2c7332;
+}
+
+.starEmpty {
+  color: #ccc;
+}
+
+/* Points forts */
+.tagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+}
+
+.tag {
+  padding: 5px 10px;
+  background-color: #fefefe;
+  border-radius: 5px;
+  font-size: 12px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cityDetails {
+    flex-direction: column;
+    align-items: center;
+  }
+}

@@ -1,57 +1,27 @@
 import React from "react";
+import PropTypes from "prop-types";
+import styles from "../style/BoxInfo.module.css";
 
 const BoxInfo = ({ texts }) => {
+  if (!texts || texts.length < 3) {
+    return <p className={styles.errorMessage}>Erreur : données insuffisantes.</p>;
+  }
+
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "10px 5px",
-        backgroundColor: "#d4e9c2", // Couleur de fond douce
-        borderRadius: "15px", // Bords arrondis
-        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)", // Ombre légère
-        maxWidth: "600px", // Largeur max
-        margin: "20px auto", // Centrage horizontal
-      }}
-    >
-<div
-        style={{
-          flex: 1,
-          textAlign: "left",
-          fontSize: "16px",
-          fontWeight: "500",
-          color: "#333",
-          paddingLeft: "10px", // Ajout de padding sur les côtés
-        }}
-      >
-        {texts[0]}
-      </div>
-      <div
-        style={{
-          flex: 1,
-          textAlign: "center",
-          fontSize: "16px",
-          fontWeight: "500",
-          color: "#333",
-        }}
-      >
-        {texts[1]}
-      </div>
-      <div
-        style={{
-          flex: 1,
-          textAlign: "right",
-          fontSize: "16px",
-          fontWeight: "500",
-          color: "#333",
-          paddingRight: "10px", // Ajout de padding sur les côtés
-        }}
-      >
-        {texts[2]}
-      </div>
+    <div className={styles.box}>
+      <div className={styles.text} aria-label="Première information">{texts[0]}</div>
+      <div className={styles.textCenter} aria-label="Deuxième information">{texts[1]}</div>
+      <div className={styles.text} aria-label="Troisième information">{texts[2]}</div>
     </div>
   );
+};
+
+BoxInfo.propTypes = {
+  texts: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
+
+BoxInfo.defaultProps = {
+  texts: ["Texte 1", "Texte 2", "Texte 3"],
 };
 
 export default BoxInfo;

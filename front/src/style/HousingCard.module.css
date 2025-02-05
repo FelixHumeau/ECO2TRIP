@@ -1,0 +1,14 @@
+.housingGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  width: 100%;
+  align-items: stretch;
+  justify-items: center;
+}
+
+.housingItem {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

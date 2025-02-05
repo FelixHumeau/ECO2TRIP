@@ -238,6 +238,8 @@ router.post('/', async (req, res) => {
 });
 
 // Route /all : Calcul pour plusieurs modes de transport
+const redisClient = require('../config/database'); // Import Redis
+
 router.post('/all', async (req, res) => {
     console.log('Requête reçue pour /all :', req.body);
 
@@ -248,51 +250,43 @@ router.post('/all', async (req, res) => {
     }
 
     try {
-        // Convertir les noms des lieux en coordonnées GPS
+        const cacheKey = `carbonImpact:${from}:${to}:${occupencyRate}`;
+        const cachedResult = await redisClient.get(cacheKey);
+        if (cachedResult) {
+            console.log("⚡ Résultat récupéré depuis le cache Redis !");
+            return res.json(JSON.parse(cachedResult));
+        }
+
         const fromCoordinates = await geocodeLocation(from);
         const toCoordinates = await geocodeLocation(to);
 
-        // Définition des transports à évaluer
-        const transports = [
-            { id: 2, name: 'Train (TGV)' },
-            { id: 1, name: 'Avion' },
-            { id: 7, name: 'Vélo' },
-            { id: 5, name: 'Voiture électrique' },
-            { id: 4, name: 'Voiture thermique' },
-            { id: 9, name: 'Bus thermique' },
-        ];
-
-        let results = [];
-
-        for (const transport of transports) {
+        const results = await Promise.all(transports.map(async (transport) => {
             try {
-                // Calcul de la distance selon le transport
                 const distance = await calculateDistance(fromCoordinates, toCoordinates, transport.id);
-
-                // Calcul de l'empreinte carbone
                 const carbonData = await getCarbonImpact(distance, transport.id, occupencyRate);
 
-                // Stocker les résultats
-                results.push({
+                return {
                     transport: transport.name,
                     distance: distance.toFixed(2) + ' km',
                     carbonImpact: carbonData.value.toFixed(3) + ' kg CO₂',
-                });
+                };
             } catch (error) {
                 console.error(`Erreur pour ${transport.name}:`, error.message);
-                results.push({
+                return {
                     transport: transport.name,
                     error: 'Calcul impossible',
-                });
+                };
             }
-        }
+        }));
+
+        // 🏦 Stocker les résultats en cache avec expiration (1 heure)
+        await redisClient.set(cacheKey, JSON.stringify(results), 'EX', 3600);
 
         res.json({
             from,
             to,
             results,
         });
-
     } catch (error) {
         console.error('Erreur interne /all :', error.message);
         res.status(500).json({ error: error.message });

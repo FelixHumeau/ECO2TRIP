@@ -1,0 +1,18 @@
+# Utilisation de l'image Node.js officielle
+FROM node:18
+
+# Définir le répertoire de travail
+WORKDIR /app
+
+# Copier les fichiers nécessaires
+COPY package.json package-lock.json ./
+RUN npm install
+
+# Copier le code source
+COPY . .
+
+# Exposer le port 5000
+EXPOSE 5000
+
+# Commande pour démarrer le serveur
+CMD ["npm", "start"]

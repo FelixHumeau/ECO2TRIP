@@ -16,28 +16,23 @@ async function findActivitiesByTags(tags) {
 
         // Récupérer toutes les clés correspondant aux activités
         const activityKeys = await redis.keys('activite:*');
-        const matchingActivities = [];
-
-        for (const key of activityKeys) {
-            const activityTagsRaw = await redis.hget(key, 'Tags'); // Utiliser 'Tags' avec majuscule
-            if (activityTagsRaw) {
-                try {
-                    // Décodage du JSON correctement
-                    const activityTags = JSON.parse(activityTagsRaw.replace(/\\/g, ''));
-
-                    // 🔍 Normalisation des textes (supprime accents, met en minuscule)
-                    const normalizeText = (text) => text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-
-                    // Vérifier si un tag correspond
-                    if (tags.some(tag => activityTags.some(activityTag => normalizeText(tag) === normalizeText(activityTag)))) {
-                        const activity = await redis.hgetall(key);
-                        matchingActivities.push(activity);
-                    }
-                } catch (parseError) {
-                    console.error(`❌ Erreur de parsing JSON pour ${key}:`, parseError);
+        const activitiesData = await Promise.all(activityKeys.map(async (key) => {
+            const activityTagsRaw = await redis.hget(key, 'Tags');
+            if (!activityTagsRaw) return null;
+        
+            try {
+                const activityTags = JSON.parse(activityTagsRaw.replace(/\\/g, ''));
+                if (tags.some(tag => activityTags.some(activityTag => normalizeText(tag) === normalizeText(activityTag)))) {
+                    return await redis.hgetall(key);
                 }
+            } catch (parseError) {
+                console.error(`❌ Erreur parsing JSON pour ${key}:`, parseError);
             }
-        }
+            return null;
+        }));
+        
+        const matchingActivities = activitiesData.filter(activity => activity !== null);
+        
 
         console.log(`✅ Activités trouvées : ${matchingActivities.length}`);
         return matchingActivities;
@@ -48,40 +43,30 @@ async function findActivitiesByTags(tags) {
 }
 
 async function calculateTransportScore(city, distance) {
-    console.log(`🚗 Calcul du score transport pour ${city}...`);
+    const cacheKey = `transport_score:${city}:${distance}`;
+    const cachedScore = await redisClient.get(cacheKey);
+    if (cachedScore) return parseFloat(cachedScore);
 
-    const transports = [1, 2, 4, 5, 6, 7, 8, 9, 10]; // ID des transports
+    console.log(`🚗 Calcul du score transport pour ${city}...`);
     let totalCarbon = 0;
 
     for (const transportId of transports) {
         try {
-            const response = await axios.get('https://impactco2.fr/api/v1/transport', {
-                params: {
-                    km: distance,
-                    transports: transportId,
-                    occupencyRate: 1,
-                    displayAll: 0,
-                    language: 'fr',
-                },
-                headers: {
-                    Authorization: `Bearer ${impactCo2ApiKey}`,
-                    Accept: 'application/json',
-                },
-            });
+            const response = await axios.get('https://impactco2.fr/api/v1/transport');
 
             if (response.data.data && response.data.data.length > 0) {
-                totalCarbon += response.data.data[0].value; // Ajout de l'empreinte carbone
+                totalCarbon += response.data.data[0].value;
             }
         } catch (error) {
             console.error(`❌ Erreur ImpactCO2 pour ${city} (Transport ${transportId}):`, error.message);
         }
     }
 
-    // Calcul du score transport
     const score_transport = Math.round((totalCarbon / 100) * 10) / 10;
-    console.log(`✅ Score transport pour ${city}:`, score_transport);
+    await redisClient.set(cacheKey, score_transport, 'EX', 3600); // Expiration 1h
     return score_transport;
 }
+
 
 async function calculateHotelScore(city) {
     console.log(`🏨 Calcul du score hôtel pour ${city}...`);
@@ -95,19 +80,15 @@ async function calculateHotelScore(city) {
             return null;
         }
 
-        let hotelScores = [];
-
-        for (const key of hotelKeys) {
+        const hotelDataList = await Promise.all(hotelKeys.map(async (key) => {
             const hotelData = await redisClient.hGetAll(key);
-
-            // Vérifier si l'hôtel appartient bien à la ville
-            if (hotelData.city && hotelData.city.trim().toLowerCase() === city.trim().toLowerCase()) {
-                const score = parseFloat(hotelData.eco_score);
-                if (!isNaN(score)) {
-                    hotelScores.push(5 - score); //Plus il est élevé mieux c'est
-                }
-            }
-        }
+            return hotelData.city && hotelData.city.trim().toLowerCase() === city.trim().toLowerCase()
+                ? parseFloat(hotelData.eco_score)
+                : null;
+        }));
+        
+        const hotelScores = hotelDataList.filter(score => score !== null).map(score => 5 - score);
+        
 
         // Calculer la moyenne et arrondir au dixième
         if (hotelScores.length > 0) {
@@ -133,18 +114,22 @@ async function groupActivitiesByCity(activities, from) {
     // 📌 Étape 1 : Construire le mapping Ville → Code INSEE
     console.log("📍 Construction du mapping Ville → Code INSEE...");
     const villeKeys = await redis.keys('ville:*');
-    const villeMapping = {};
-
-    for (const key of villeKeys) {
+    const villeDataList = await Promise.all(villeKeys.map(async (key) => {
         try {
-            const villeData = await redis.hgetall(key);
-            if (villeData["Commune"] && villeData["Code INSEE"]) {
-                villeMapping[villeData["Commune"].toLowerCase()] = villeData["Code INSEE"];
-            }
+            return await redis.hgetall(key);
         } catch (error) {
             console.error(`❌ Erreur lors de la récupération des données pour ${key}:`, error.message);
+            return null;
         }
-    }
+    }));
+    
+    const villeMapping = {};
+    villeDataList.forEach(villeData => {
+        if (villeData && villeData["Commune"] && villeData["Code INSEE"]) {
+            villeMapping[villeData["Commune"].toLowerCase()] = villeData["Code INSEE"];
+        }
+    });
+    
 
     console.log(`✅ Mapping Ville → Code INSEE terminé (${Object.keys(villeMapping).length} villes enregistrées).`);
 

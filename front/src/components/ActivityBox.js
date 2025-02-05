@@ -1,48 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import ImageCard from "./ImageCard";
 import PopupModal from "./PopupModal";
 import MapComponent from "./MapComponent";
+import styles from "../style/ActivityBox.module.css";
 
 const ActivityBox = ({ image, title, titleLink, description, coordinates, address }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const togglePopup = useCallback(() => {
+    setIsPopupOpen((prev) => !prev);
+  }, []);
 
   return (
     <>
       <ImageCard
         image={image}
         title={title}
-        titleLink = {titleLink}
-        description={
-            <>
-              {/*Prix : {price}€ <br />*/}
-              {description}
-            </>
-          }
+        titleLink={titleLink}
+        description={<p>{description}</p>}
         backgroundColor="#D4E9C2"
-        extraContent={(
-          <>
-          <button
-              onClick={() => setIsPopupOpen(true)}
-              style={{
-                backgroundColor: "#007BFF",
-                color: "#fff",
-                border: "none",
-                borderRadius: "5px",
-                padding: "5px 10px",
-                fontSize: "12px",
-                cursor: "pointer",
-              }}
-            >
-              Localisation
-            </button>
-          </>
-        )}
+        extraContent={
+          <button 
+            onClick={togglePopup} 
+            className={styles.locationButton} 
+            aria-label={`Voir la localisation de ${title}`}
+          >
+            Localisation
+          </button>
+        }
       />
 
       {/* Popup de localisation */}
-      <PopupModal isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} title={title}>
-        <MapComponent coordinates={coordinates} locationName={title} address={address}/>
-      </PopupModal>
+      {isPopupOpen && (
+        <PopupModal isOpen={isPopupOpen} onClose={togglePopup} title={title}>
+          <MapComponent coordinates={coordinates} locationName={title} address={address} />
+        </PopupModal>
+      )}
     </>
   );
 };

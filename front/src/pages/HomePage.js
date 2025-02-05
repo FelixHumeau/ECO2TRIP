@@ -48,7 +48,7 @@ const HomePage = () => {
         style={{ opacity: scrollOpacity }}
       >
         <div className="app-container">
-          {/*<DynamicText prefix="Avec nous," endings={endings} interval={4000} />*/}
+          <DynamicText prefix="Avec nous," endings={endings} interval={4000} />
         </div>
         
 

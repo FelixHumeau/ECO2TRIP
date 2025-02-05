@@ -1,0 +1,50 @@
+.box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 5px;
+  background-color: #d4e9c2; /* Couleur de fond douce */
+  border-radius: 15px; /* Bords arrondis */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+  max-width: 600px; /* Largeur max */
+  margin: 20px auto; /* Centrage horizontal */
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.text {
+  flex: 1;
+  text-align: left;
+  padding-left: 10px;
+}
+
+.textCenter {
+  flex: 1;
+  text-align: center;
+}
+
+.text:last-child {
+  text-align: right;
+  padding-right: 10px;
+}
+
+@media (max-width: 600px) {
+  .box {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .text,
+  .textCenter {
+    text-align: center;
+    padding: 5px 0;
+  }
+}
+
+.errorMessage {
+  text-align: center;
+  font-size: 14px;
+  color: red;
+  margin-top: 10px;
+}
