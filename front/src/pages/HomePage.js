@@ -67,8 +67,7 @@ const HomePage = () => {
       <section className="content-section">
         <h2>Découvrez nos services</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at
-          metus in metus venenatis consequat.
+          Prennez vos vacances en main sans laisser d'empreinte (cf le B)
         </p>
       </section>
     </div>

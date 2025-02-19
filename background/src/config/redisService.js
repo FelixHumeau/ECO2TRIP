@@ -8,7 +8,7 @@ const redis = new Redis({
 });
 const redisClient = require('../config/database');
 
-const { getDistanceFromORS, geocodeLocation } = require('../routes/carbonRoutes');
+const { geocodeLocation } = require('../routes/carbonRoutes');
 
 async function findActivitiesByTags(tags) {
     try {
@@ -24,7 +24,8 @@ async function findActivitiesByTags(tags) {
             if (activityTagsRaw) {
                 try {
                     // Décodage du JSON correctement
-                    const activityTags = JSON.parse(activityTagsRaw.replace(/\\/g, ''));
+                    //const activityTags = JSON.parse(activityTagsRaw.replace(/\\/g, ''));
+                    const activityTags = JSON.parse(activityTagsRaw).map(tag => restoreUnicode(tag));
 
                     // 🔍 Normalisation des textes (supprime accents, met en minuscule)
                     const normalizeText = (text) => text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
@@ -34,6 +35,17 @@ async function findActivitiesByTags(tags) {
                         const activity = await redis.hgetall(key);
                         matchingActivities.push(activity);
                     }
+                    /*for (const tag of tags) {
+                        for (const activityTag of activityTags) {
+                            console.log(`🛠️ Comparaison : tag="${normalizeText(tag)}" vs activityTag="${normalizeText(activityTag)}"`);
+                            if (normalizeText(tag) === normalizeText(activityTag)) {
+                                console.log(`✅ Correspondance trouvée: "${tag}" == "${activityTag}"`);
+                                const activity = await redis.hgetall(key);
+                                matchingActivities.push(activity);
+                                break; // Sortir dès qu'une correspondance est trouvée pour éviter les doublons
+                            }
+                        }
+                    }*/
                 } catch (parseError) {
                     console.error(`❌ Erreur de parsing JSON pour ${key}:`, parseError);
                 }
@@ -48,41 +60,17 @@ async function findActivitiesByTags(tags) {
     }
 }
 
-/*async function calculateTransportScore(city, distance) {
-    console.log(`🚗 Calcul du score transport pour ${city}...`);
-
-    const transports = [1, 2, 4, 5, 6, 7, 8, 9, 10]; // ID des transports
-    let totalCarbon = 0;
-
-    for (const transportId of transports) {
-        try {
-            const response = await axios.get('https://impactco2.fr/api/v1/transport', {
-                params: {
-                    km: distance,
-                    transports: transportId,
-                    occupencyRate: 1,
-                    displayAll: 0,
-                    language: 'fr',
-                },
-                headers: {
-                    Authorization: `Bearer ${impactCo2ApiKey}`,
-                    Accept: 'application/json',
-                },
-            });
-
-            if (response.data.data && response.data.data.length > 0) {
-                totalCarbon += response.data.data[0].value; // Ajout de l'empreinte carbone
-            }
-        } catch (error) {
-            console.error(`❌ Erreur ImpactCO2 pour ${city} (Transport ${transportId}):`, error.message);
-        }
+function restoreUnicode(str) {
+    try {
+        // Replace all occurrences of \u followed by 4 hex digits with the corresponding Unicode character
+        return str.replace(/\\u([\da-fA-F]{4})/g, (match, p1) => {
+            return String.fromCharCode(parseInt(p1, 16));
+        });
+    } catch (error) {
+        console.error(`❌ Erreur lors de la conversion Unicode de "${str}" :`, error);
+        return str; // Retourne la chaîne brute en cas d'erreur
     }
-
-    // Calcul du score transport
-    const score_transport = Math.round((totalCarbon / 100) * 10) / 10;
-    console.log(`✅ Score transport pour ${city}:`, score_transport);
-    return score_transport;
-}*/
+}
 
 async function calculateTransportScore(city, transport_options) {
     console.log(` ${city}...`);
@@ -96,7 +84,7 @@ async function calculateTransportScore(city, transport_options) {
 
     // Calcul du score transport
     const score_transport = Math.round((totalCarbon / 100) * 10) / 10;
-    console.log(`ICI STINAAAA Score transport pour ${city}:`, score_transport);
+    console.log(`Score transport pour ${city}:`, score_transport);
     return score_transport;
 }
 
@@ -196,113 +184,6 @@ async function getTransportOptions(from, to, occupancyRate) {
 }
 
 
-/*async function groupActivitiesByCity(activities, from, occupancyRate = 1) {
-    console.log(`🔄 Regroupement des activités par villes avec distance depuis ${from}...`);
-    const groupedByCity = {};
-    // 📌 Étape 1 : Construire le mapping Ville → Code INSEE
-    console.log("📍 Construction du mapping Ville → Code INSEE...");
-    const villeKeys = await redis.keys('ville:*');
-    const villeMapping = {};
-    for (const key of villeKeys) {
-        try {
-            const villeData = await redis.hgetall(key);
-            if (villeData["Commune"] && villeData["Code INSEE"]) {
-                villeMapping[villeData["Commune"].toLowerCase()] = villeData["Code INSEE"];
-            }
-        } catch (error) {
-            console.error(`❌ Erreur lors de la récupération des données pour ${key}:`, error.message);
-        }
-    }
-    console.log(`✅ Mapping Ville → Code INSEE terminé (${Object.keys(villeMapping).length} villes enregistrées).`);
-
-    for (const activity of activities) {
-        if (!activity.Communes_proches) continue;
-
-        const cities = activity.Communes_proches.split(",").map(city => city.trim());
-
-        for (const city of cities) {
-            if (!groupedByCity[city]) {
-                groupedByCity[city] = {
-                    activities: [],
-                    hotels: [],
-                    transport_options: [],
-                    score_activite: 0,
-                    score_transport: 0,
-                    score_hotel: 0,
-                    score_total: 0,
-                    distance: 0,
-                    details: {}
-                };
-            }
-            groupedByCity[city].activities.push(activity);
-        }
-    }
-
-    for (const city of Object.keys(groupedByCity)) {
-        const cityActivities = groupedByCity[city].activities;
-
-        try {
-            groupedByCity[city].distance = await getDistanceFromORS(from, city, "driving-car");
-            console.log(`CarbonRoutes pour ${city} calculées`)
-        } catch (error) {
-            console.error(`❌ Erreur distance pour ${city}:`, error.message);
-        }
-
-        const scores = cityActivities.map(a => parseFloat(a.Score_Moyen)).filter(score => !isNaN(score));
-        groupedByCity[city].score_activite = scores.length > 0 ? parseFloat((scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(2)) : 0;
-
-        groupedByCity[city].score_hotel = await calculateHotelScore(city);
-        //groupedByCity[city].score_transport = await calculateTransportScore(city, groupedByCity[city].distance);
-
-        groupedByCity[city].hotels = await getHotelsForCity(city);
-
-        // 🔥 Passer `occupancyRate` à `getTransportOptions`
-        groupedByCity[city].transport_options = await getTransportOptions(from, city, occupancyRate);
-
-        groupedByCity[city].score_transport = await calculateTransportScore(city, groupedByCity[city].transport_options);
-
-        groupedByCity[city].score_total = groupedByCity[city].score_hotel + groupedByCity[city].score_activite + groupedByCity[city].score_transport;
-
-        let cityCodeINSEE = villeMapping[city.toLowerCase()] || null;
-        if (!cityCodeINSEE) {
-            console.warn(`⚠️ Code INSEE non trouvé pour ${city}, impossible de récupérer les détails.`);
-        }
-
-        try {
-            if (cityCodeINSEE) {
-                const cityData = await redis.hgetall(`ville:${cityCodeINSEE}`);
-                if (cityData && Object.keys(cityData).length > 0) {
-                    groupedByCity[city].details = cityData;
-                } else {
-                    console.warn(`⚠️ Aucune donnée complète trouvée pour la ville ${city} (Code INSEE: ${cityCodeINSEE})`);
-                }
-            }
-        } catch (error) {
-            console.error(`❌ Erreur lors de la récupération des informations de la ville ${city}:`, error.message);
-        }
-    }
-
-    const sortedCities = Object.entries(groupedByCity)
-        .sort(([, a], [, b]) => {
-            // Vérifier si a ou b ont des valeurs nulles
-            const aHasNull = a.score_activite === null || a.score_transport === null || a.score_hotel === null;
-            const bHasNull = b.score_activite === null || b.score_transport === null || b.score_hotel === null;
-
-            // Si a a une valeur nulle et b non, a doit être en dernier
-            if (aHasNull && !bHasNull) return 1;
-            if (!aHasNull && bHasNull) return -1;
-
-            // Sinon, trier normalement sur score_total
-            return a.score_total - b.score_total;
-        })
-        .reduce((acc, [key, value]) => {
-            acc[key] = value;
-            return acc;
-        }, {});
-
-    return sortedCities;
-}*/
-
 async function groupActivitiesByCity(activities, from, occupancyRate = 1) {
     console.log(`🔄 Regroupement des activités par villes avec distance depuis ${from}...`);
     const groupedByCity = {};
@@ -315,13 +196,17 @@ async function groupActivitiesByCity(activities, from, occupancyRate = 1) {
         try {
             const villeData = await redis.hgetall(key);
             if (villeData["Commune"] && villeData["Code INSEE"]) {
-                villeMapping[villeData["Commune"].toLowerCase()] = villeData["Code INSEE"];
+                // Normalize the city name
+                const normalizedCityName = normalizeCityName(villeData["Commune"]);
+                villeMapping[normalizedCityName] = villeData["Code INSEE"];
             }
         } catch (error) {
             console.error(`❌ Erreur lors de la récupération des données pour ${key}:`, error.message);
         }
     }
+
     console.log(`✅ Mapping Ville → Code INSEE terminé (${Object.keys(villeMapping).length} villes enregistrées).`);
+    console.log(villeMapping);
 
     // 📌 Étape 2 : Regrouper les activités par ville
     for (const activity of activities) {
@@ -339,7 +224,7 @@ async function groupActivitiesByCity(activities, from, occupancyRate = 1) {
                     score_transport: 0,
                     score_hotel: 0,
                     score_total: 0,
-                    distance: 0,
+                    //distance: 0,
                     details: {}
                 };
             }
@@ -363,25 +248,13 @@ async function groupActivitiesByCity(activities, from, occupancyRate = 1) {
             return acc;
         }, {});
 
+    // Get departure city coordinates
+    const coordinates_from = await geocodeLocation(from);
+
     // 📌 Étape 5 : Continuer les étapes suivantes uniquement pour les 5 villes sélectionnées
     for (const city of Object.keys(sortedCitiesByActivityScore)) {
-        try {
-            sortedCitiesByActivityScore[city].distance = await getDistanceFromORS(from, city, "driving-car");
-            console.log(`CarbonRoutes pour ${city} calculées`);
-        } catch (error) {
-            console.error(`❌ Erreur distance pour ${city}:`, error.message);
-        }
-
-        sortedCitiesByActivityScore[city].score_hotel = await calculateHotelScore(city);
-        sortedCitiesByActivityScore[city].hotels = await getHotelsForCity(city);
-
-        // 🔥 Passer `occupancyRate` à `getTransportOptions`
-        sortedCitiesByActivityScore[city].transport_options = await getTransportOptions(from, city, occupancyRate);
-        sortedCitiesByActivityScore[city].score_transport = await calculateTransportScore(city, sortedCitiesByActivityScore[city].transport_options);
-
-        sortedCitiesByActivityScore[city].score_total = sortedCitiesByActivityScore[city].score_hotel + sortedCitiesByActivityScore[city].score_activite + sortedCitiesByActivityScore[city].score_transport;
-
-        let cityCodeINSEE = villeMapping[city.toLowerCase()] || null;
+        const normalizedCityName = normalizeCityName(city); // Normalize the city name
+        let cityCodeINSEE = villeMapping[normalizedCityName] || null;
         if (!cityCodeINSEE) {
             console.warn(`⚠️ Code INSEE non trouvé pour ${city}, impossible de récupérer les détails.`);
         }
@@ -398,6 +271,32 @@ async function groupActivitiesByCity(activities, from, occupancyRate = 1) {
         } catch (error) {
             console.error(`❌ Erreur lors de la récupération des informations de la ville ${city}:`, error.message);
         }
+
+        // 🔥 Passer `occupancyRate` à `getTransportOptions`
+        const coordinates_city = [
+            parseFloat(parseFloat(sortedCitiesByActivityScore[city].details.longitude).toFixed(6)),
+            parseFloat(parseFloat(sortedCitiesByActivityScore[city].details.latitude).toFixed(6))
+        ];
+
+        // Vérifier si la ville de départ et la destination sont trop proches
+        if (isSameCity(coordinates_from, coordinates_city)) {
+            console.warn(`⚠️ ${city} est trop proche de ${from}. Suppression de la liste.`);
+            delete sortedCitiesByActivityScore[city]; // 🚨 Supprime la ville de l'objet
+            continue; // Passe à la prochaine ville
+        }
+
+        // Traitement normal des villes restantes
+        sortedCitiesByActivityScore[city].score_hotel = await calculateHotelScore(city);
+        sortedCitiesByActivityScore[city].hotels = await getHotelsForCity(city);
+
+        sortedCitiesByActivityScore[city].transport_options = await getTransportOptions(coordinates_from, coordinates_city, occupancyRate);
+        sortedCitiesByActivityScore[city].score_transport = await calculateTransportScore(city, sortedCitiesByActivityScore[city].transport_options);
+
+        sortedCitiesByActivityScore[city].score_total =
+            sortedCitiesByActivityScore[city].score_hotel +
+            sortedCitiesByActivityScore[city].score_activite +
+            sortedCitiesByActivityScore[city].score_transport;
+
     }
 
     // 📌 Étape 6 : Trier les villes finales par score_total
@@ -420,6 +319,38 @@ async function groupActivitiesByCity(activities, from, occupancyRate = 1) {
         }, {});
 
     return finalSortedCities;
+}
+
+function normalizeCityName(cityName) {
+    // Normaliser les caractères (supprimer les accents)
+    const normalized = cityName
+        .normalize("NFD") // Décompose les caractères accentués (é → e + ´)
+        .replace(/[\u0300-\u036f]/g, ""); // Supprime les diacritiques
+
+    // Remplacer les espaces et les traits d'union par des underscores, sauf les apostrophes
+    return normalized
+        .replace(/[\s-]/g, "_") // Remplace les espaces et traits d'union par _
+        .replace(/[']/g, "_") // Conserve les apostrophes
+        .toLowerCase(); // Convertit en minuscules
+}
+
+function isSameCity(coords1, coords2, threshold = 10) {
+    const R = 6371; // Rayon de la Terre en km
+    const toRad = (angle) => (angle * Math.PI) / 180;
+
+    const dLat = toRad(coords2[1] - coords1[1]);
+    const dLon = toRad(coords2[0] - coords1[0]);
+
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRad(coords1[1])) * Math.cos(toRad(coords2[1])) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c;
+
+    console.log(`📏 Distance entre ${coords1} et ${coords2} : ${distance.toFixed(2)} km`);
+
+    return distance < threshold;
 }
 
 module.exports = { findActivitiesByTags, calculateTransportScore, calculateHotelScore, getHotelsForCity, getTransportOptions, groupActivitiesByCity };

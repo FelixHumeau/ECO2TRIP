@@ -8,107 +8,9 @@ import ActivityCard from "../components/ActivityCard";
 import HousingCard from "../components/HousingCard";
 import TransportCard from "../components/TransportCard";
 
-/*const cityData2 = {
-  "Metz": {
-    "activities": [
-      {
-        "Communes_proches": "Metz, Thionville",
-        "Latitude": "49.2487313509395",
-        "Categories_de_POI": "https://www.datatourisme.fr/ontology/core#PlaceOfInterest|https://www.datatourisme.fr/ontology/core#PointOfInterest|https://www.datatourisme.fr/ontology/core#SportsAndLeisurePlace|https://www.datatourisme.fr/ontology/core#DownhillSkiResort",
-        "Date_de_mise_a_jour": "2024-07-18",
-        "Contacts_du_POI": "#https://www.snowworld.com/amneville/fr",
-        "Createur_de_la_donnee": "DESTINATION AMNEVILLE",
-        "Longitude": "6.12807040469363",
-        "Code_postal_et_commune": "57360#Amnéville",
-        "Classements_du_POI": "Famille plus#Famille plus",
-        "SIT_diffuseur": "Système d’information touristique Lorrain",
-        "URI_ID_du_POI": "https://data.datatourisme.fr/10/8277eb4e-0228-3f82-a401-cf2df0b547a7",
-        "Adresse_postale": "La Cité des Loisirs Allée du snowhall",
-        "Score_Moyen": "1.5",
-        "Nom_du_POI": "SNOWWORLD",
-        "Covid19_mesures_specifiques": "",
-        "Periodes_regroupees": "",
-        "Description": "L'unique domaine skiable indoor de France offre différentes zones de glisses tapissées de véritable poudreuse. Ouvert toute l'année, il permet à tous les amateurs et même aux professionnels, de s'adonner à la joie des sports d'hiver en toute saison. SnowWorld propose des pentes techniques de 15 à 18%, un snowpark qui évolue sans cesse, une piste de luge et une piste de ski débutants qui permettent un apprentissage idéal.",
-        "Tags": "[\"Tourisme Montagne\", \"Site Sportif, R\\u00e9cr\\u00e9atif Et De Loisirs\", \"Point Dint\\u00e9r\\u00eat\", \"Domaine De Ski Alpin\", \"Lieu\"]"
-      }
-    ],
-    "hotels": [
-      {
-        "name": "Le Grand Large",
-        "eco_score": 2,
-        "link": "https://www.greengo.voyage/hote/le-grand-large?checkIn=2025-03-17&checkOut=2025-03-18&numberOfAdults=2&numberOfChildren=0&numberOfBabies=0&numberOfPets=0",
-        "image": "https://images.greengo.voyage/_/w_1440__q_75/plain/s3://greengobackend-production-media/pictures/accommmodation/ordered_images/9680e7bb-c13b-4ece-ac15-9e5f6b049394.webp",
-        "price": "100 €"
-      },
-      {
-        "name": "Le Grand Large",
-        "eco_score": 2,
-        "link": "https://www.greengo.voyage/hote/le-grand-large?checkIn=2025-03-17&checkOut=2025-03-18&numberOfAdults=2&numberOfChildren=0&numberOfBabies=0&numberOfPets=0",
-        "image": "https://images.greengo.voyage/_/w_1440__q_75/plain/s3://greengobackend-production-media/pictures/accommmodation/ordered_images/9680e7bb-c13b-4ece-ac15-9e5f6b049394.webp",
-        "price": "100 €"
-      }
-    ],
-    "transport_options": [
-      {
-        "transport": "Train (TGV)",
-        "distance": "299.28 km",
-        "carbonImpact": "0.688 kg CO₂"
-      },
-      {
-        "transport": "Avion",
-        "distance": "281.38 km",
-        "carbonImpact": "72.654 kg CO₂"
-      },
-      {
-        "transport": "Vélo",
-        "distance": "367.01 km",
-        "carbonImpact": "0.000 kg CO₂"
-      },
-      {
-        "transport": "Voiture électrique",
-        "distance": "332.53 km",
-        "carbonImpact": "6.584 kg CO₂"
-      },
-      {
-        "transport": "Voiture thermique",
-        "distance": "332.53 km",
-        "carbonImpact": "63.846 kg CO₂"
-      },
-      {
-        "transport": "Bus thermique",
-        "distance": "339.64 km",
-        "carbonImpact": "35.425 kg CO₂"
-      }
-    ],
-    "score_activite": 1.5,
-    "score_transport": 2,
-    "score_hotel": 3,
-    "score_total": 6.5,
-    "distance": 332.531,
-    "details": {
-      "Région": "Grand Est",
-      "Département": "Moselle",
-      "description": "Metz est une ville de Grand Est réputée pour Restauration et son charme authentique.",
-      "latitude": "49.119308",
-      "Code INSEE": "57463",
-      "Top_Tags": "[\"Tourisme Culturel\", \"F\\u00eate Et Manifestation\", \"Event\", \"\\u00c9v\\u00e8nement Culturel\", \"Restauration\", \"Monument\", \"Restaurant\", \"Spectacles\", \"Spectacle\", \"Localbusiness\"]",
-      "images": "[\"https://i0.wp.com/moselle.tv/wp-content/uploads/2024/11/jean-de-gastines-shigeru-ban-beaubourg-metz-1-e1732619502735.jpg?fit=1920%2C883&ssl=1\", \"https://www.tourisme-metz.com/uploads/page/a7ecb084ebb10a0562c8f74b7055e7e0.jpeg\", \"https://a2f6z9k6.rocketcdn.me/wp-content/uploads/2023/01/metz-ville-vert-eau-or-scaled.jpeg\"]",
-      "longitude": "6.175716",
-      "Commune": "Metz"
-    }
-  }
-};*/
-
 const SummaryPage = () => {
   const location = useLocation();
   const { cityName, apiResponseCity } = location.state || {};
-
-  console.log("🏙️ Ville sélectionnée :", cityName);
-  console.log("📊 Données API reçues :", apiResponseCity);
-
-  if (!cityName || !apiResponseCity) {
-    return <h2>Erreur : Aucune donnée de ville reçue</h2>;
-  }
 
   const city = apiResponseCity
 
@@ -154,18 +56,8 @@ const SummaryPage = () => {
 
   const cityData = {
     cityName: cityName,
-    rating: 5,
-    tags: city.activities ? city.activities.flatMap(act => {
-      try {
-        return JSON.parse(act.Tags);
-      } catch (error) {
-        console.error("Erreur de parsing des tags :", act.Tags, error);
-        return [];
-      }
-    }) : [],
-    coordinates: city.activities?.length
-      ? [parseFloat(city.activities[0].Latitude), parseFloat(city.activities[0].Longitude)]
-      : [0, 0],
+    tags: city.details.tags,
+    coordinates: [city.details.latitude, city.details.longitude],
     images: city.details.images ? (() => {
       try {
         return JSON.parse(city.details.images);
@@ -266,6 +158,10 @@ const SummaryPage = () => {
     }
   };
 
+  if (!cityName || !apiResponseCity) {
+    return <h2>Erreur : Aucune donnée de ville reçue</h2>;
+  }
+
   return (
     <div style={{ textAlign: "center", paddingTop: "90px", background: 'linear-gradient(0deg, rgb(181 239 201), rgb(95 172 205))' }}>
 
@@ -273,7 +169,6 @@ const SummaryPage = () => {
       <Carousel images={cityData.images} height="700px" width="90%" />
       <CityCard
         cityName={cityData.cityName}
-        rating={cityData.rating}
         tags={cityData.tags}
         carbonFootprint={travelData.carbonFootprint}
         coordinates={cityData.coordinates}
