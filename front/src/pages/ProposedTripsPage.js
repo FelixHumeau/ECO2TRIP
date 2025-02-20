@@ -63,8 +63,6 @@ const ProposedTripsPage = () => {
     // Extraire les 3 premières activités
     const selectedActivities = cityInfo.activities.slice(0, 3);
 
-    console.log("LAAA:",cityInfo.transport_options,cityInfo.details.images)
-
     return {
       city: cityName,
       description: cityInfo.details?.description || "Description de la ville", // Utiliser la description de details si disponible

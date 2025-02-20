@@ -24,7 +24,6 @@ async function findActivitiesByTags(tags) {
             if (activityTagsRaw) {
                 try {
                     // Décodage du JSON correctement
-                    //const activityTags = JSON.parse(activityTagsRaw.replace(/\\/g, ''));
                     const activityTags = JSON.parse(activityTagsRaw).map(tag => restoreUnicode(tag));
 
                     // 🔍 Normalisation des textes (supprime accents, met en minuscule)
@@ -35,17 +34,6 @@ async function findActivitiesByTags(tags) {
                         const activity = await redis.hgetall(key);
                         matchingActivities.push(activity);
                     }
-                    /*for (const tag of tags) {
-                        for (const activityTag of activityTags) {
-                            console.log(`🛠️ Comparaison : tag="${normalizeText(tag)}" vs activityTag="${normalizeText(activityTag)}"`);
-                            if (normalizeText(tag) === normalizeText(activityTag)) {
-                                console.log(`✅ Correspondance trouvée: "${tag}" == "${activityTag}"`);
-                                const activity = await redis.hgetall(key);
-                                matchingActivities.push(activity);
-                                break; // Sortir dès qu'une correspondance est trouvée pour éviter les doublons
-                            }
-                        }
-                    }*/
                 } catch (parseError) {
                     console.error(`❌ Erreur de parsing JSON pour ${key}:`, parseError);
                 }
@@ -206,7 +194,6 @@ async function groupActivitiesByCity(activities, from, occupancyRate = 1) {
     }
 
     console.log(`✅ Mapping Ville → Code INSEE terminé (${Object.keys(villeMapping).length} villes enregistrées).`);
-    console.log(villeMapping);
 
     // 📌 Étape 2 : Regrouper les activités par ville
     for (const activity of activities) {
@@ -224,7 +211,6 @@ async function groupActivitiesByCity(activities, from, occupancyRate = 1) {
                     score_transport: 0,
                     score_hotel: 0,
                     score_total: 0,
-                    //distance: 0,
                     details: {}
                 };
             }
@@ -347,8 +333,6 @@ function isSameCity(coords1, coords2, threshold = 10) {
         Math.sin(dLon / 2) * Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const distance = R * c;
-
-    console.log(`📏 Distance entre ${coords1} et ${coords2} : ${distance.toFixed(2)} km`);
 
     return distance < threshold;
 }

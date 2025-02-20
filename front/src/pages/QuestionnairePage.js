@@ -53,7 +53,6 @@ const QuestionnairePage = () => {
       });
 
       const data = await response.json();
-      console.log("✅ Réponse API:", data);
 
       // Envoi de toute la réponse à la page suivante
       navigate("/trips", { state: { apiResponse: data, ambiance: selectedAmbiance, selectedFilters: selectedFilters, } });

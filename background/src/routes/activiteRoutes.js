@@ -97,7 +97,7 @@ router.post('/add-activities', async (req, res) => {
         matchingActivities = matchingActivities.sort((a, b) => parseFloat(a.Score_Moyen) - parseFloat(b.Score_Moyen));
         const selectedActivities = matchingActivities.slice(0, 3);
 
-        console.log(`✅ Activités trouvées pour ${city} :`, selectedActivities);
+        console.log(`✅ Activités trouvées pour ${city} `);
         res.json({ city, activities: selectedActivities });
 
     } catch (error) {

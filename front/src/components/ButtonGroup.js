@@ -23,7 +23,6 @@ const ButtonGroup = ({ labels, onButtonClick }) => {
             ref={el => (buttonRefs.current[index] = el)}
             style={{ width: `${maxWidth}px` }}
             onClick={() => {
-              console.log(`Bouton cliqué : ${label}`);
               onButtonClick(label);
             }}
           />

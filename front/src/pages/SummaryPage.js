@@ -14,9 +14,6 @@ const SummaryPage = () => {
 
   const city = apiResponseCity
 
-  console.log("LAA",cityName, apiResponseCity);
-
-
   // Transformer les données pour chaque section
   const travelData = {
     from: "Paris",
@@ -104,10 +101,8 @@ const SummaryPage = () => {
       let hasChanges = false; // Vérifier si on doit mettre à jour
 
       for (const city in newCityData) {
-        console.log("📌 Contenu de newCityData :", newCityData);
         if (newCityData && Array.isArray(newCityData.activities) && newCityData.activities.length < 4) {
-          console.log(`🚀 Moins de 4 activités trouvées pour ${newCityData.cityName}, récupération en cours...`);
-
+          
           try {
             const additionalActivities = await fetchAdditionalActivities(newCityData.cityName);
 
@@ -132,7 +127,6 @@ const SummaryPage = () => {
     updateCityActivities();
   }, []); // 🔥 Supprime cityData des dépendances pour éviter les boucles infinies
 
-  console.log("📌 Activities passées à ActivityCard :", updatedCityData.activities);
 
   // 📌 Fonction pour récupérer des activités supplémentaires
   const fetchAdditionalActivities = async (city) => {
@@ -150,7 +144,6 @@ const SummaryPage = () => {
       }
 
       const data = await response.json();
-      console.log(`✅ Activités supplémentaires pour ${city} :`, data);
       return data.activities;
     } catch (error) {
       console.error(`❌ Erreur API pour ${city} :`, error);

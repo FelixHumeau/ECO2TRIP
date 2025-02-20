@@ -213,8 +213,6 @@ router.post('/all', async (req, res) => {
     }
 
     try {
-        // Convertir les noms des lieux en coordonnées GPS si nécessaire
-        //const fromCoordinates = await geocodeLocation(from);
         const fromCoordinates = await from;
         const toCoordinates = await to;
 
