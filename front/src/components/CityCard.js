@@ -4,11 +4,11 @@ import PopupModal from "./PopupModal";
 import MapComponent from "./MapComponent";
 import CarbonGauge from "./CarbonGauge";
 
-const CityCard = ({ cityName, rating, tags, carbonFootprint, coordinates, days }) => {
+const CityCard = ({ cityName, tags, carbonFootprint, coordinates, days }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   // Fonction pour afficher les étoiles
-  const renderStars = (rating) => {
+  {/*const renderStars = (rating) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
       stars.push(
@@ -24,9 +24,7 @@ const CityCard = ({ cityName, rating, tags, carbonFootprint, coordinates, days }
       );
     }
     return stars;
-  };
-
-  console.log(carbonFootprint, days)
+  };*/}
 
   return (
     <div
@@ -97,11 +95,11 @@ const CityCard = ({ cityName, rating, tags, carbonFootprint, coordinates, days }
           </div>
         </div>
 
-        {/* Bloc 2 : Avis */}
+        {/* Bloc 2 : Avis 
         <div style={{ textAlign: "center", flex: 1 }}>
           <h2 style={{ marginBottom: "10px", minHeight: "40px" }}>Avis</h2>
           <div>{renderStars(rating)}</div>
-        </div>
+        </div>*/}
 
         {/* Bloc 3 : Points forts */}
         <div style={{ textAlign: "center", flex: 1 }}>
@@ -135,7 +133,6 @@ const CityCard = ({ cityName, rating, tags, carbonFootprint, coordinates, days }
         {/* Bloc 4 : Empreinte carbone avec jauge */}
         <div style={{ textAlign: "center", flex: 1 }}>
           <h2 style={{ marginBottom: "10px", minHeight: "40px" }}>Empreinte carbone</h2>
-          {/*<CarbonGauge carbonFootprint={carbonFootprint} days={days} maxWidthGauge={400} />*/}
           <CarbonGauge
             carbonFootprint={carbonFootprint}
             maxWidthGauge={500} // Ajustez selon vos besoins

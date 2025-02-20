@@ -1,30 +1,31 @@
-import React, { useState, useEffect } from "react";
-import { useSearch } from "../context/SearchContext"; // Import du SearchContext
-import { useNavigate } from "react-router-dom"; // Pour rediriger vers la page suivante
-import DatePicker from "react-datepicker";
+import React, { forwardRef, useEffect, useState }
+from "react";import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { forwardRef } from "react";
 import calender from "../assets/Calendrier.png";
+import { useSearch } from "../context/SearchContext"; // Contexte global
 import DepartureCitySelect from "./DepartureCitySelect";
 import TravelersCounter from "./TravelersCounter";
 
 function SearchForm() {
-  const { searchData, setSearchData } = useSearch(); // Récupérer les données existantes
-  const navigate = useNavigate(); 
+  const { searchData, setSearchData } = useSearch(); // Accès au contexte global
 
-  // Initialisation avec les valeurs du contexte si elles existent
+  // États locaux (initialisés avec les données du contexte)
   const [dateRange, setDateRange] = useState([
     searchData.startDate || null,
-    searchData.endDate || null
+    searchData.endDate || null,
   ]);
   const [departureCity, setDepartureCity] = useState(searchData.departureCity || "");
   const [travelers, setTravelers] = useState(searchData.travelers || { adults: 2, children: 0, rooms: 1 });
-  const [error, setError] = useState(""); 
 
-  // Mise à jour du contexte dès qu’un champ change
+  // Met à jour le contexte global dès qu’un champ change
   useEffect(() => {
-    setSearchData({ departureCity, startDate: dateRange[0], endDate: dateRange[1], travelers });
-  }, [departureCity, dateRange, travelers, setSearchData]);
+    setSearchData({
+      departureCity,
+      startDate: dateRange[0],
+      endDate: dateRange[1],
+      travelers,
+    });
+   }, [departureCity, dateRange, travelers, setSearchData]);
 
   const CustomDateInput = forwardRef(({ value, onClick }, ref) => (
     <div
@@ -44,24 +45,11 @@ function SearchForm() {
     </div>
   ));
 
-  const handleSearch = () => {
-    if (!departureCity) {
-      setError("Veuillez sélectionner une ville de départ.");
-      return;
-    }
-    if (!dateRange[0] || !dateRange[1]) {
-      setError("Veuillez sélectionner des dates de voyage.");
-      return;
-    }
-
-    navigate("/trips");
-  };
-
   return (
     <div className="inputs-container">
       {/* Champ pour la ville de départ */}
       <div className="input-container">
-        <DepartureCitySelect onChange={setDepartureCity} />
+      <DepartureCitySelect onChange={(value) => setDepartureCity(value)} />
       </div>
 
       {/* Champ pour les dates */}
@@ -88,8 +76,6 @@ function SearchForm() {
         <TravelersCounter onChange={setTravelers} />
       </div>
 
-      {/* Message d'erreur */}
-      {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
     </div>
   );
 }

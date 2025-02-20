@@ -14,7 +14,6 @@ const CloudBackground = () => {
       size: Math.random() * 100 + 100,
       duration: Math.random() * 10 + 15,
     }));
-    console.log("Nuages générés :", generatedClouds);
     setClouds(generatedClouds);
   }, []);
   

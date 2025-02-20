@@ -9,7 +9,7 @@ const HomePage = () => {
   const [scrollOpacity, setScrollOpacity] = useState(1);
   const categories = ["domaine de ski alpin", "Montagne", "Plage", "cave de dégustation", "château", "site culturel", "festival", "restaurant", "lac", "forêt"];
   const endings = [
-    "exxplorez la France sans polluer",
+    "explorez la France sans polluer",
     "deécouvrez des merveilles cachées dans des endroits insolites",
     "paartez à l'aventure sans prendre la voiture",
     "vooyagez léger, explorez responsable !",
@@ -67,8 +67,7 @@ const HomePage = () => {
       <section className="content-section">
         <h2>Découvrez nos services</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at
-          metus in metus venenatis consequat.
+          Prennez vos vacances en main sans laisser d'empreinte (cf le B)
         </p>
       </section>
     </div>

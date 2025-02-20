@@ -1,69 +1,18 @@
 const express = require('express');
 const axios = require('axios');
+const NodeCache = require('node-cache');
 const { orsApiKey, impactCo2ApiKey } = require('../config/env');
 
 const router = express.Router();
-
-/*async function geocodeLocation(location) {
-
-    const url = `https://api.openrouteservice.org/geocode/search`;
-    try {
-        console.log('Requête de géocodage envoyée pour :', location);
-        
-        const response = await axios.get(url, {
-            params: {
-                api_key: orsApiKey,
-                text: location,
-            },
-        });
-
-        console.log('Réponse de l\'API ORS :', response.data); // Log toute la réponse
-
-        if (response.data.features.length === 0) {
-            throw new Error(`Aucun résultat trouvé pour ${location}`);
-        }
-
-        const coordinates = response.data.features[0].geometry.coordinates; // [lon, lat]
-        console.log(`Coordonnées trouvées pour ${location} :`, coordinates);
-
-        return coordinates;
-    } catch (error) {
-        console.error('Erreur Geocoding OpenRouteService:', error.message);
-        throw new Error(`Impossible de trouver les coordonnées pour ${location}`);
-    }
-}*/
-
-// Fonction pour obtenir la distance entre deux lieux avec OpenRouteService
-/*async function getDistanceFromORS(from, to, mode) {
-    const url = `https://api.openrouteservice.org/v2/directions/${mode}`;
-    try {
-        const response = await axios.post(url, {
-            coordinates: [from, to], // Coordonnées GPS [lon, lat]
-            units: 'km',
-        }, {
-            headers: {
-                Authorization: orsApiKey,
-            },
-        });
-
-        // Extraire la distance en km
-        const distance = response.data.routes[0].summary.distance;
-        return distance;
-    } catch (error) {
-        console.error('Erreur OpenRouteService:', error.response ? error.response.data : error.message);
-        throw new Error('Impossible de calculer la distance.');
-    }
-}*/
+const geoCache = new NodeCache({ stdTTL: 86400 }); // Cache de 24 heures
 
 async function getDistanceFromORS(from, to, mode = "driving-car") {
-    console.log(`📏 Calcul de la distance entre ${from} et ${to}...`);
-    
     const url = `https://api.openrouteservice.org/v2/directions/${mode}`;
 
     try {
         // Vérifie si les entrées sont déjà des coordonnées
-        const isValidCoordinates = (value) => 
-            Array.isArray(value) && value.length === 2 && 
+        const isValidCoordinates = (value) =>
+            Array.isArray(value) && value.length === 2 &&
             typeof value[0] === "number" && typeof value[1] === "number";
 
         const fromCoordinates = isValidCoordinates(from) ? from : await geocodeLocation(from);
@@ -80,7 +29,6 @@ async function getDistanceFromORS(from, to, mode = "driving-car") {
 
         // Extraire la distance en km
         const distance = response.data.routes[0].summary.distance;
-        console.log(`✅ Distance entre ${from} et ${to} : ${distance} km`);
         return distance;
     } catch (error) {
         console.error(`❌ Erreur OpenRouteService pour ${from} → ${to}:`, error.response ? error.response.data : error.message);
@@ -91,7 +39,14 @@ async function getDistanceFromORS(from, to, mode = "driving-car") {
 
 // 🔍 Fonction pour récupérer les coordonnées d'une ville
 async function geocodeLocation(location) {
+
+    // Vérifier dans le cache avec la clé formatée
+    const cachedCoordinates = geoCache.get(location);
+    
+    if (cachedCoordinates) return cachedCoordinates; // Retourne les coordonnées si déjà en cache
+    
     const url = `https://api.openrouteservice.org/geocode/search`;
+
     try {
         const response = await axios.get(url, {
             params: {
@@ -104,12 +59,17 @@ async function geocodeLocation(location) {
             throw new Error(`Coordonnées non trouvées pour ${location}`);
         }
 
-        return response.data.features[0].geometry.coordinates; // [lon, lat]
+        const coordinates = response.data.features[0].geometry.coordinates; // [lon, lat]
+
+        geoCache.set(location, coordinates); 
+
+        return coordinates;
     } catch (error) {
         console.error(`❌ Erreur Geocoding pour ${location}:`, error.message);
         throw new Error(`Impossible de trouver les coordonnées pour ${location}`);
     }
 }
+
 
 // Fonction pour obtenir l'empreinte carbone avec ImpactCO2
 async function getCarbonImpact(distance, transportId, occupencyRate) {
@@ -246,18 +206,17 @@ router.post('/', async (req, res) => {
 router.post('/all', async (req, res) => {
     console.log('Requête reçue pour /all :', req.body);
 
-    const { from, to, occupencyRate } = req.body;
+    let { from, to, occupencyRate } = req.body;
 
     if (!from || !to || !occupencyRate) {
         return res.status(400).json({ error: 'Les champs from, to et occupencyRate sont obligatoires.' });
     }
 
     try {
-        // Convertir les noms des lieux en coordonnées GPS
-        const fromCoordinates = await geocodeLocation(from);
-        const toCoordinates = await geocodeLocation(to);
+        const fromCoordinates = await from;
+        const toCoordinates = await to;
 
-        // Définition des transports à évaluer
+        // Liste des modes de transport
         const transports = [
             { id: 2, name: 'Train (TGV)' },
             { id: 1, name: 'Avion' },
@@ -267,49 +226,34 @@ router.post('/all', async (req, res) => {
             { id: 9, name: 'Bus thermique' },
         ];
 
-        let results = [];
-
-        for (const transport of transports) {
+        let results = await Promise.all(transports.map(async (transport) => {
             try {
-                // Calcul de la distance selon le transport
                 const distance = await calculateDistance(fromCoordinates, toCoordinates, transport.id);
-
-                // Calcul de l'empreinte carbone
                 const carbonData = await getCarbonImpact(distance, transport.id, occupencyRate);
 
-                // Stocker les résultats
-                results.push({
+                return {
                     transport: transport.name,
                     distance: distance.toFixed(2) + ' km',
                     carbonImpact: carbonData.value.toFixed(3) + ' kg CO₂',
-                });
+                };
             } catch (error) {
                 console.error(`Erreur pour ${transport.name}:`, error.message);
-                results.push({
-                    transport: transport.name,
-                    error: 'Calcul impossible',
-                });
+                return { transport: transport.name, error: 'Calcul impossible' };
             }
-        }
+        }));
 
-        res.json({
-            from,
-            to,
-            results,
-        });
+        res.json({ from, to: toCoordinates, results });
 
     } catch (error) {
         console.error('Erreur interne /all :', error.message);
         res.status(500).json({ error: error.message });
     }
 });
-<<<<<<< HEAD
-=======
+
 
 module.exports = {
     router, // Conserve l'export du routeur
     getDistanceFromORS,
     geocodeLocation,
 };
->>>>>>> dev
 

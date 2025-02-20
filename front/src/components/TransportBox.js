@@ -57,10 +57,10 @@ const TransportBox = ({ transport, distance, carbonImpact }) => {
           {carbonImpact}
         </p>
 
-        {/* Comparaison */}
+        {/* Comparaison 
         <p style={{ margin: "0", fontSize: "14px", fontWeight: "bold", color: "#555", flex: 1, textAlign: "right" }}>
           Insert motivational text
-        </p>
+        </p>*/}
       </div>
     </div>
   );

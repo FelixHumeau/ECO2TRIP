@@ -16,29 +16,14 @@ router.get('/test', async (req, res) => {
         }
 
         // Trier et prendre les 3 premières clés
-<<<<<<< HEAD
-        const first10Keys = keys.slice(0, 3);
-=======
+
         const first3Keys = keys.slice(0, 3);
->>>>>>> dev
 
         // Récupérer les détails des activités
         const activites = [];
         
         for (const key of first3Keys) {
             const data = await redisClient.hGetAll(key);
-<<<<<<< HEAD
-
-            // Construire l'objet avec les champs demandés
-            activites.push({
-                nom: data.nom,
-                description: data.description,
-                adresse: data.adresse,
-                tags: data.tags ? JSON.parse(data.tags.replace(/'/g, '"')) : [], // Corrige les tags mal formatés
-                coordonnees: {
-                    latitude: parseFloat(data.latitude),
-                    longitude: parseFloat(data.longitude)
-=======
             if (!data.Nom_du_POI) {
                 console.warn(`Activité vide ou incorrecte : ${key}`);
                 continue; // Ignore les activités incomplètes
@@ -53,7 +38,6 @@ router.get('/test', async (req, res) => {
                 coordonnees: {
                     latitude: data.Latitude ? parseFloat(data.Latitude) : null,
                     longitude: data.Longitude ? parseFloat(data.Longitude) : null
->>>>>>> dev
                 }
             });
         }
@@ -83,6 +67,44 @@ router.post('/search', async (req, res) => {
     }
 });
 
+router.post('/add-activities', async (req, res) => {
+    const { city } = req.body;
+
+    if (!city) {
+        return res.status(400).json({ error: "Le champ 'city' est obligatoire." });
+    }
+
+    try {
+        console.log(`🔍 Recherche des activités pour la ville : ${city}`);
+
+        // Récupérer toutes les clés d'activités
+        const activityKeys = await redisClient.keys('activite:*');
+        let matchingActivities = [];
+
+        for (const key of activityKeys) {
+            const activity = await redisClient.hGetAll(key);
+
+            // Vérifier que l'activité appartient à la ville demandée et que son score est < 1.5
+            if (activity.Communes_proches && activity.Communes_proches.includes(city)) {
+                const score = parseFloat(activity.Score_Moyen);
+                if (!isNaN(score) && score < 1.5) {
+                    matchingActivities.push(activity);
+                }
+            }
+        }
+
+        // Trier et sélectionner les 3 premières activités
+        matchingActivities = matchingActivities.sort((a, b) => parseFloat(a.Score_Moyen) - parseFloat(b.Score_Moyen));
+        const selectedActivities = matchingActivities.slice(0, 3);
+
+        console.log(`✅ Activités trouvées pour ${city} `);
+        res.json({ city, activities: selectedActivities });
+
+    } catch (error) {
+        console.error('❌ Erreur lors de la récupération des activités:', error);
+        res.status(500).json({ error: "Erreur interne du serveur" });
+    }
+});
 
 
 module.exports = router;
