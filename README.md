@@ -2,6 +2,8 @@
 
 **ECO2TRIP** est une application web permettant aux utilisateurs de trouver des destinations voyages en prenant en compte l’empreinte carbone de leurs déplacements, leurs hébergements et leurs activités. Plus de 130 destinations proposées partout en France.
 
+_Ce projet a été créer dans le cadre du Projet de Fin d'Etude (PFE) par des étudiants de l'ECE_
+
 ### Architecture  
 - **Back-end** : Node.js + Express avec Redis pour le caching  
 - **Front-end** : React (avec React Router et Leaflet pour la cartographie)  
