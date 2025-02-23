@@ -13,7 +13,7 @@
 
 ---
 
-## Installation et Configuration  
+## Installation et Configuration : Linux et Ubuntu
 
 ### 1️. Prérequis  
 Avant de commencer, assure-toi d’avoir installé :  
@@ -35,7 +35,23 @@ cd ../front
 npm install $(cat requirements_front.txt)
 ```
 
-### 4. **Ajout et restauration de la base de données Redis**
+### 4. Création mot de passe Redis
+```bash
+sudo systemctl stop redis
+sudo nano /etc/redis/redis.conf
+```
+
+**Au niveau de la ligne,**
+```bash
+# requirepass foobared
+```
+
+**Remplacer par un mot de passe que vous choisissez :**
+```bash
+requirepass votre_mot_de_passe_redis
+```
+
+### 5. **Ajout et restauration de la base de données Redis**
 Restaurer la base de donnée avec le fichier `dump.rdb`:
 
 **Copier le fichier `dump.rdb` dans le dossier de Redis** :
@@ -43,26 +59,21 @@ Restaurer la base de donnée avec le fichier `dump.rdb`:
 sudo cp dump.rdb /var/lib/redis/dump.rdb
 ```
 
-**Assurer les permissions correctes** :
-```bash
-sudo chown redis:redis /var/lib/redis/dump.rdb
-sudo chmod 660 /var/lib/redis/dump.rdb
-```
-
 **Redémarrer Redis pour charger la base de données** :
 ```bash
 sudo systemctl restart redis
 ```
 
-### 5. Configuration des variables d’environnement  
+### 6. Configuration des variables d’environnement  
 Dans le dossier `background`, crée un fichier `.env` :  
 ```
-REDIS_PASSWORD=ton_mot_de_passe
-ORS_API_KEY=ta_clé_openrouteservice
-IMPACT_CO2_API_KEY=ta_clé_impactco2
+IMPACTCO2_API_KEY=e835a3e4-68db-4dd6-8718-b87702743ce5
+ORS_API_KEY=5b3ce3597851110001cf6248a5b8a68e1ce54f489c898406b14737fe
+#5b3ce3597851110001cf6248a73b95296e1448a981089c4bf4e25f4e
+REDIS_PASSWORD=votre_mot_de_passe_redis
 ```
 
-### 6. Démarrage de l’application  
+### 7. Démarrage de l’application  
 Puis démarrer le **back-end** :  
 ```sh
 cd background
